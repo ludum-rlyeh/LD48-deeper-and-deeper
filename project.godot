@@ -11,7 +11,13 @@ config_version=4
 [application]
 
 config/name="LD48-deeper-and-deeper"
-config/icon="res://icon.png"
+config/icon="res://Assets/icon.png"
+
+[autoload]
+
+GlobalData="*res://Scripts/GlobalData.gd"
+Tools="*res://Scripts/Tools.gd"
+Events="*res://Scripts/Events.gd"
 
 [physics]
 
@@ -19,5 +25,4 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
-quality/driver/driver_name="GLES3"
 environment/default_environment="res://default_env.tres"
