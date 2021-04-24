@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 49.837, 100.332 )
+
+[node name="Ladder" type="Node2D" groups=[
+"Ladders",
+]]
+position = Vector2( 0, 100 )
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color( 0.235294, 0.972549, 0.027451, 1 )
+polygon = PoolVector2Array( -50, -100, 50, -100, 50, 100, -50, 100 )
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 1 )
