@@ -9,7 +9,6 @@ export (Vector2) var speed= Vector2(200,0)
 var velocity = Vector2.ZERO
 export (float) var gravity_scale = 5
 export (Vector2) var jump_impulse= Vector2(0, -300)
-var on_ennemy_jumped = false
 export (Vector2) var rebound = Vector2(0,-150)
 
 
@@ -18,10 +17,6 @@ func _ready():
 
 func _physics_process(delta):
 	var snap = $PlatformDetector.cast_to
-
-	if on_ennemy_jumped:
-		velocity.y = rebound.y
-		on_ennemy_jumped = false
 
 	if Input.is_action_just_pressed(\"ui_select\") and $PlatformDetector.is_colliding():
 		snap = Vector2 (0,0)
@@ -32,25 +27,30 @@ func _physics_process(delta):
 
 	if Input.is_action_pressed(\"ui_right\"):
 		velocity.x=speed.x
-		#$AnimatedSprite.flip_h=false
-		#f is_on_floor():
-		#	$AnimatedSprite.play(\"walkPos\")
 
 	elif Input.is_action_pressed(\"ui_left\"):
 		velocity.x= -speed.x
-		#$AnimatedSprite.flip_h=true
-		#if is_on_floor():
-	#		$AnimatedSprite.play(\"walkPos\")
 
 	else:
-		#$AnimatedSprite.flip_h=false
-		#$AnimatedSprite.play(\"idle\")
 		velocity.x=0
+	
+	# Interactions
+	push_crates()
 
 	var gravity= Vector2(0,98)
 	velocity += gravity * delta * gravity_scale
-	velocity=move_and_slide_with_snap(velocity,snap,Vector2.ZERO,true,4,0.9)
+	velocity = move_and_slide_with_snap(velocity,snap,Vector2.ZERO,true,4,0.9)
 
+func push_crates():
+	if $CrateDetectorRight.is_colliding():
+		var object = $CrateDetectorRight.get_collider()
+		if object.is_in_group(\"Boxes\") and velocity.x > 0:
+			object.push(velocity / 10.0)
+
+	if $CrateDetectorLeft.is_colliding():
+		var object = $CrateDetectorLeft.get_collider()
+		if object.is_in_group(\"Boxes\")  and velocity.x < 0:
+			object.push(velocity / 10.0)
 "
 
 [sub_resource type="RectangleShape2D" id=2]
@@ -67,3 +67,11 @@ shape = SubResource( 2 )
 
 [node name="PlatformDetector" type="RayCast2D" parent="."]
 enabled = true
+
+[node name="CrateDetectorRight" type="RayCast2D" parent="."]
+enabled = true
+cast_to = Vector2( 50, 0 )
+
+[node name="CrateDetectorLeft" type="RayCast2D" parent="."]
+enabled = true
+cast_to = Vector2( -50, 0 )
