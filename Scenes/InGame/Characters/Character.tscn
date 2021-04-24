@@ -27,10 +27,8 @@ func _physics_process(delta):
 
 	if Input.is_action_pressed(\"ui_right\"):
 		velocity.x=speed.x
-
 	elif Input.is_action_pressed(\"ui_left\"):
 		velocity.x= -speed.x
-
 	else:
 		velocity.x=0
 	

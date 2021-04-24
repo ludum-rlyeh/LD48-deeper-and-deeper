@@ -1,16 +1,6 @@
 extends Node
 
+# Put here all the signals
+# To emit signals from a node, call Events.emit_signal("[action_in_past]_signal")
+# To receive signals in a node, call connect(Events, "[action_in_past]_signal", node, "_on_[slot name]")
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
