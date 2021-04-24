@@ -1,0 +1,89 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Assets/icon.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+export (float) var half_limit_in_degrees = 80
+export (bool) var debug = false
+export (float) var length_in_pixels = 100
+
+onready var _half_limit_in_rads = deg2rad(half_limit_in_degrees)
+var _swinged = false
+var _swing_direction = 1
+var _velocity = 0
+var _current_length
+
+func on_balanced(velocity : Vector2, mass : float):
+	_swinged = true
+	_swing_direction = sign(velocity.x)
+	_velocity = abs(velocity.x)
+	
+func on_unbalanced():
+	_swinged = false
+	var direction = $Line2D.get_point_position(1).direction_to($Line2D.get_point_position(0))
+	var angle = Vector2.DOWN.angle_to(direction)
+	if (_swing_direction > 0 and angle > 0) or (_swing_direction < 0 and angle < 0) :
+		_swing_direction *= -1
+	
+func _ready():
+	if debug:
+		on_balanced(Vector2(1, 0), 1)
+		
+	$Line2D.set_point_position(0, Vector2(0, length_in_pixels))
+	_current_length = $Line2D.get_point_position(1).distance_to($Line2D.get_point_position(0))
+	
+func _process(delta):
+	$icon.position = $Line2D.get_point_position(0)
+	if _swinged:
+		swing(delta)
+	else:
+		unswing(delta)
+
+	if debug:
+		if Input.is_action_just_pressed(\"ui_down\"):
+			on_unbalanced()
+		
+
+func unswing(delta):
+	
+	var direction = $Line2D.get_point_position(1).direction_to($Line2D.get_point_position(0))
+	var angle = Vector2.DOWN.angle_to(direction)
+
+	var angular_velocity = _velocity * _swing_direction * delta 
+	
+	if sign(angle + angular_velocity) != sign(angle):
+		_velocity = 0
+		angle = 0
+	else:
+		angle += _velocity * _swing_direction * delta
+	
+	direction = Vector2.DOWN.rotated(angle)
+	$Line2D.set_point_position(0, $Line2D.get_point_position(1) + direction * _current_length)
+	
+func swing(delta):
+		var direction = $Line2D.get_point_position(1).direction_to($Line2D.get_point_position(0))
+		var angle = Vector2.DOWN.angle_to(direction)
+		angle += _velocity * _swing_direction * delta
+		
+		if abs(angle) > _half_limit_in_rads:
+			var offset = abs(angle) - _half_limit_in_rads
+			angle = _swing_direction * (_half_limit_in_rads - offset)
+			_swing_direction *= -1
+		
+		direction = Vector2.DOWN.rotated(angle)
+		$Line2D.set_point_position(0, $Line2D.get_point_position(1) + direction * _current_length)
+"
+
+[node name="Rope" type="Node2D"]
+script = SubResource( 1 )
+debug = true
+
+[node name="Line2D" type="Line2D" parent="."]
+points = PoolVector2Array( 0, 196.319, 0, 0 )
+default_color = Color( 0.870588, 0.34902, 0.121569, 1 )
+
+[node name="icon" type="Sprite" parent="."]
+position = Vector2( -0.977013, 194.917 )
+texture = ExtResource( 1 )
