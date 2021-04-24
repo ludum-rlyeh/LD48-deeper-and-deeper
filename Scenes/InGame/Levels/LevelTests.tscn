@@ -12,10 +12,10 @@ extents = Vector2( 510.675, 81.4503 )
 [node name="LevelTests" type="Node2D"]
 
 [node name="Box" parent="." instance=ExtResource( 1 )]
-position = Vector2( 605.127, 415.031 )
+position = Vector2( 646.127, 369.031 )
 
 [node name="Box2" parent="." instance=ExtResource( 1 )]
-position = Vector2( 682.606, 414.589 )
+position = Vector2( 401.606, 204.589 )
 
 [node name="Platform" type="Polygon2D" parent="."]
 position = Vector2( 252.735, 297.156 )
