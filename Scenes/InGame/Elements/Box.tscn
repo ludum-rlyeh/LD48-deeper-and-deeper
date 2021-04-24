@@ -9,7 +9,6 @@ var velocity = Vector2.ZERO
 export (float) var gravity_scale = 5
 export (Vector2) var rebound = Vector2(0,-150)
 
-
 func _ready():
 	pass
 
