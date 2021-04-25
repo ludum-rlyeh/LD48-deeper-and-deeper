@@ -15,7 +15,7 @@ func _ready():
 func _physics_process(delta):
 	var snap = $PlatformDetector.cast_to
 
-	var gravity= Vector2(0,98)
+	var gravity= Vector2(0, 1200)
 	velocity += gravity * delta * gravity_scale
 	velocity = move_and_slide_with_snap(velocity,snap,Vector2.ZERO,true,4,0.9)
 	velocity.x = 0
@@ -29,7 +29,7 @@ func push(direction: Vector2):
 "
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 41.3677, 38.5599 )
+extents = Vector2( 30, 30 )
 
 [node name="Box" type="KinematicBody2D" groups=[
 "Boxes",
