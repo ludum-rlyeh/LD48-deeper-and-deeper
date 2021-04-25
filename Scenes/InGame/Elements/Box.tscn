@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Assets/icon.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Sprites/Caisses.png" type="Texture" id=1]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends KinematicBody2D
@@ -29,7 +29,7 @@ func push(direction: Vector2):
 "
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 30, 30 )
+extents = Vector2( 31.8547, 31.7503 )
 
 [node name="Box" type="KinematicBody2D" groups=[
 "Boxes",
@@ -38,16 +38,21 @@ script = SubResource( 1 )
 gravity_scale = 1.0
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( -0.0377472, 0.508322 )
-scale = Vector2( 1.29082, 1.21403 )
+scale = Vector2( 0.242, 0.291 )
 texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 265, 220 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2( 0.129944, -0.0907841 )
 shape = SubResource( 2 )
 
 [node name="PlatformDetector" type="RayCast2D" parent="."]
+visible = false
 enabled = true
 
 [node name="CrateDetectorUp" type="RayCast2D" parent="."]
+visible = false
 enabled = true
 cast_to = Vector2( 0, -50 )
