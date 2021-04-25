@@ -7,5 +7,6 @@ extends Node
 signal place_ladder_signal
 signal ladder_placed_signal
 signal ladder_not_placed_signal
-signal rope_handled
-signal rope_thrown
+signal rope_handled_signal
+signal throw_rope_signal
+signal rope_thrown_signal

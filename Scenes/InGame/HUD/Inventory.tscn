@@ -20,6 +20,7 @@ var current_item = GlobalData.OBJECT_TYPE.ROPE
 
 func _ready():
 	Events.connect(\"ladder_placed_signal\", self, \"_on_ladder_placed_signal\")
+	Events.connect(\"rope_thrown_signal\", self, \"_on_rope_thrown_signal\")
 	Input.connect(\"joy_connection_changed\", self, \"_on_joy_connection_changed\")
 	if Input.get_connected_joypads().size() > 0:
 		$Prev/LB.visible = true
@@ -33,6 +34,14 @@ func _input(event : InputEvent):
 	elif event.is_action_pressed(\"ui_focus_prev\"):
 		_previous_item()
 	_maj_selector()
+	
+	if event.is_action_pressed(\"ui_accept\"):
+		if current_item == GlobalData.OBJECT_TYPE.LADDER \\
+		and _inventory[GlobalData.OBJECT_TYPE.LADDER] > 0:
+			Events.emit_signal(\"place_ladder_signal\")
+		elif current_item == GlobalData.OBJECT_TYPE.ROPE \\
+		and _inventory[GlobalData.OBJECT_TYPE.ROPE] > 0:
+			Events.emit_signal(\"throw_rope_signal\")
 
 func set_inventory(inventory):
 	_inventory = inventory
@@ -89,6 +98,10 @@ func _on_ladder_placed_signal():
 	_inventory[GlobalData.OBJECT_TYPE.LADDER] -= 1
 	$Ladder/LadderNb.text = String(_inventory[GlobalData.OBJECT_TYPE.LADDER])
 
+func _on_rope_thrown_signal():
+	_inventory[GlobalData.OBJECT_TYPE.ROPE] -= 1
+	$Rope/RopeNb.text = String(_inventory[GlobalData.OBJECT_TYPE.ROPE])
+
 func _on_joy_connection_changed(device_id, connected):
 	if connected:
 		$Prev/LB.visible = true
@@ -105,6 +118,11 @@ func _on_joy_connection_changed(device_id, connected):
 [node name="Inventory" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = -123.0
+margin_top = -134.0
+margin_right = -688.0
+margin_bottom = -567.0
+rect_scale = Vector2( 0.5, 0.5 )
 script = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false

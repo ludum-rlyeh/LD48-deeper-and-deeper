@@ -13,40 +13,43 @@ var rope_res = preload(\"res://Scenes/InGame/Elements/Rope.tscn\")
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Events.connect(\"place_ladder_signal\",self, \"_on_place_ladder_signal\")
-	Events.connect(\"rope_thrown\", self, \"_on_rope_thrown\")
+	Events.connect(\"rope_thrown_signal\", self, \"_on_rope_thrown_signal\")
 	
-func _on_rope_thrown(pos : Vector2, right : bool):
-	var rope = rope_res.instance()
-	rope.init(right, 200)
-	add_child(rope)
+func _on_rope_thrown_signal(pos : Vector2, right : bool):
+	if $Character.is_above(\"RopeSpots\"):
+		var rope = rope_res.instance()
+		rope.init(right, 200)
+		add_child(rope)
 
-	rope.set_position(pos+Vector2(10 if right else -10, 0))
-	rope.start_animation()
+		rope.set_position(pos+Vector2(10 if right else -10, 0))
+		rope.start_animation()
 
 
 func _on_place_ladder_signal():
-	var ladder = Ladder.instance()
-	ladder.position += $Character.position
-	ladder.visible = false
-	add_child(ladder)
-	
-	# wait adding child and next process
-	yield(get_tree(),\"idle_frame\")
-	yield(get_tree(),\"idle_frame\")
-	
-	var overlapping = false
-	for body in ladder.find_node(\"Area2D\", false).get_overlapping_bodies():
-		if body is StaticBody2D:
-			overlapping = true
-			break
-	
-	if overlapping:
-		remove_child(ladder)
-		Events.emit_signal(\"ladder_not_placed_signal\") # not connected yet
+	if $Character.is_colliding_platform() and not $Character.is_above(\"Boxes\"):
+		var ladder = Ladder.instance()
+		ladder.position += $Character.position
+		ladder.visible = false
+		add_child(ladder)
+		
+		# wait adding child and next process
+		yield(get_tree(),\"idle_frame\")
+		yield(get_tree(),\"idle_frame\")
+		
+		var overlapping = false
+		for body in ladder.find_node(\"Area2D\", false).get_overlapping_bodies():
+			if body is StaticBody2D:
+				overlapping = true
+				break
+		
+		if overlapping:
+			remove_child(ladder)
+			Events.emit_signal(\"ladder_not_placed_signal\") # not connected yet
+		else:
+			ladder.visible = true
+			Events.emit_signal(\"ladder_placed_signal\")
 	else:
-		ladder.visible = true
-		Events.emit_signal(\"ladder_placed_signal\")
-	
+		Events.emit_signal(\"ladder_not_placed_signal\") # not connected yet
 "
 
 [sub_resource type="RectangleShape2D" id=2]

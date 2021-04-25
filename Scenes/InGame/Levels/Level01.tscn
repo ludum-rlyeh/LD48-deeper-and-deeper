@@ -14,7 +14,6 @@ var start_inventory = {
 	GlobalData.OBJECT_TYPE.LADDER: 0
 }
 
-
 func _ready():
 	.init_level(player_start_pos, start_inventory, objective)
 	
