@@ -1,21 +1,29 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scenes/InGame/Elements/Box.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/InGame/Characters/Character.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Scenes/InGame/Elements/Rope.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/InGame/Elements/RopeSpot.tscn" type="PackedScene" id=3]
 
-[sub_resource type="GDScript" id=3]
+[sub_resource type="GDScript" id=1]
 script/source = "extends Node2D
 
 
 var Ladder = preload(\"res://Scenes/InGame/Elements/Ladder.tscn\")
+var rope_res = preload(\"res://Scenes/InGame/Elements/Rope.tscn\")
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	Events.connect(\"rope_thrown\", self, \"_on_rope_thrown\")
 	Events.connect(\"place_ladder_signal\",self,\"_on_place_ladder_signal\")
+	Events.connect(\"rope_thrown\", self, \"_on_rope_thrown\")
+	
+func _on_rope_thrown(pos : Vector2, right : bool):
+	var rope = rope_res.instance()
+	rope.init(right, 200)
+	add_child(rope)
 
+	rope.set_position(pos+Vector2(10 if right else -10, 0))
+	rope.start_animation()
 
 func _on_place_ladder_signal():
 	var ladder = Ladder.instance()
@@ -39,17 +47,9 @@ func _on_place_ladder_signal():
 	else:
 		ladder.visible = true
 		Events.emit_signal(\"ladder_placed_signal\")
-
-var rope_res = preload(\"res://Scenes/InGame/Elements/Rope.tscn\")
 	
-func _on_rope_thrown(pos : Vector2, right : bool):
-	var rope = rope_res.instance()
-	rope.init(right, 200)
-	add_child(rope)
+"
 
-	rope.set_position(pos+Vector2(10 if right else -10, 0))
-	rope.start_animation()
-	
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 500.167, 76.7412 )
 
@@ -59,14 +59,11 @@ extents = Vector2( 510.675, 81.4503 )
 [node name="LevelTests" type="Node2D"]
 script = SubResource( 1 )
 
-[node name="Ladder" parent="." instance=ExtResource( 4 )]
-position = Vector2( 748, 336 )
-
 [node name="Box" parent="." instance=ExtResource( 1 )]
 position = Vector2( 646.127, 369.031 )
 
 [node name="Box2" parent="." instance=ExtResource( 1 )]
-position = Vector2( 894.78, 214.972 )
+position = Vector2( 835.063, 198.932 )
 
 [node name="Platform" type="Polygon2D" parent="."]
 position = Vector2( 252.735, 297.156 )
@@ -89,10 +86,8 @@ polygon = PoolVector2Array( 0, 435, 1025, 435, 1025, 600, 0, 600 )
 position = Vector2( 514.5, 516.488 )
 shape = SubResource( 3 )
 
+[node name="RopeSpot" parent="." instance=ExtResource( 3 )]
+position = Vector2( 445.504, 280.758 )
+
 [node name="Character" parent="." instance=ExtResource( 2 )]
-position = Vector2( 142, 213 )
-
-[node name="RayCast2D" type="RayCast2D" parent="."]
-
-[node name="RopeSpot" parent="." instance=ExtResource( 5 )]
-position = Vector2( 447.957, 281.969 )
+position = Vector2( 172.163, 237.849 )

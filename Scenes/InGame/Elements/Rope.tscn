@@ -112,17 +112,17 @@ func swing(delta : float, velocity : Vector2):
 	$Line2D.update_position(new_position)
 "
 
-[sub_resource type="GDScript" id=8]
+[sub_resource type="GDScript" id=2]
 script/source = "extends Area2D
 
 func get_root_scene():
 	return get_parent()
 "
 
-[sub_resource type="RectangleShape2D" id=6]
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 22.676, 10 )
 
-[sub_resource type="GDScript" id=9]
+[sub_resource type="GDScript" id=4]
 script/source = "extends Area2D
 
 
@@ -130,10 +130,10 @@ func get_root_scene():
 	return get_parent()
 "
 
-[sub_resource type="RectangleShape2D" id=7]
+[sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 137.058, 52.4436 )
 
-[sub_resource type="GDScript" id=2]
+[sub_resource type="GDScript" id=6]
 script/source = "extends Line2D
 
 func last_point():
@@ -158,7 +158,7 @@ func update_position(position : Vector2):
 	set_point_position(last_point(), position)
 "
 
-[sub_resource type="GDScript" id=3]
+[sub_resource type="GDScript" id=7]
 script/source = "extends Area2D
 
 func get_root_scene():
@@ -183,8 +183,7 @@ func _ready():
 #	pass
 "
 
-[sub_resource type="Animation" id=5]
-resource_name = "ThrowRope"
+[sub_resource type="Animation" id=8]
 length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("ThrowRope:texture")
@@ -244,10 +243,10 @@ script = SubResource( 1 )
 monitoring = false
 collision_layer = 16
 collision_mask = 0
-script = SubResource( 8 )
+script = SubResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Down"]
-shape = SubResource( 6 )
+shape = SubResource( 3 )
 
 [node name="Up" type="Area2D" parent="." groups=[
 "TopRopes",
@@ -257,18 +256,18 @@ scale = Vector2( 0.2, 0.2 )
 monitoring = false
 collision_layer = 16
 collision_mask = 0
-script = SubResource( 9 )
+script = SubResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Up"]
 position = Vector2( -245.407, -173.437 )
-shape = SubResource( 7 )
+shape = SubResource( 5 )
 
 [node name="Line2D" type="Line2D" parent="."]
 visible = false
 points = PoolVector2Array( 0, 196.319, 0, 0 )
 width = 3.0
 default_color = Color( 0, 0, 0, 1 )
-script = SubResource( 2 )
+script = SubResource( 6 )
 
 [node name="ThrowRope" type="Sprite" parent="."]
 position = Vector2( 49.542, 35.0892 )
@@ -281,12 +280,12 @@ texture = ExtResource( 1 )
 monitoring = false
 collision_layer = 16
 collision_mask = 0
-script = SubResource( 3 )
+script = SubResource( 7 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/ThrowRope = SubResource( 5 )
+anims/ThrowRope = SubResource( 8 )
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 enabled = true
