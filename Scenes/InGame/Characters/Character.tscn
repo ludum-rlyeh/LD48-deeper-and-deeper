@@ -11,6 +11,7 @@ var fsm: StateMachine
 
 export (Vector2) var jump_impulse= Vector2(0, -300)
 export (Vector2) var speed= Vector2(200,0)
+export (Vector2) var climbing_speed = Vector2(0, 30)
 export (float) var gravity_scale = 5
 
 onready var CrateDetectorRight : RayCast2D = get_parent().get_parent().find_node(\"CrateDetectorRight\", false)
@@ -88,43 +89,44 @@ func physics_process(delta):
 		fsm.change_to(\"SwingingRope\", [])
 "
 
-[sub_resource type="GDScript" id=6]
+[sub_resource type="GDScript" id=3]
 resource_name = "ClimbingLadder"
 script/source = "extends Node
 
 var fsm: StateMachine
 
-var _climbing_velocity = Vector2(0, 30)
-var jump_impulse= Vector2(0, -300)
-var speed= Vector2(200,0)
-var _ladder_area : Area2D
+export (Vector2) var climbing_speed = Vector2(0, 30)
 
+#meh.
+onready var _speed = get_parent().find_node(\"Normal\", false).speed
+onready var _jump_impulse = get_parent().find_node(\"Normal\", false).jump_impulse
+
+var _ladder_area : Area2D
 
 func enter(args : Array):
 	fsm.velocity.x = 0
 	_ladder_area = args[0]
 
 func physics_process(delta):
-	if Input.is_action_just_pressed(\"ui_select\"):
-		fsm.velocity.y= jump_impulse.y
-	
-	var velocity = fsm.velocity
 	if Input.is_action_pressed(\"ui_up\"):
-		fsm.velocity -= _climbing_velocity
+		fsm.velocity.y -= climbing_speed.y
 	elif Input.is_action_pressed(\"ui_down\"):
-		fsm.velocity += _climbing_velocity
+		fsm.velocity.y += climbing_speed.y
 	
 	if Input.is_action_pressed(\"ui_right\"):
-		fsm.velocity.x = speed.x
-
+		fsm.velocity.x = _speed.x
 	elif Input.is_action_pressed(\"ui_left\"):
-		fsm.velocity.x= speed.x
-		
+		fsm.velocity.x = - _speed.x
 	else:
 		fsm.velocity.x=0
-		
+	
 	fsm.velocity = fsm.player.move_and_slide(fsm.velocity)
-	fsm.velocity.y = 0
+	
+	if Input.is_action_just_pressed(\"ui_select\"):
+		fsm.velocity.y = _jump_impulse.y
+		fsm.change_to(\"Normal\", [])
+	else:
+		fsm.velocity.y = 0
 
 func _on_Area2D_area_exited(area):
 	if area == _ladder_area:
@@ -149,7 +151,7 @@ script = SubResource( 1 )
 script = SubResource( 2 )
 
 [node name="ClimbingLadder" type="Node" parent="States"]
-script = SubResource( 6 )
+script = SubResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
