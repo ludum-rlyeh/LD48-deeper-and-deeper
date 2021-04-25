@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Assets/icon.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/StateMachine.gd" type="Script" id=2]
@@ -307,6 +307,54 @@ radius = 4.84974
 [sub_resource type="RectangleShape2D" id=9]
 extents = Vector2( 23.1365, 1.71827 )
 
+[sub_resource type="SpriteFrames" id=10]
+animations = [ {
+"frames": [  ],
+"loop": true,
+"name": "Idle",
+"speed": 5.0
+}, {
+"frames": [  ],
+"loop": true,
+"name": "Back",
+"speed": 5.0
+}, {
+"frames": [  ],
+"loop": true,
+"name": "Jumping",
+"speed": 5.0
+}, {
+"frames": [  ],
+"loop": true,
+"name": "PushingCrates",
+"speed": 5.0
+}, {
+"frames": [  ],
+"loop": true,
+"name": "ClimbRope",
+"speed": 5.0
+}, {
+"frames": [  ],
+"loop": true,
+"name": "ClimbLadder",
+"speed": 5.0
+}, {
+"frames": [  ],
+"loop": true,
+"name": "IdleRope",
+"speed": 5.0
+}, {
+"frames": [  ],
+"loop": true,
+"name": "UnclimbRope",
+"speed": 5.0
+}, {
+"frames": [  ],
+"loop": true,
+"name": "Walking",
+"speed": 5.0
+} ]
+
 [node name="Character" type="KinematicBody2D"]
 script = SubResource( 1 )
 
@@ -359,5 +407,9 @@ collision_mask = 16
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GroundArea"]
 position = Vector2( 0.0701561, 30.6572 )
 shape = SubResource( 9 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 10 )
+animation = "Back"
 
 [connection signal="area_exited" from="Area2D" to="States/ClimbingLadder" method="_on_Area2D_area_exited"]
