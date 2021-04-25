@@ -67,19 +67,30 @@ script/source = "extends Node
 
 var fsm: StateMachine
 
-export (Vector2) var jump_impulse= Vector2(0, -300)
+export (Vector2) var jump_impulse= Vector2(0, -500)
+export (Vector2) var jump_speed= Vector2(128, 0)
+
 export (Vector2) var speed= Vector2(200,0)
 export (Vector2) var climbing_speed = Vector2(0, 30)
-export (float) var gravity_scale = 5
+export (float) var gravity_scale = 12
 
 onready var CrateDetectorRight : RayCast2D = get_parent().get_parent().find_node(\"CrateDetectorRight\", false)
 onready var CrateDetectorLeft : RayCast2D = get_parent().get_parent().find_node(\"CrateDetectorLeft\", false)
 onready var center: Area2D = get_parent().get_parent().find_node(\"Area2D\", false)
 onready var ground_area: Area2D = get_parent().get_parent().find_node(\"GroundArea\", false)
 onready var platform_detector : RayCast2D = get_parent().get_parent().find_node(\"PlatformDetector\")
+onready var platform_detector_corner_left : RayCast2D = get_parent().get_parent().find_node(\"PlatformDetectorCornerLeft\")
+onready var platform_detector_corner_right : RayCast2D = get_parent().get_parent().find_node(\"PlatformDetectorCornerRight\")
+
+func is_colliding_to_platform():
+	return platform_detector.is_colliding()              or \\
+		   platform_detector_corner_left.is_colliding()  or \\
+		   platform_detector_corner_right.is_colliding()
 
 func enter(args : Array):
 	platform_detector = fsm.player.find_node(\"PlatformDetector\")
+	platform_detector_corner_left = fsm.player.find_node(\"PlatformDetectorCornerLeft\")
+	platform_detector_corner_right = fsm.player.find_node(\"PlatformDetectorCornerRight\")
 
 func _input(event):
 	if event.is_action_pressed(\"ui_accept\"):
@@ -87,24 +98,33 @@ func _input(event):
 
 func physics_process(delta):
 	var snap = platform_detector.cast_to
-	if Input.is_action_just_pressed(\"ui_select\") and platform_detector.is_colliding():
+	if Input.is_action_just_pressed(\"ui_select\") and is_colliding_to_platform():
 		snap = Vector2.ZERO
 		fsm.velocity.y = jump_impulse.y
-	
-	if Input.is_action_just_released(\"ui_select\"):
-		fsm.velocity.y *= 0.7 
 
-	if Input.is_action_pressed(\"ui_right\"):
-		fsm.velocity.x = speed.x
-	elif Input.is_action_pressed(\"ui_left\"):
-		fsm.velocity.x= -speed.x
+	if Input.is_action_just_released(\"ui_select\"):
+		fsm.velocity.y *= 0.7
+
+	if is_colliding_to_platform():
+		if Input.is_action_pressed(\"ui_right\"):
+			fsm.velocity.x = speed.x
+		elif Input.is_action_pressed(\"ui_left\"):
+			fsm.velocity.x= -speed.x
+		else:
+			fsm.velocity.x=0
+	# Slow the character down if it is jumping (or falling)
 	else:
-		fsm.velocity.x=0
-		
+		if Input.is_action_pressed(\"ui_right\"):
+			fsm.velocity.x = jump_speed.x
+		elif Input.is_action_pressed(\"ui_left\"):
+			fsm.velocity.x= -jump_speed.x
+		else:
+			fsm.velocity.x=0
+
 	var gravity= Vector2(0,98)
 	fsm.velocity += gravity * delta * gravity_scale
 	fsm.velocity = fsm.player.move_and_slide_with_snap(fsm.velocity, snap, Vector2.ZERO,true,4,0.9)
-	
+
 	resolve_collisions()
 	
 	update_animation()
@@ -120,7 +140,7 @@ func update_animation():
 		fsm.animated_sprite.play(\"Idle\")
 
 func resolve_collisions():
-	if  platform_detector.is_colliding():
+	if is_colliding_to_platform():
 		if CrateDetectorRight.is_colliding() or CrateDetectorLeft.is_colliding():
 			fsm.change_to(\"PushingCrates\", [])
 			
@@ -141,11 +161,18 @@ func resolve_collisions():
 #			Events.emit_signal(\"rope_handled\", fsm.velocity)
 			fsm.change_to(\"ClimbingRope\", [area.get_root_scene()])
 
+func is_above(group: String):
+	return platform_detector.is_colliding() and platform_detector.get_collider().is_in_group(group) or \\
+		   platform_detector_corner_left.is_colliding() and platform_detector_corner_left.get_collider().is_in_group(group) or \\
+		   platform_detector_corner_right.is_colliding() and platform_detector_corner_right.get_collider().is_in_group(group) 
+
 func _use_current_item():
+	# TODO: get_collider from all boxes
 	if fsm.player.current_item == GlobalData.OBJECT_TYPE.LADDER \\
 		and fsm.player.get_item_number(GlobalData.OBJECT_TYPE.LADDER) > 0 \\
-		and platform_detector.is_colliding() \\
-		and not platform_detector.get_collider().is_in_group(\"Boxes\"):
+		and is_colliding_to_platform() \\
+		and not is_above(\"Boxes\"):
+
 		Events.emit_signal(\"place_ladder_signal\")
 
 func _on_Area2D_area_entered(area):
@@ -160,7 +187,7 @@ script/source = "extends Node
 
 var fsm: StateMachine
 
-var _climbing_velocity = Vector2(0, 30)
+var _climbing_velocity = Vector2(0, 300)
 var _rope : Node2D
 
 onready var center: Area2D = get_parent().get_parent().find_node(\"Area2D\", false)
@@ -1682,6 +1709,14 @@ shape = SubResource( 7 )
 enabled = true
 cast_to = Vector2( 0, 35 )
 
+[node name="PlatformDetectorCornerRight" type="RayCast2D" parent="."]
+position = Vector2( 32, 0 )
+enabled = true
+
+[node name="PlatformDetectorCornerLeft" type="RayCast2D" parent="."]
+position = Vector2( -32, 0 )
+enabled = true
+
 [node name="CrateDetectorRight" type="RayCast2D" parent="."]
 enabled = true
 cast_to = Vector2( 25, 0 )
@@ -1720,5 +1755,7 @@ playing = true
 __meta__ = {
 "_edit_lock_": true
 }
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
 
 [connection signal="area_exited" from="Area2D" to="States/ClimbingLadder" method="_on_Area2D_area_exited"]

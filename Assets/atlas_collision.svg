@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docname="atlas_collision.svg"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 33.866673 16.933336"
+   height="16.933336mm"
+   width="33.866673mm">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     inkscape:snap-bbox="true"
+     fit-margin-bottom="0"
+     fit-margin-right="0"
+     fit-margin-left="0"
+     fit-margin-top="0"
+     inkscape:window-maximized="1"
+     inkscape:window-y="18"
+     inkscape:window-x="0"
+     inkscape:window-height="1396"
+     inkscape:window-width="2556"
+     showgrid="false"
+     inkscape:document-rotation="0"
+     inkscape:current-layer="layer1"
+     inkscape:document-units="mm"
+     inkscape:cy="14.629574"
+     inkscape:cx="72.466396"
+     inkscape:zoom="7.9195959"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(0.13229632,-0.1322915)"
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
+    <rect
+       style="fill:#48a7ff;fill-opacity:1;stroke:none;stroke-width:0.265;stroke-miterlimit:4;stroke-dasharray:1.59, 0.265;stroke-dashoffset:0"
+       id="rect833-1"
+       width="16.933334"
+       height="16.933334"
+       x="16.801041"
+       y="0.1322915" />
+    <rect
+       y="0.1322915"
+       x="-0.13229632"
+       height="16.933336"
+       width="16.933336"
+       id="rect833-1-6"
+       style="fill:#d2e6ff;fill-opacity:1;stroke:none;stroke-width:0.264999;stroke-miterlimit:4;stroke-dasharray:1.59, 0.264999;stroke-dashoffset:0" />
+  </g>
+</svg>
