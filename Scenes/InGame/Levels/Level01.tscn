@@ -1,3 +1,46 @@
-[gd_scene format=2]
+[gd_scene load_steps=4 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends \"res://Scripts/AbstractLevel.gd\"
+
+var objective = Vector2(0, 0)
+var player_start_pos = Vector2(0, 0)
+var start_inventory = {
+	GlobalData.OBJECT_TYPE.ROPE: 1,
+	GlobalData.OBJECT_TYPE.LADDER: 2
+}
+
+
+func _ready():
+	._init_level(player_start_pos, start_inventory, objective)
+"
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 500.167, 76.7412 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 510.675, 81.4503 )
 
 [node name="Level01" type="Node2D"]
+script = SubResource( 1 )
+
+[node name="Platform" type="Polygon2D" parent="."]
+position = Vector2( 252.735, 297.156 )
+scale = Vector2( 0.382849, 0.119714 )
+color = Color( 1, 0, 0, 1 )
+polygon = PoolVector2Array( -500, -77, 500, -77, 500, 77, -500, 77 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Platform"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platform/StaticBody2D"]
+shape = SubResource( 2 )
+
+[node name="Ground" type="Polygon2D" parent="."]
+color = Color( 1, 0, 0, 1 )
+polygon = PoolVector2Array( 0, 435, 1025, 435, 1025, 600, 0, 600 )
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="Ground"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/StaticBody2D2"]
+position = Vector2( 512.5, 517.488 )
+shape = SubResource( 3 )

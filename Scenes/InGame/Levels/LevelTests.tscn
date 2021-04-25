@@ -2,28 +2,17 @@
 
 [ext_resource path="res://Scenes/InGame/Elements/Box.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/InGame/Characters/Character.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Scenes/InGame/Elements/RopeSpot.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/InGame/Elements/Rope.tscn" type="PackedScene" id=3]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node2D
 
-
 var Ladder = preload(\"res://Scenes/InGame/Elements/Ladder.tscn\")
-var rope_res = preload(\"res://Scenes/InGame/Elements/Rope.tscn\")
-
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	Events.connect(\"place_ladder_signal\",self,\"_on_place_ladder_signal\")
-	Events.connect(\"rope_thrown\", self, \"_on_rope_thrown\")
-	
-func _on_rope_thrown(pos : Vector2, right : bool):
-	var rope = rope_res.instance()
-	rope.init(right, 200)
-	add_child(rope)
+	Events.connect(\"place_ladder_signal\",self, \"_on_place_ladder_signal\")
 
-	rope.set_position(pos+Vector2(10 if right else -10, 0))
-	rope.start_animation()
 
 func _on_place_ladder_signal():
 	var ladder = Ladder.instance()
@@ -63,7 +52,7 @@ script = SubResource( 1 )
 position = Vector2( 646.127, 369.031 )
 
 [node name="Box2" parent="." instance=ExtResource( 1 )]
-position = Vector2( 835.063, 198.932 )
+position = Vector2( 401.606, 204.589 )
 
 [node name="Platform" type="Polygon2D" parent="."]
 position = Vector2( 252.735, 297.156 )
@@ -83,11 +72,11 @@ polygon = PoolVector2Array( 0, 435, 1025, 435, 1025, 600, 0, 600 )
 [node name="StaticBody2D2" type="StaticBody2D" parent="Ground"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/StaticBody2D2"]
-position = Vector2( 514.5, 516.488 )
+position = Vector2( 512.5, 516.488 )
 shape = SubResource( 3 )
 
-[node name="RopeSpot" parent="." instance=ExtResource( 3 )]
-position = Vector2( 445.504, 280.758 )
-
 [node name="Character" parent="." instance=ExtResource( 2 )]
-position = Vector2( 172.163, 237.849 )
+position = Vector2( 142, 213 )
+
+[node name="Rope" parent="." instance=ExtResource( 3 )]
+position = Vector2( 822.203, 178.471 )
