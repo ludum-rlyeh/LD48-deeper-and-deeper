@@ -33,14 +33,14 @@ func _input(event):
 	if _state.has_method("input"):
 		_state.input(event)
 
-func _unhandled_input(event):
-	if _state.has_method("unhandled_input"):
-		_state.unhandled_input(event)
-
-func _unhandled_key_input(event):
-	if _state.has_method("unhandled_key_input"):
-		_state.unhandled_key_input(event)
-
-func _notification(what):
-	if _state && _state.has_method("notification"):
-		_state.notification(what)
+#func _unhandled_input(event):
+#	if _state.has_method("unhandled_input"):
+#		_state.unhandled_input(event)
+#
+#func _unhandled_key_input(event):
+#	if _state.has_method("unhandled_key_input"):
+#		_state.unhandled_key_input(event)
+#
+#func _notification(what):
+#	if _state && _state.has_method("notification"):
+#		_state.notification(what)

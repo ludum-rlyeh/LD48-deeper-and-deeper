@@ -1,7 +1,7 @@
 [gd_scene load_steps=2 format=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 49.837, 100.332 )
+extents = Vector2( 5.05435, 100.332 )
 
 [node name="Ladder" type="Node2D" groups=[
 "Ladders",
