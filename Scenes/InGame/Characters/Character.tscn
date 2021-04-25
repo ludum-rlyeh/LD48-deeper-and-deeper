@@ -6,15 +6,16 @@
 [sub_resource type="GDScript" id=6]
 script/source = "extends KinematicBody2D
 
+# Number of item available by type
 var _inventory = {
 	GlobalData.OBJECT_TYPE.ROPE: 1,
 	GlobalData.OBJECT_TYPE.LADDER: 2
 }
 
-var _current_item = GlobalData.OBJECT_TYPE.NONE
+var current_item = GlobalData.OBJECT_TYPE.LADDER
 
 func _ready():
-	pass
+	Events.connect(\"ladder_placed_signal\", self, \"_on_ladder_placed_signal\")
 
 func _input(event : InputEvent):
 	if event.is_action_pressed(\"ui_focus_next\"):
@@ -22,19 +23,35 @@ func _input(event : InputEvent):
 	elif event.is_action_pressed(\"ui_focus_prev\"):
 		_previous_item()
 
+func set_inventory(inventory):
+	_inventory = inventory
+
+func get_item_number(item):
+	if _inventory.has(item):
+		return _inventory[item]
+	return 0
+
+func current_item_used():
+	_inventory[current_item] -= 1
+	if _inventory[current_item] == 0:
+		current_item = GlobalData.OBJECT_TYPE.NONE
+
 func _next_item():
-	_current_item += 1
-	if _current_item >= GlobalData.OBJECT_TYPE.size():
-		_current_item = GlobalData.OBJECT_TYPE.NONE
+	current_item += 1
+	if current_item >= GlobalData.OBJECT_TYPE.size():
+		current_item = GlobalData.OBJECT_TYPE.NONE
 	
-	print(_current_item)
+	print(current_item)
 
 func _previous_item():
-	_current_item -= 1
-	if _current_item < 0:
-		_current_item = GlobalData.OBJECT_TYPE.size()-1
+	current_item -= 1
+	if current_item < 0:
+		current_item = GlobalData.OBJECT_TYPE.size()-1
 	
-	print(_current_item)
+	print(current_item)
+
+func _on_ladder_placed_signal():
+	_inventory[GlobalData.OBJECT_TYPE.LADDER] -= 1
 "
 
 [sub_resource type="GDScript" id=1]
@@ -57,6 +74,10 @@ var platform_detector
 func enter(args : Array):
 	platform_detector = fsm.player.find_node(\"PlatformDetector\")
 
+func _input(event):
+	if event.is_action_pressed(\"ui_accept\"):
+		_use_current_item()
+
 func physics_process(delta):
 	var snap = platform_detector.cast_to
 	if Input.is_action_just_pressed(\"ui_select\") and platform_detector.is_colliding():
@@ -68,10 +89,8 @@ func physics_process(delta):
 
 	if Input.is_action_pressed(\"ui_right\"):
 		fsm.velocity.x = speed.x
-
 	elif Input.is_action_pressed(\"ui_left\"):
 		fsm.velocity.x= -speed.x
-		
 	else:
 		fsm.velocity.x=0
 	
@@ -87,12 +106,21 @@ func physics_process(delta):
 				object.push(fsm.velocity / 10.0)
 		
 	for area in center.get_overlapping_areas():
-		if area.get_parent().is_in_group(\"Ladders\") and (Input.is_action_just_pressed(\"ui_up\") or Input.is_action_just_pressed(\"ui_down\")):
+		if area.get_parent().is_in_group(\"Ladders\") \\
+			and (Input.is_action_just_pressed(\"ui_up\") \\
+			or Input.is_action_just_pressed(\"ui_down\")):
 			fsm.change_to(\"ClimbingLadder\", [area])
 		
 	var gravity= Vector2(0,98)
 	fsm.velocity += gravity * delta * gravity_scale
 	fsm.velocity = fsm.player.move_and_slide_with_snap(fsm.velocity, snap, Vector2.ZERO,true,4,0.9)
+
+func _use_current_item():
+	if fsm.player.current_item == GlobalData.OBJECT_TYPE.LADDER \\
+		and fsm.player.get_item_number(GlobalData.OBJECT_TYPE.LADDER) > 0 \\
+		and platform_detector.is_colliding() \\
+		and not platform_detector.get_collider().is_in_group(\"Boxes\"):
+		Events.emit_signal(\"place_ladder_signal\")
 
 func _on_Area2D_area_entered(area):
 	if area.is_in_group(\"Ropes\"):

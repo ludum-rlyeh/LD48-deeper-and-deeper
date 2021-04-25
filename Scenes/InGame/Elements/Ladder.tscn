@@ -6,6 +6,7 @@ extents = Vector2( 16.5807, 112.372 )
 [node name="Ladder" type="Node2D" groups=[
 "Ladders",
 ]]
+position = Vector2( 0, -70 )
 
 [node name="Polygons" type="Node2D" parent="."]
 

@@ -3,7 +3,43 @@
 [ext_resource path="res://Scenes/InGame/Elements/Box.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/InGame/Characters/Character.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/InGame/Elements/Rope.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Scenes/InGame/Elements/Ladder.tscn" type="PackedScene" id=4]
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends Node2D
+
+
+var Ladder = preload(\"res://Scenes/InGame/Elements/Ladder.tscn\")
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	Events.connect(\"place_ladder_signal\",self,\"_on_place_ladder_signal\")
+
+
+func _on_place_ladder_signal():
+	var ladder = Ladder.instance()
+	ladder.position += $Character.position
+	ladder.visible = false
+	add_child(ladder)
+	
+	# wait adding child and next process
+	yield(get_tree(),\"idle_frame\")
+	yield(get_tree(),\"idle_frame\")
+	
+	var overlapping = false
+	for body in ladder.find_node(\"Area2D\", false).get_overlapping_bodies():
+		if body is StaticBody2D:
+			overlapping = true
+			break
+	
+	if overlapping:
+		remove_child(ladder)
+		Events.emit_signal(\"ladder_not_placed_signal\") # not connected yet
+	else:
+		ladder.visible = true
+		Events.emit_signal(\"ladder_placed_signal\")
+	
+"
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 500.167, 76.7412 )
@@ -12,9 +48,7 @@ extents = Vector2( 500.167, 76.7412 )
 extents = Vector2( 510.675, 81.4503 )
 
 [node name="LevelTests" type="Node2D"]
-
-[node name="Ladder" parent="." instance=ExtResource( 4 )]
-position = Vector2( 748, 336 )
+script = SubResource( 3 )
 
 [node name="Box" parent="." instance=ExtResource( 1 )]
 position = Vector2( 646.127, 369.031 )
