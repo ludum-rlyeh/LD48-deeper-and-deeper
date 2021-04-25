@@ -2,8 +2,9 @@ extends Node
 
 class_name StateMachine
 
-var velocity = Vector2.ZERO
+
 onready var player : KinematicBody2D = get_parent()
+onready var animated_sprite = get_parent().find_node("AnimatedSprite")
 
 var _state : Object
 
