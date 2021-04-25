@@ -141,7 +141,7 @@ script/source = "extends Node
 
 var fsm: StateMachine
 
-var _climbing_velocity = Vector2(0, 30)
+var _climbing_velocity = Vector2(0, 300)
 var _rope : Node2D
 
 onready var center: Area2D = get_parent().get_parent().find_node(\"Area2D\", false)
@@ -359,5 +359,8 @@ collision_mask = 16
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GroundArea"]
 position = Vector2( 0.0701561, 30.6572 )
 shape = SubResource( 9 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
 
 [connection signal="area_exited" from="Area2D" to="States/ClimbingLadder" method="_on_Area2D_area_exited"]

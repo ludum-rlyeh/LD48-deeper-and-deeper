@@ -2,6 +2,7 @@ extends Node2D
 
 var Ladder = preload("res://Scenes/InGame/Elements/Ladder.tscn")
 var PlayerTscn = preload("res://Scenes/InGame/Characters/Character.tscn")
+var RopeTscn = preload("res://Scenes/InGame/Elements/Rope.tscn")
 
 var player = null
 
@@ -25,7 +26,8 @@ func init_player(player_start_pos: Vector2, player_inventory):
 
 # Called automatically before childs.
 func _ready():
-	Events.connect("place_ladder_signal",self, "_on_place_ladder_signal")
+	Events.connect("place_ladder_signal", self, "_on_place_ladder_signal")
+	Events.connect("rope_thrown", self, "_on_rope_thrown")
 
 
 func _on_place_ladder_signal():
@@ -50,4 +52,13 @@ func _on_place_ladder_signal():
 	else:
 		ladder.visible = true
 		Events.emit_signal("ladder_placed_signal")
-	
+
+
+func _on_rope_thrown(pos : Vector2, right : bool):
+	var rope = RopeTscn.instance()
+	rope.init(right, 200)
+	add_child(rope)
+
+	rope.set_position(pos+Vector2(10 if right else -10, 0))
+	rope.start_animation()
+
