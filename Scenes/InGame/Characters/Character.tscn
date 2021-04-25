@@ -15,6 +15,7 @@ export (Vector2) var speed= Vector2(200,0)
 export (Vector2) var climbing_speed = Vector2(0, 300)
 export (Vector2) var gravity = Vector2(0,98)
 export (float) var interrupt_jump_factor = 0.7
+export (Vector2) var camera_speed = Vector2(0, 100)
 
 var velocity = Vector2.ZERO
 
@@ -30,10 +31,10 @@ func integrate_without_gravity(velocity : Vector2):
 	return move_and_slide(velocity)
 "
 
-[sub_resource type="RectangleShape2D" id=8]
+[sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 12.8726, 25.5035 )
 
-[sub_resource type="RectangleShape2D" id=9]
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 12.8024, 1.71827 )
 
 [node name="Character" type="KinematicBody2D"]
@@ -48,7 +49,7 @@ texture = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 5.36353 )
-shape = SubResource( 8 )
+shape = SubResource( 2 )
 
 [node name="PlatformDetector" type="RayCast2D" parent="."]
 enabled = true
@@ -80,7 +81,7 @@ __meta__ = {
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource( 8 )
+shape = SubResource( 2 )
 
 [node name="GroundArea" type="Area2D" parent="."]
 collision_layer = 0
@@ -91,13 +92,13 @@ __meta__ = {
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GroundArea"]
 position = Vector2( 0.0701561, 29.4747 )
-shape = SubResource( 9 )
+shape = SubResource( 3 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 scale = Vector2( 0.119999, 0.119999 )
 frames = ExtResource( 3 )
 animation = "Idle"
-frame = 24
+frame = 23
 playing = true
 __meta__ = {
 "_edit_lock_": true
@@ -105,3 +106,4 @@ __meta__ = {
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
+zoom = Vector2( 0.5, 0.5 )
