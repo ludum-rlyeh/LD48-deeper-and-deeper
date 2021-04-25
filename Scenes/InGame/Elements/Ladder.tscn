@@ -1,18 +1,113 @@
 [gd_scene load_steps=2 format=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 5.05435, 100.332 )
+extents = Vector2( 16.5807, 112.372 )
 
 [node name="Ladder" type="Node2D" groups=[
 "Ladders",
 ]]
-position = Vector2( 0, 100 )
+position = Vector2( 0, -70 )
 
-[node name="Polygon2D" type="Polygon2D" parent="."]
+[node name="Polygons" type="Node2D" parent="."]
+
+[node name="Polygon2D" type="Polygon2D" parent="Polygons"]
+position = Vector2( -23.126, 0 )
+scale = Vector2( 0.117479, 1 )
 color = Color( 0.235294, 0.972549, 0.027451, 1 )
 polygon = PoolVector2Array( -50, -100, 50, -100, 50, 100, -50, 100 )
+
+[node name="Polygon2D2" type="Polygon2D" parent="Polygons"]
+position = Vector2( 22.874, 0 )
+scale = Vector2( 0.117479, 1 )
+color = Color( 0.235294, 0.972549, 0.027451, 1 )
+polygon = PoolVector2Array( -50, -100, 50, -100, 50, 100, -50, 100, -50.0002, -55.0997 )
+
+[node name="Polygon2D3" type="Polygon2D" parent="Polygons"]
+position = Vector2( 0.125271, -87.4784 )
+scale = Vector2( 0.471032, 0.0241927 )
+color = Color( 0.235294, 0.972549, 0.027451, 1 )
+polygon = PoolVector2Array( -50, -100, 50, -100, 49.7717, -6.38892, 50, 100, -50, 100, -50.0002, -55.0997 )
+
+[node name="Polygon2D4" type="Polygon2D" parent="Polygons"]
+position = Vector2( 0.125271, -72.4784 )
+scale = Vector2( 0.471032, 0.0241927 )
+color = Color( 0.235294, 0.972549, 0.027451, 1 )
+polygon = PoolVector2Array( -50, -100, 50, -100, 49.7717, -6.38892, 50, 100, -50, 100, -50.0002, -55.0997 )
+
+[node name="Polygon2D5" type="Polygon2D" parent="Polygons"]
+position = Vector2( 0.125271, -56.4784 )
+scale = Vector2( 0.471032, 0.0241927 )
+color = Color( 0.235294, 0.972549, 0.027451, 1 )
+polygon = PoolVector2Array( -50, -100, 50, -100, 49.7717, -6.38892, 50, 100, -50, 100, -50.0002, -55.0997 )
+
+[node name="Polygon2D6" type="Polygon2D" parent="Polygons"]
+position = Vector2( 0.125271, -42.4784 )
+scale = Vector2( 0.471032, 0.0241927 )
+color = Color( 0.235294, 0.972549, 0.027451, 1 )
+polygon = PoolVector2Array( -50, -100, 50, -100, 49.7717, -6.38892, 50, 100, -50, 100, -50.0002, -55.0997 )
+
+[node name="Polygon2D7" type="Polygon2D" parent="Polygons"]
+position = Vector2( 0.125271, -27.4784 )
+scale = Vector2( 0.471032, 0.0241927 )
+color = Color( 0.235294, 0.972549, 0.027451, 1 )
+polygon = PoolVector2Array( -50, -100, 50, -100, 49.7717, -6.38892, 50, 100, -50, 100, -50.0002, -55.0997 )
+
+[node name="Polygon2D8" type="Polygon2D" parent="Polygons"]
+position = Vector2( 0.125271, -13.4784 )
+scale = Vector2( 0.471032, 0.0241927 )
+color = Color( 0.235294, 0.972549, 0.027451, 1 )
+polygon = PoolVector2Array( -50, -100, 50, -100, 49.7717, -6.38892, 50, 100, -50, 100, -50.0002, -55.0997 )
+
+[node name="Polygon2D9" type="Polygon2D" parent="Polygons"]
+position = Vector2( 0.125271, 0.52156 )
+scale = Vector2( 0.471032, 0.0241927 )
+color = Color( 0.235294, 0.972549, 0.027451, 1 )
+polygon = PoolVector2Array( -50, -100, 50, -100, 49.7717, -6.38892, 50, 100, -50, 100, -50.0002, -55.0997 )
+
+[node name="Polygon2D10" type="Polygon2D" parent="Polygons"]
+position = Vector2( 0.125271, 15.5216 )
+scale = Vector2( 0.471032, 0.0241927 )
+color = Color( 0.235294, 0.972549, 0.027451, 1 )
+polygon = PoolVector2Array( -50, -100, 50, -100, 49.7717, -6.38892, 50, 100, -50, 100, -50.0002, -55.0997 )
+
+[node name="Polygon2D11" type="Polygon2D" parent="Polygons"]
+position = Vector2( 0.125271, 15.5216 )
+scale = Vector2( 0.471032, 0.0241927 )
+color = Color( 0.235294, 0.972549, 0.027451, 1 )
+polygon = PoolVector2Array( -50, -100, 50, -100, 49.7717, -6.38892, 50, 100, -50, 100, -50.0002, -55.0997 )
+
+[node name="Polygon2D12" type="Polygon2D" parent="Polygons"]
+position = Vector2( 0.125271, 29.5216 )
+scale = Vector2( 0.471032, 0.0241927 )
+color = Color( 0.235294, 0.972549, 0.027451, 1 )
+polygon = PoolVector2Array( -50, -100, 50, -100, 49.7717, -6.38892, 50, 100, -50, 100, -50.0002, -55.0997 )
+
+[node name="Polygon2D13" type="Polygon2D" parent="Polygons"]
+position = Vector2( 0.125271, 43.5216 )
+scale = Vector2( 0.471032, 0.0241927 )
+color = Color( 0.235294, 0.972549, 0.027451, 1 )
+polygon = PoolVector2Array( -50, -100, 50, -100, 49.7717, -6.38892, 50, 100, -50, 100, -50.0002, -55.0997 )
+
+[node name="Polygon2D14" type="Polygon2D" parent="Polygons"]
+position = Vector2( 0.125271, 57.5216 )
+scale = Vector2( 0.471032, 0.0241927 )
+color = Color( 0.235294, 0.972549, 0.027451, 1 )
+polygon = PoolVector2Array( -50, -100, 50, -100, 49.7717, -6.38892, 50, 100, -50, 100, -50.0002, -55.0997 )
+
+[node name="Polygon2D15" type="Polygon2D" parent="Polygons"]
+position = Vector2( 0.125271, 71.5216 )
+scale = Vector2( 0.471032, 0.0241927 )
+color = Color( 0.235294, 0.972549, 0.027451, 1 )
+polygon = PoolVector2Array( -50, -100, 50, -100, 49.7717, -6.38892, 50, 100, -50, 100, -50.0002, -55.0997 )
+
+[node name="Polygon2D16" type="Polygon2D" parent="Polygons"]
+position = Vector2( 0.125271, 86.5216 )
+scale = Vector2( 0.471032, 0.0241927 )
+color = Color( 0.235294, 0.972549, 0.027451, 1 )
+polygon = PoolVector2Array( -50, -100, 50, -100, 49.7717, -6.38892, 50, 100, -50, 100, -50.0002, -55.0997 )
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( 0, -13.2142 )
 shape = SubResource( 1 )

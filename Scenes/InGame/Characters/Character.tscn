@@ -3,6 +3,57 @@
 [ext_resource path="res://Assets/icon.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/StateMachine.gd" type="Script" id=2]
 
+[sub_resource type="GDScript" id=6]
+script/source = "extends KinematicBody2D
+
+# Number of item available by type
+var _inventory = {
+	GlobalData.OBJECT_TYPE.ROPE: 1,
+	GlobalData.OBJECT_TYPE.LADDER: 2
+}
+
+var current_item = GlobalData.OBJECT_TYPE.LADDER
+
+func _ready():
+	Events.connect(\"ladder_placed_signal\", self, \"_on_ladder_placed_signal\")
+
+func _input(event : InputEvent):
+	if event.is_action_pressed(\"ui_focus_next\"):
+		_next_item()
+	elif event.is_action_pressed(\"ui_focus_prev\"):
+		_previous_item()
+
+func set_inventory(inventory):
+	_inventory = inventory
+
+func get_item_number(item):
+	if _inventory.has(item):
+		return _inventory[item]
+	return 0
+
+func current_item_used():
+	_inventory[current_item] -= 1
+	if _inventory[current_item] == 0:
+		current_item = GlobalData.OBJECT_TYPE.NONE
+
+func _next_item():
+	current_item += 1
+	if current_item >= GlobalData.OBJECT_TYPE.size():
+		current_item = GlobalData.OBJECT_TYPE.NONE
+	
+	print(current_item)
+
+func _previous_item():
+	current_item -= 1
+	if current_item < 0:
+		current_item = GlobalData.OBJECT_TYPE.size()-1
+	
+	print(current_item)
+
+func _on_ladder_placed_signal():
+	_inventory[GlobalData.OBJECT_TYPE.LADDER] -= 1
+"
+
 [sub_resource type="GDScript" id=1]
 resource_name = "Normal"
 script/source = "extends Node
@@ -11,6 +62,7 @@ var fsm: StateMachine
 
 export (Vector2) var jump_impulse= Vector2(0, -300)
 export (Vector2) var speed= Vector2(200,0)
+export (Vector2) var climbing_speed = Vector2(0, 30)
 export (float) var gravity_scale = 5
 
 onready var CrateDetectorRight : RayCast2D = get_parent().get_parent().find_node(\"CrateDetectorRight\", false)
@@ -20,8 +72,12 @@ onready var ground_area: Area2D = get_parent().get_parent().find_node(\"GroundAr
 onready var platform_detector : RayCast2D = get_parent().get_parent().find_node(\"PlatformDetector\")
 
 func enter(args : Array):
-	pass
-	
+	platform_detector = fsm.player.find_node(\"PlatformDetector\")
+
+func _input(event):
+	if event.is_action_pressed(\"ui_accept\"):
+		_use_current_item()
+
 func physics_process(delta):
 	var snap = platform_detector.cast_to
 	if Input.is_action_just_pressed(\"ui_select\") and platform_detector.is_colliding():
@@ -33,10 +89,8 @@ func physics_process(delta):
 
 	if Input.is_action_pressed(\"ui_right\"):
 		fsm.velocity.x = speed.x
-
 	elif Input.is_action_pressed(\"ui_left\"):
 		fsm.velocity.x= -speed.x
-		
 	else:
 		fsm.velocity.x=0
 		
@@ -52,7 +106,9 @@ func resolve_collisions():
 			fsm.change_to(\"PushingCrates\", [])
 			
 	for area in center.get_overlapping_areas():
-		if area.get_parent().is_in_group(\"Ladders\") and (Input.is_action_just_pressed(\"ui_up\") or Input.is_action_just_pressed(\"ui_down\")):
+		if area.get_parent().is_in_group(\"Ladders\") \\
+			and (Input.is_action_just_pressed(\"ui_up\") \\
+			or Input.is_action_just_pressed(\"ui_down\")):
 			fsm.change_to(\"ClimbingLadder\", [area])
 
 	for area in ground_area.get_overlapping_areas():
@@ -65,6 +121,17 @@ func resolve_collisions():
 		if area.is_in_group(\"Ropes\") and Input.is_action_pressed(\"ui_up\"):
 #			Events.emit_signal(\"rope_handled\", fsm.velocity)
 			fsm.change_to(\"ClimbingRope\", [area.get_root_scene()])
+func _use_current_item():
+	if fsm.player.current_item == GlobalData.OBJECT_TYPE.LADDER \\
+		and fsm.player.get_item_number(GlobalData.OBJECT_TYPE.LADDER) > 0 \\
+		and platform_detector.is_colliding() \\
+		and not platform_detector.get_collider().is_in_group(\"Boxes\"):
+		Events.emit_signal(\"place_ladder_signal\")
+
+func _on_Area2D_area_entered(area):
+	if area.is_in_group(\"Ropes\"):
+		Events.emit_signal(\"rope_handled\", fsm.player.velocity)
+		fsm.change_to(\"ClimbingRope\", [])
 "
 
 [sub_resource type="GDScript" id=2]
@@ -135,37 +202,38 @@ script/source = "extends Node
 
 var fsm: StateMachine
 
-var _climbing_velocity = Vector2(0, 30)
-var jump_impulse= Vector2(0, -300)
-var speed= Vector2(200,0)
-var _ladder_area : Area2D
+export (Vector2) var climbing_speed = Vector2(0, 30)
 
+#meh.
+onready var _speed = get_parent().find_node(\"Normal\", false).speed
+onready var _jump_impulse = get_parent().find_node(\"Normal\", false).jump_impulse
+
+var _ladder_area : Area2D
 
 func enter(args : Array):
 	fsm.velocity.x = 0
 	_ladder_area = args[0]
 
 func physics_process(delta):
-	if Input.is_action_just_pressed(\"ui_select\"):
-		fsm.velocity.y= jump_impulse.y
-	
-	var velocity = fsm.velocity
 	if Input.is_action_pressed(\"ui_up\"):
-		fsm.velocity -= _climbing_velocity
+		fsm.velocity.y -= climbing_speed.y
 	elif Input.is_action_pressed(\"ui_down\"):
-		fsm.velocity += _climbing_velocity
+		fsm.velocity.y += climbing_speed.y
 	
 	if Input.is_action_pressed(\"ui_right\"):
-		fsm.velocity.x = speed.x
-
+		fsm.velocity.x = _speed.x
 	elif Input.is_action_pressed(\"ui_left\"):
-		fsm.velocity.x= speed.x
-		
+		fsm.velocity.x = - _speed.x
 	else:
 		fsm.velocity.x=0
-		
+	
 	fsm.velocity = fsm.player.move_and_slide(fsm.velocity)
-	fsm.velocity.y = 0
+	
+	if Input.is_action_just_pressed(\"ui_select\"):
+		fsm.velocity.y = _jump_impulse.y
+		fsm.change_to(\"Normal\", [])
+	else:
+		fsm.velocity.y = 0
 
 func _on_Area2D_area_exited(area):
 	if area == _ladder_area:
@@ -226,6 +294,7 @@ radius = 4.3984
 extents = Vector2( 23.1365, 1.71827 )
 
 [node name="Character" type="KinematicBody2D"]
+script = SubResource( 6 )
 
 [node name="States" type="Node" parent="."]
 script = ExtResource( 2 )
