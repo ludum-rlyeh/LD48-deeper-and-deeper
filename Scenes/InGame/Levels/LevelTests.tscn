@@ -62,7 +62,7 @@ script = SubResource( 1 )
 position = Vector2( 646.127, 369.031 )
 
 [node name="Box2" parent="." instance=ExtResource( 1 )]
-position = Vector2( 401.606, 204.589 )
+position = Vector2( 696.428, 200.494 )
 
 [node name="Platform" type="Polygon2D" parent="."]
 position = Vector2( 252.735, 297.156 )
