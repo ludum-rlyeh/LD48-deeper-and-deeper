@@ -90,5 +90,5 @@ position = Vector2( 516.407, 273.326 )
 position = Vector2( 709.378, 310.081 )
 
 [node name="RopeSpot2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 183.94, 697.488 )
+position = Vector2( 184.494, 691.95 )
 right = false
