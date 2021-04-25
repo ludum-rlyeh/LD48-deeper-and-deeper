@@ -11,7 +11,7 @@ var objective = Vector2(0, 0)
 var player_start_pos = Vector2(50, 120)
 var start_inventory = {
 	GlobalData.OBJECT_TYPE.ROPE: 2,
-	GlobalData.OBJECT_TYPE.LADDER: 0
+	GlobalData.OBJECT_TYPE.LADDER: 1
 }
 
 func _ready():
