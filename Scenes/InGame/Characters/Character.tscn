@@ -1,7 +1,41 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Assets/icon.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/StateMachine.gd" type="Script" id=2]
+
+[sub_resource type="GDScript" id=6]
+script/source = "extends KinematicBody2D
+
+var _inventory = {
+	GlobalData.OBJECT_TYPE.ROPE: 1,
+	GlobalData.OBJECT_TYPE.LADDER: 2
+}
+
+var _current_item = GlobalData.OBJECT_TYPE.NONE
+
+func _ready():
+	pass
+
+func _input(event : InputEvent):
+	if event.is_action_pressed(\"ui_focus_next\"):
+		_next_item()
+	elif event.is_action_pressed(\"ui_focus_prev\"):
+		_previous_item()
+
+func _next_item():
+	_current_item += 1
+	if _current_item >= GlobalData.OBJECT_TYPE.size():
+		_current_item = GlobalData.OBJECT_TYPE.NONE
+	
+	print(_current_item)
+
+func _previous_item():
+	_current_item -= 1
+	if _current_item < 0:
+		_current_item = GlobalData.OBJECT_TYPE.size()-1
+	
+	print(_current_item)
+"
 
 [sub_resource type="GDScript" id=1]
 resource_name = "Normal"
@@ -140,6 +174,7 @@ extents = Vector2( 32.7783, 32.2322 )
 radius = 4.3984
 
 [node name="Character" type="KinematicBody2D"]
+script = SubResource( 6 )
 
 [node name="States" type="Node" parent="."]
 script = ExtResource( 2 )
