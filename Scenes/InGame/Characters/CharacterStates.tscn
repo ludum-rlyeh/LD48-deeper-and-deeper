@@ -57,13 +57,14 @@ func physics_process(delta):
 		_player.velocity = _player.integrate(delta, velocity)
 		fsm.change_to(\"Jumping\", [])
 		
+	if !is_colliding_to_platform() && velocity.y > 0:
+		fsm.change_to(\"Jumping\", [])
+
 	_resolve_collisions(velocity)
 	
 	_update_animation(velocity)
 
 	_player.velocity = _player.integrate_with_snap(delta, velocity, snap)
-
-
 	
 func _update_animation(velocity : Vector2):
 	var animated_sprite = fsm.animated_sprite
