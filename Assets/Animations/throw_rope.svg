@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 37.099426 21.882994"
+   height="21.882994mm"
+   width="37.099426mm"
+   sodipodi:docname="throw_rope.svg"
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2.7049383"
+     inkscape:cx="36.605261"
+     inkscape:cy="51.768612"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:window-width="1600"
+     inkscape:window-height="838"
+     inkscape:window-x="-6"
+     inkscape:window-y="-6"
+     inkscape:window-maximized="1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     showguides="false" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0.0133345,-0.0558311)">
+    <rect
+       style="fill:none;stroke:none;stroke-width:0.133745;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke;stop-color:#000000"
+       id="rect1093"
+       width="12.321894"
+       height="21.749249"
+       x="12.375432"
+       y="0.1227036"
+       inkscape:export-filename="C:\Godot\LD48-deeper-and-deeper\Assets\Animations\ThrowRope\02.png"
+       inkscape:export-xdpi="1313"
+       inkscape:export-ydpi="1313" />
+    <rect
+       style="fill:none;stroke:none;stroke-width:0.133745;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke;stop-color:#000000"
+       id="rect1095"
+       width="12.321894"
+       height="21.749249"
+       x="24.697325"
+       y="0.1227036"
+       inkscape:export-filename="C:\Godot\LD48-deeper-and-deeper\Assets\Animations\ThrowRope\03.png"
+       inkscape:export-xdpi="1313"
+       inkscape:export-ydpi="1313" />
+    <rect
+       style="fill:none;stroke:none;stroke-width:0.133745;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke;stop-color:#000000"
+       id="rect1091"
+       width="12.321894"
+       height="21.749249"
+       x="0.053538002"
+       y="0.1227036"
+       inkscape:export-filename="C:\Godot\LD48-deeper-and-deeper\Assets\Animations\ThrowRope\01.png"
+       inkscape:export-xdpi="1313"
+       inkscape:export-ydpi="1313" />
+    <path
+       d="m 2.44537,7.04267 c 0,0 4.4578373,-5.9299743 6.06453,-5.08637 C 9.9394406,2.7068895 2.3154788,5.5560361 3.42352,7.92301 3.9901932,9.1335252 7.9967397,2.0951002 8.80334,2.83663 10.016661,3.9520692 3.126496,7.9102219 4.30386,8.80334 5.0902042,9.3998405 9.97712,4.10823 9.97712,4.10823"
+       style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="path833"
+       sodipodi:nodetypes="cssssc"
+       inkscape:export-filename="C:\Godot\LD48-deeper-and-deeper\Assets\Animations\ThrowRope\01.png"
+       inkscape:export-xdpi="1313.5643"
+       inkscape:export-ydpi="1313.5643" />
+    <path
+       d="m 14.886087,4.6218741 c 0,0 5.141742,-4.23769968 6.406882,-2.3475521 1.488975,2.2245621 -6.939516,3.7079932 -5.428732,5.9178021 1.243881,1.8194119 5.072072,-4.3118847 6.162339,-2.3964691 0.942138,1.6551778 -4.648782,1.6226675 -4.49948,3.5213371 0.131578,1.6732779 4.401666,2.4453789 4.401666,2.4453789"
+       style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="path1087"
+       sodipodi:nodetypes="cssssc"
+       inkscape:export-filename="C:\Godot\LD48-deeper-and-deeper\Assets\Animations\ThrowRope\02.png"
+       inkscape:export-xdpi="1313"
+       inkscape:export-ydpi="1313" />
+    <path
+       d="m 27.662206,1.5785879 c 2.103023,0.635799 5.830442,-0.2368655 6.309068,1.907397 0.430027,1.926538 -4.385193,1.987624 -4.401676,3.961504 -0.01878,2.24925 5.128977,2.355951 4.939652,4.5972981 -0.162508,1.923873 -4.6053,1.262803 -4.841832,3.178984 -0.274207,2.221396 3.032259,3.293107 4.548388,4.93966"
+       style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="path1089"
+       sodipodi:nodetypes="cssssc"
+       inkscape:export-filename="C:\Godot\LD48-deeper-and-deeper\Assets\Animations\ThrowRope\03.png"
+       inkscape:export-xdpi="1313"
+       inkscape:export-ydpi="1313" />
+    <path
+       d="m 0.08101684,27.141343 c 0,0 7.34529176,-1.481125 7.88487676,0.251496 0.48009,1.541585 -6.97442236,-2.446062 -7.81571466,-0.771375 -0.5999913,1.194351 7.35470866,-0.985016 7.40072066,0.109678 0.06921,1.646682 -7.60170586,-1.086815 -7.40071366,0.377237 0.1342395,0.977819 7.33154466,0.275944 7.33154466,0.275944"
+       style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="path833-1"
+       sodipodi:nodetypes="cssssc"
+       inkscape:export-filename="C:\Godot\LD48-deeper-and-deeper\Assets\Animations\ThrowRope\rest.png"
+       inkscape:export-xdpi="1313.5643"
+       inkscape:export-ydpi="1313.5643" />
+  </g>
+</svg>

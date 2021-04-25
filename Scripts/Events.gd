@@ -5,3 +5,4 @@ extends Node
 # To receive signals in a node, call connect(Events, "[action_in_past]_signal", node, "_on_[slot name]")
 
 signal rope_handled
+signal rope_thrown

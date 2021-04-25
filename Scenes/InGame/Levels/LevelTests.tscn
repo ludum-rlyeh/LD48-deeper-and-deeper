@@ -1,17 +1,41 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scenes/InGame/Elements/Box.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/InGame/Characters/Character.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Scenes/InGame/Elements/Rope.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/InGame/Elements/Ladder.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/InGame/Elements/RopeSpot.tscn" type="PackedScene" id=5]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 500.167, 76.7412 )
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+var rope_res = preload(\"res://Scenes/InGame/Elements/Rope.tscn\")
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	Events.connect(\"rope_thrown\", self, \"_on_rope_thrown\")
+	
+func _on_rope_thrown(pos : Vector2, right : bool):
+	var rope = rope_res.instance()
+	rope.init(right, 200)
+	add_child(rope)
+
+	rope.set_position(pos+Vector2(10 if right else -10, 0))
+	rope.start_animation()
+	
+	
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+"
 
 [sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 500.167, 76.7412 )
+
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 510.675, 81.4503 )
 
 [node name="LevelTests" type="Node2D"]
+script = SubResource( 1 )
 
 [node name="Ladder" parent="." instance=ExtResource( 4 )]
 position = Vector2( 748, 336 )
@@ -20,7 +44,7 @@ position = Vector2( 748, 336 )
 position = Vector2( 646.127, 369.031 )
 
 [node name="Box2" parent="." instance=ExtResource( 1 )]
-position = Vector2( 401.606, 204.589 )
+position = Vector2( 894.78, 214.972 )
 
 [node name="Platform" type="Polygon2D" parent="."]
 position = Vector2( 252.735, 297.156 )
@@ -31,7 +55,7 @@ polygon = PoolVector2Array( -500, -77, 500, -77, 500, 77, -500, 77 )
 [node name="StaticBody2D" type="StaticBody2D" parent="Platform"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Platform/StaticBody2D"]
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 
 [node name="Ground" type="Polygon2D" parent="."]
 color = Color( 1, 0, 0, 1 )
@@ -41,14 +65,12 @@ polygon = PoolVector2Array( 0, 435, 1025, 435, 1025, 600, 0, 600 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/StaticBody2D2"]
 position = Vector2( 514.5, 516.488 )
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 
 [node name="Character" parent="." instance=ExtResource( 2 )]
 position = Vector2( 142, 213 )
 
-[node name="Rope" parent="." instance=ExtResource( 3 )]
-position = Vector2( 822.203, 178.471 )
-
 [node name="RayCast2D" type="RayCast2D" parent="."]
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="RopeSpot" parent="." instance=ExtResource( 5 )]
+position = Vector2( 447.957, 281.969 )

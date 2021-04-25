@@ -1,6 +1,15 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
-[sub_resource type="CircleShape2D" id=1]
+[sub_resource type="GDScript" id=1]
+script/source = "extends Area2D
+
+export (bool) var right = true
+
+func get_root_scene():
+	return self
+"
+
+[sub_resource type="CircleShape2D" id=2]
 
 [node name="RopeSpot" type="Area2D" groups=[
 "RopeSpots",
@@ -8,6 +17,7 @@
 monitoring = false
 collision_layer = 16
 collision_mask = 0
+script = SubResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
+shape = SubResource( 2 )

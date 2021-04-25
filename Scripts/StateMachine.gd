@@ -5,7 +5,7 @@ class_name StateMachine
 
 
 var velocity = Vector2.ZERO
-onready var player = get_parent()
+onready var player : KinematicBody2D = get_parent()
 
 var _state : Object
 

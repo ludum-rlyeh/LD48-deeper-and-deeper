@@ -1,6 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=13 format=2]
 
-[ext_resource path="res://Assets/icon.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Animations/ThrowRope/01.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Animations/ThrowRope/02.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Animations/ThrowRope/03.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Animations/ThrowRope/support.png" type="Texture" id=4]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node2D
@@ -14,9 +17,31 @@ onready var _half_limit_in_rads = deg2rad(half_limit_in_degrees)
 var _swing_direction = 1
 var _velocity = 0
 var _current_length
-
+var _offset = 15
 var _climbing = false
 
+var rest_rope_res = preload(\"res://Assets/Animations/ThrowRope/rest.png\")
+
+func start_animation():
+	yield(get_tree(), \"idle_frame\")
+	yield(get_tree(), \"idle_frame\")
+	yield(get_tree(), \"idle_frame\")
+	
+	var length = $RayCast2D.get_collision_point().distance_to(global_position)
+	$Line2D.initialize(resolution_step, min(length_in_pixels, length))
+	_current_length = $Line2D.get_length()
+	$AnimationPlayer.play(\"ThrowRope\")
+	yield($AnimationPlayer, \"animation_finished\")
+	
+	if $RayCast2D.is_colliding() and length < length_in_pixels:
+		$ThrowRope.position = Vector2.DOWN * length
+		$ThrowRope.show()
+		$ThrowRope.texture = rest_rope_res
+		
+	$Down.position = $Line2D.get_length() * Vector2.DOWN
+	
+	$Area2D.create_collision_shape($Line2D.get_length())
+	
 func on_rope_handled(velocity : Vector2, position : Vector2):
 	_velocity = velocity
 
@@ -28,11 +53,11 @@ func _climb_up(position : Vector2, velocity : Vector2) -> Vector2:
 	
 func _climb_down(position : Vector2, velocity : Vector2) -> Vector2:
 	return -velocity
-
-func _ready():
-	$Line2D.initialize(resolution_step, length_in_pixels)
-	_current_length = $Line2D.get_length()
-
+	
+func init(right : bool, length : float):
+	length_in_pixels = length
+	$RayCast2D.position.x = _offset * 1 if right else -1
+	
 func _get_angular_velocity(delta) -> float :
 	return _velocity * _swing_direction * delta 
 
@@ -87,6 +112,27 @@ func swing(delta : float, velocity : Vector2):
 	$Line2D.update_position(new_position)
 "
 
+[sub_resource type="GDScript" id=8]
+script/source = "extends Area2D
+
+func get_root_scene():
+	return get_parent()
+"
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 22.676, 10 )
+
+[sub_resource type="GDScript" id=9]
+script/source = "extends Area2D
+
+
+func get_root_scene():
+	return get_parent()
+"
+
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 137.058, 52.4436 )
+
 [sub_resource type="GDScript" id=2]
 script/source = "extends Line2D
 
@@ -112,7 +158,7 @@ func update_position(position : Vector2):
 	set_point_position(last_point(), position)
 "
 
-[sub_resource type="GDScript" id=4]
+[sub_resource type="GDScript" id=3]
 script/source = "extends Area2D
 
 func get_root_scene():
@@ -121,7 +167,12 @@ func get_root_scene():
 # var a = 2
 # var b = \"text\"
 
-
+func create_collision_shape(length : float):
+	var collision : SegmentShape2D = SegmentShape2D.new()
+	collision.b = Vector2.DOWN * length
+	$CollisionShape2D.shape = collision
+	
+	
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -132,30 +183,116 @@ func _ready():
 #	pass
 "
 
-[sub_resource type="SegmentShape2D" id=3]
-b = Vector2( 0, 196.412 )
+[sub_resource type="Animation" id=5]
+resource_name = "ThrowRope"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/path = NodePath("ThrowRope:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 0.015625, 1 ),
+"update": 1,
+"values": [ ExtResource( 1 ), ExtResource( 2 ), ExtResource( 3 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ThrowRope:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 49.542, 35.0892 ), Vector2( 39.6697, 66.2838 ), Vector2( 33.4119, 98.0876 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ThrowRope:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Line2D:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
 
-[node name="Rope" type="Node2D" groups=[
-"Ropes",
-]]
-position = Vector2( 147.043, 30.5871 )
+[node name="Rope" type="Node2D"]
 script = SubResource( 1 )
 
+[node name="Down" type="Area2D" parent="." groups=[
+"BottomRopes",
+]]
+monitoring = false
+collision_layer = 16
+collision_mask = 0
+script = SubResource( 8 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Down"]
+shape = SubResource( 6 )
+
+[node name="Up" type="Area2D" parent="." groups=[
+"TopRopes",
+]]
+position = Vector2( 49.542, 35.0892 )
+scale = Vector2( 0.2, 0.2 )
+monitoring = false
+collision_layer = 16
+collision_mask = 0
+script = SubResource( 9 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Up"]
+position = Vector2( -245.407, -173.437 )
+shape = SubResource( 7 )
+
 [node name="Line2D" type="Line2D" parent="."]
+visible = false
 points = PoolVector2Array( 0, 196.319, 0, 0 )
-default_color = Color( 0.870588, 0.34902, 0.121569, 1 )
+width = 3.0
+default_color = Color( 0, 0, 0, 1 )
 script = SubResource( 2 )
 
-[node name="icon" type="Sprite" parent="."]
-visible = false
-position = Vector2( -0.977013, 194.917 )
+[node name="ThrowRope" type="Sprite" parent="."]
+position = Vector2( 49.542, 35.0892 )
+scale = Vector2( 0.2, 0.2 )
 texture = ExtResource( 1 )
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." groups=[
+"Ropes",
+]]
 monitoring = false
-collision_layer = 8
+collision_layer = 16
 collision_mask = 0
-script = SubResource( 4 )
+script = SubResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource( 3 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/ThrowRope = SubResource( 5 )
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+enabled = true
+cast_to = Vector2( 0, 500 )
+
+[node name="Support" type="Sprite" parent="."]
+position = Vector2( -0.629959, 0 )
+scale = Vector2( 0.3, 0.3 )
+texture = ExtResource( 4 )
