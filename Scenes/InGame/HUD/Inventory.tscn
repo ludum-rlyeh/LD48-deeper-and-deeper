@@ -1,0 +1,239 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Assets/Controls/360_LB.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Controls/360_RB.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Controls/Q_Key_Light.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Controls/E_Key_Light.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Icons/rope_icon.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Icons/ladder_icon.png" type="Texture" id=6]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Control
+
+# Number of item available by type
+var _inventory = {
+	GlobalData.OBJECT_TYPE.ROPE: 1,
+	GlobalData.OBJECT_TYPE.LADDER: 2
+}
+
+var current_item = GlobalData.OBJECT_TYPE.ROPE
+
+func _ready():
+	Events.connect(\"ladder_placed_signal\", self, \"_on_ladder_placed_signal\")
+	Input.connect(\"joy_connection_changed\", self, \"_on_joy_connection_changed\")
+	if Input.get_connected_joypads().size() > 0:
+		$Prev/LB.visible = true
+		$Next/RB.visible = true
+		$Prev/Q.visible = false
+		$Next/E.visible = false
+
+func _input(event : InputEvent):
+	if event.is_action_pressed(\"ui_focus_next\"):
+		_next_item()
+	elif event.is_action_pressed(\"ui_focus_prev\"):
+		_previous_item()
+	_maj_selector()
+
+func set_inventory(inventory):
+	_inventory = inventory
+	$Rope/RopeNb.text = String(_inventory[GlobalData.OBJECT_TYPE.ROPE])
+	$Ladder/LadderNb.text = String(_inventory[GlobalData.OBJECT_TYPE.LADDER])
+	current_item = GlobalData.OBJECT_TYPE.ROPE
+	_maj_selector()
+
+func get_item_number(item):
+	if _inventory.has(item):
+		return _inventory[item]
+	return 0
+
+func current_item_used():
+	_inventory[current_item] -= 1
+	if _inventory[current_item] == 0:
+		current_item = GlobalData.OBJECT_TYPE.NONE
+
+func _next_item():
+	current_item += 1
+	if current_item >= GlobalData.OBJECT_TYPE.size():
+		current_item = 0
+
+func _previous_item():
+	current_item -= 1
+	if current_item < 0:
+		current_item = GlobalData.OBJECT_TYPE.size()-1
+
+func _maj_selector():
+	if current_item == GlobalData.OBJECT_TYPE.ROPE:
+		_select_rope()
+	elif current_item == GlobalData.OBJECT_TYPE.LADDER:
+		_select_ladder()
+
+func _select_rope():
+	$Ladder/LadderNb.visible = false
+	$Ladder/LadderSelect.visible = false
+	$Ladder/LadderUnelect.visible = true
+	
+	$Rope/RopeNb.visible = true
+	$Rope/RopeSelect.visible = true
+	$Rope/RopeUnselect.visible = false
+
+func _select_ladder():
+	$Ladder/LadderNb.visible = true
+	$Ladder/LadderSelect.visible = true
+	$Ladder/LadderUnelect.visible = false
+	
+	$Rope/RopeNb.visible = false
+	$Rope/RopeSelect.visible = false
+	$Rope/RopeUnselect.visible = true
+
+func _on_ladder_placed_signal():
+	_inventory[GlobalData.OBJECT_TYPE.LADDER] -= 1
+	$Ladder/LadderNb.text = String(_inventory[GlobalData.OBJECT_TYPE.LADDER])
+
+func _on_joy_connection_changed(device_id, connected):
+	if connected:
+		$Prev/LB.visible = true
+		$Next/RB.visible = true
+		$Prev/Q.visible = false
+		$Next/E.visible = false
+	else:
+		$Prev/LB.visible = false
+		$Next/RB.visible = false
+		$Prev/Q.visible = true
+		$Next/E.visible = true
+"
+
+[node name="Inventory" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Prev" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="LB" type="TextureRect" parent="Prev"]
+visible = false
+margin_left = 17.0
+margin_top = 16.0
+margin_right = 117.0
+margin_bottom = 116.0
+rect_scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Q" type="TextureRect" parent="Prev"]
+margin_left = 18.0
+margin_top = 19.0
+margin_right = 118.0
+margin_bottom = 119.0
+rect_scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 3 )
+
+[node name="Rope" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RopeSelect" type="TextureRect" parent="Rope"]
+margin_left = 126.0
+margin_top = 12.0
+margin_right = 226.0
+margin_bottom = 112.0
+texture = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RopeUnselect" type="TextureRect" parent="Rope"]
+visible = false
+modulate = Color( 0.419608, 0.419608, 0.419608, 1 )
+margin_left = 137.0
+margin_top = 22.0
+margin_right = 237.0
+margin_bottom = 122.0
+rect_scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RopeNb" type="Label" parent="Rope"]
+margin_left = 166.0
+margin_top = 134.0
+margin_right = 185.0
+margin_bottom = 151.0
+text = "0"
+align = 1
+valign = 1
+
+[node name="Ladder" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LadderSelect" type="TextureRect" parent="Ladder"]
+visible = false
+margin_left = 249.0
+margin_top = 9.0
+margin_right = 349.0
+margin_bottom = 109.0
+texture = ExtResource( 6 )
+
+[node name="LadderUnelect" type="TextureRect" parent="Ladder"]
+modulate = Color( 0.419608, 0.419608, 0.419608, 1 )
+margin_left = 259.0
+margin_top = 18.0
+margin_right = 359.0
+margin_bottom = 118.0
+rect_scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 6 )
+
+[node name="LadderNb" type="Label" parent="Ladder"]
+visible = false
+margin_left = 291.0
+margin_top = 134.0
+margin_right = 310.0
+margin_bottom = 151.0
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Next" type="Control" parent="."]
+margin_left = 305.0
+margin_right = 345.0
+margin_bottom = 40.0
+
+[node name="RB" type="TextureRect" parent="Next"]
+visible = false
+margin_left = 63.0
+margin_top = 16.0
+margin_right = 163.0
+margin_bottom = 116.0
+rect_scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="E" type="TextureRect" parent="Next"]
+margin_left = 62.0
+margin_top = 19.0
+margin_right = 162.0
+margin_bottom = 119.0
+rect_scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

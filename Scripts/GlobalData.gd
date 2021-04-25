@@ -1,3 +1,3 @@
 extends Node
 
-enum OBJECT_TYPE{NONE,ROPE,LADDER}
+enum OBJECT_TYPE{ROPE,LADDER}
