@@ -39,25 +39,30 @@ func physics_process(delta):
 	else:
 		fsm.velocity.x=0
 		
-	if CrateDetectorRight.is_colliding():
-		var object = CrateDetectorRight.get_collider()
-		if object.is_in_group(\"Boxes\") and fsm.velocity.x > 0:
-			object.push(fsm.velocity / 10.0)
 
-	if CrateDetectorLeft.is_colliding():
-		var object = CrateDetectorLeft.get_collider()
-		if object.is_in_group(\"Boxes\")  and fsm.velocity.x < 0:
-			object.push(fsm.velocity / 10.0)
 		
 	var gravity= Vector2(0,98)
 	fsm.velocity += gravity * delta * gravity_scale
 	fsm.velocity = fsm.player.move_and_slide_with_snap(fsm.velocity, snap, Vector2.ZERO,true,4,0.9)
 
+
+func resolve_collisions():
+	if CrateDetectorRight.is_colliding():
+		var object = CrateDetectorRight.get_collider()
+		if object.is_in_group(\"Boxes\") and fsm.velocity.x > 0:
+				object.push(fsm.velocity / 10.0)
+
+	if CrateDetectorLeft.is_colliding():
+		var object = CrateDetectorLeft.get_collider()
+		if object.is_in_group(\"Boxes\")  and fsm.velocity.x < 0:
+			object.push(fsm.velocity / 10.0)
+			
+	if 
+
 func _on_Area2D_area_entered(area):
-	if area.is_in_group(\"Ropes\"):
-		Events.emit_signal(\"rope_handled\", fsm.player.velocity)
-		
-	fsm.change_to(\"ClimbingRope\", [])
+	if area.get_root_scene().is_in_group(\"Ropes\"):
+		Events.emit_signal(\"rope_handled\", fsm.velocity)
+		fsm.change_to(\"ClimbingRope\", [area.get_root_scene()])
 "
 
 [sub_resource type="GDScript" id=2]
@@ -69,18 +74,23 @@ var fsm: StateMachine
 var _climbing_velocity = Vector2(0, 30)
 var _rope : Node2D
 
-func enter_state(args : Array):
-	pass
+func enter(args : Array):
+	fsm.velocity = Vector2.ZERO
+	_rope = args[0]
 
 func physics_process(delta):
-	var velocity = get_parent().get_velocity()
-	if Input.is_action_just_pressed(\"ui_up\"):
-		get_parent().set_velocity(velocity - _climbing_velocity)
-	if Input.is_action_just_pressed(\"ui_down\"):
-		get_parent().set_velocity(velocity + _climbing_velocity)
+	if Input.is_action_pressed(\"ui_up\"):
+		fsm.velocity -= _climbing_velocity
+	if Input.is_action_pressed(\"ui_down\"):
+		fsm.velocity += _climbing_velocity
 		
-	if Input.is_action_just_pressed(\"ui_right\") or Input.is_action_just_pressed(\"ui_left\"):
-		fsm.change_to(\"SwingingRope\", [])
+	fsm.player.move_and_slide(fsm.velocity)
+	
+	fsm.velocity.y = 0
+		
+	if Input.is_action_just_pressed(\"ui_select\"):
+		fsm.change_to(\"Normal\", [])
+	
 "
 
 [sub_resource type="RectangleShape2D" id=3]
@@ -96,9 +106,14 @@ script = ExtResource( 2 )
 
 [node name="Normal" type="Node" parent="States"]
 script = SubResource( 1 )
+jump_impulse = null
+speed = null
+gravity_scale = null
 
 [node name="ClimbingRope" type="Node" parent="States"]
 script = SubResource( 2 )
+
+[node name="Ropethrowing" type="Node" parent="States"]
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
@@ -118,6 +133,8 @@ enabled = true
 cast_to = Vector2( -50, 0 )
 
 [node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 24
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource( 4 )
