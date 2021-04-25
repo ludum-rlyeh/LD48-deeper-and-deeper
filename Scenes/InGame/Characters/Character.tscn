@@ -121,6 +121,7 @@ func resolve_collisions():
 		if area.is_in_group(\"Ropes\") and Input.is_action_pressed(\"ui_up\"):
 #			Events.emit_signal(\"rope_handled\", fsm.velocity)
 			fsm.change_to(\"ClimbingRope\", [area.get_root_scene()])
+
 func _use_current_item():
 	if fsm.player.current_item == GlobalData.OBJECT_TYPE.LADDER \\
 		and fsm.player.get_item_number(GlobalData.OBJECT_TYPE.LADDER) > 0 \\
@@ -240,7 +241,7 @@ func _on_Area2D_area_exited(area):
 		fsm.change_to(\"Normal\", [])
 "
 
-[sub_resource type="GDScript" id=9]
+[sub_resource type="GDScript" id=6]
 resource_name = "PushingCrates"
 script/source = "extends Node
 
@@ -252,12 +253,19 @@ export (float) var gravity_scale = 5
 onready var CrateDetectorRight : RayCast2D = get_parent().get_parent().find_node(\"CrateDetectorRight\", false)
 onready var CrateDetectorLeft : RayCast2D = get_parent().get_parent().find_node(\"CrateDetectorLeft\", false)
 onready var platform_detector : RayCast2D = get_parent().get_parent().find_node(\"PlatformDetector\")
+onready var center: Area2D = get_parent().get_parent().find_node(\"Area2D\", false)
+
+onready var _speed = get_parent().find_node(\"Normal\", false).speed
+onready var _jump_impulse = get_parent().find_node(\"Normal\", false).jump_impulse
 
 func enter(args : Array):
 	pass
 	
 func physics_process(delta):
 	var snap = platform_detector.cast_to
+	if Input.is_action_just_pressed(\"ui_select\") and platform_detector.is_colliding():
+		snap = Vector2.ZERO
+		fsm.velocity.y = _jump_impulse.y
 	
 	if Input.is_action_pressed(\"ui_right\"):
 		fsm.velocity.x = speed.x
@@ -279,18 +287,24 @@ func physics_process(delta):
 	fsm.velocity += gravity * delta * gravity_scale
 	fsm.velocity = fsm.player.move_and_slide_with_snap(fsm.velocity, snap, Vector2.ZERO,true,4,0.9)
 	
+	for area in center.get_overlapping_areas():
+		if area.get_parent().is_in_group(\"Ladders\") \\
+			and (Input.is_action_just_pressed(\"ui_up\") \\
+			or Input.is_action_just_pressed(\"ui_down\")):
+			fsm.change_to(\"ClimbingLadder\", [area])
+	
 	if !platform_detector.is_colliding() or (not CrateDetectorRight.is_colliding() and not CrateDetectorLeft.is_colliding()):
 		fsm.velocity.x=0
 		fsm.change_to(\"Normal\", [])
 "
 
-[sub_resource type="RectangleShape2D" id=6]
+[sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 32.7783, 32.2322 )
 
-[sub_resource type="CircleShape2D" id=7]
-radius = 4.3984
+[sub_resource type="CircleShape2D" id=8]
+radius = 4.84974
 
-[sub_resource type="RectangleShape2D" id=8]
+[sub_resource type="RectangleShape2D" id=9]
 extents = Vector2( 23.1365, 1.71827 )
 
 [node name="Character" type="KinematicBody2D"]
@@ -312,13 +326,13 @@ script = SubResource( 4 )
 script = SubResource( 5 )
 
 [node name="PushingCrates" type="Node" parent="States"]
-script = SubResource( 9 )
+script = SubResource( 6 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 6 )
+shape = SubResource( 7 )
 
 [node name="PlatformDetector" type="RayCast2D" parent="."]
 enabled = true
@@ -336,7 +350,7 @@ collision_layer = 0
 collision_mask = 24
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource( 7 )
+shape = SubResource( 8 )
 
 [node name="GroundArea" type="Area2D" parent="."]
 collision_layer = 0
@@ -344,6 +358,6 @@ collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GroundArea"]
 position = Vector2( 0.0701561, 30.6572 )
-shape = SubResource( 8 )
+shape = SubResource( 9 )
 
 [connection signal="area_exited" from="Area2D" to="States/ClimbingLadder" method="_on_Area2D_area_exited"]
