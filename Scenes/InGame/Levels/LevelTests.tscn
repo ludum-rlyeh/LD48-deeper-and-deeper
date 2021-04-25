@@ -2,16 +2,26 @@
 
 [ext_resource path="res://Scenes/InGame/Elements/Box.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/InGame/Characters/Character.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Scenes/InGame/Elements/Rope.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/InGame/Elements/RopeSpot.tscn" type="PackedScene" id=3]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node2D
 
 var Ladder = preload(\"res://Scenes/InGame/Elements/Ladder.tscn\")
+var rope_res = preload(\"res://Scenes/InGame/Elements/Rope.tscn\")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Events.connect(\"place_ladder_signal\",self, \"_on_place_ladder_signal\")
+	Events.connect(\"rope_thrown\", self, \"_on_rope_thrown\")
+	
+func _on_rope_thrown(pos : Vector2, right : bool):
+	var rope = rope_res.instance()
+	rope.init(right, 200)
+	add_child(rope)
+
+	rope.set_position(pos+Vector2(10 if right else -10, 0))
+	rope.start_animation()
 
 
 func _on_place_ladder_signal():
@@ -78,5 +88,5 @@ shape = SubResource( 3 )
 [node name="Character" parent="." instance=ExtResource( 2 )]
 position = Vector2( 142, 213 )
 
-[node name="Rope" parent="." instance=ExtResource( 3 )]
-position = Vector2( 822.203, 178.471 )
+[node name="RopeSpot" parent="." instance=ExtResource( 3 )]
+position = Vector2( 444.268, 278.37 )
