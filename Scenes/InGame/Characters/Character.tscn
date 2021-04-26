@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Assets/Sounds/Robot/run.wav" type="AudioStream" id=1]
 [ext_resource path="res://Scenes/InGame/Characters/CharacterStates.tscn" type="PackedScene" id=2]
@@ -46,7 +46,36 @@ extents = Vector2( 12.8726, 25.5035 )
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 12.8024, 1.71827 )
 
+[sub_resource type="Animation" id=4]
+resource_name = "teleport"
+length = 0.15
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.909804, 0.909804, 0.909804, 1 ), Color( 0, 0.364706, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AnimatedSprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.119999, 0.119999 ), Vector2( 0, 0 ) ]
+}
+
 [node name="Character" type="KinematicBody2D"]
+modulate = Color( 0.909804, 0.909804, 0.909804, 1 )
 z_index = 2
 collision_mask = 3
 script = SubResource( 1 )
@@ -110,7 +139,7 @@ modulate = Color( 0.909804, 0.909804, 0.909804, 1 )
 scale = Vector2( 0.119999, 0.119999 )
 frames = ExtResource( 3 )
 animation = "ClimbingLadderIdle"
-frame = 17
+frame = 16
 playing = true
 __meta__ = {
 "_edit_lock_": true
@@ -150,3 +179,6 @@ bus = "Character"
 [node name="AudioDrifting" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource( 7 )
 bus = "Character"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/teleport = SubResource( 4 )

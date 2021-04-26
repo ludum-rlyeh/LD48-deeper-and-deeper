@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Assets/Animations/CharacterAnimation.res" type="SpriteFrames" id=1]
 [ext_resource path="res://Assets/Fonts/indiana_jonas/Indiana-Jonas-48p.otf" type="DynamicFontData" id=2]
 [ext_resource path="res://Assets/Sprites/slip.png" type="Texture" id=3]
 [ext_resource path="res://Assets/Sounds/menu_select.wav" type="AudioStream" id=4]
 [ext_resource path="res://Assets/Sounds/Click.wav" type="AudioStream" id=5]
+[ext_resource path="res://Assets/Sounds/Robot/Dance.wav" type="AudioStream" id=6]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends CanvasLayer
@@ -28,6 +29,7 @@ func end_game(var item):
 	$Elements.visible = true
 	
 	# Play robot animation
+	$AudioStreamPlayer.play()
 	$Elements/AnimatedSprite.play()
 	yield($Elements/AnimatedSprite, \"animation_finished\")
 	
@@ -322,6 +324,10 @@ bus = "Menus"
 [node name="ButtonPressedAudio" type="AudioStreamPlayer" parent="."]
 stream = SubResource( 6 )
 bus = "Menus"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+bus = "Character"
 
 [connection signal="mouse_entered" from="Elements/NextButton" to="." method="_on_button_mouse_entered"]
 [connection signal="pressed" from="Elements/NextButton" to="." method="_on_NextButton_pressed"]

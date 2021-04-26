@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Assets/atlas_collision.svg" type="Texture" id=1]
 [ext_resource path="res://Scenes/InGame/Elements/Box.tscn" type="PackedScene" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Assets/bg/gold.jpg" type="Texture" id=7]
 [ext_resource path="res://Assets/bg/jungle_flou.jpg" type="Texture" id=8]
 [ext_resource path="res://Assets/bg/bglvl12.png" type="Texture" id=9]
+[ext_resource path="res://Assets/Musics/Celestial_Aeon_Project_-_Citadel.mp3" type="AudioStream" id=10]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends \"res://Scripts/AbstractLevel.gd\"
@@ -122,7 +123,7 @@ func _physics_process(delta):
 		for body in readable_area.get_overlapping_bodies():
 			if not is_rope_set:
 				self.text = \"Ho, you forget to put a rope...\" + \\
-				\"\\n You can still reset the level in the echap menu.\" 
+				\"\\n You can still reset the level in the pause menu\\n (escape).\" 
 			self.disable_check = true
 "
 
@@ -157,12 +158,12 @@ func _physics_process(delta):
 	if self.objective_reached and not is_rope_set:
 		for body in readable_area.get_overlapping_bodies():
 			self.text = \"Ho, you forget to put a rope...\" + \\
-				\"\\n You can still reset the level in the echap menu.\" 
+				\"\\n You can still reset the level in the pause menu\\n (escape).\" 
 			self.show()
 "
 
 [sub_resource type="RectangleShape2D" id=9]
-extents = Vector2( 247.247, 75.8682 )
+extents = Vector2( 153.453, 77.7915 )
 
 [sub_resource type="GDScript" id=10]
 script/source = "extends Label
@@ -349,7 +350,7 @@ __meta__ = {
 [node name="AreaDetection" type="Area2D" parent="Node2D/Subtitle6"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Subtitle6/AreaDetection"]
-position = Vector2( 187.26, 187.692 )
+position = Vector2( 169.019, 196.108 )
 shape = SubResource( 9 )
 
 [node name="Subtitle4" type="Label" parent="Node2D"]
@@ -418,3 +419,8 @@ __meta__ = {
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2( -10.6634, 93.3775 )
 shape = SubResource( 11 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 10 )
+autoplay = true
+bus = "Background"
