@@ -8,7 +8,7 @@ jobs:
 
     steps:
       - run: echo "Configure ubuntu"
-      - run: sudo apt update && apt upgrade --yes --force-yes
+      - run: sudo apt update && sudo apt upgrade --yes --force-yes
       - run: sudo apt install unzip curl git --yes --force-yes
 
       - run: echo "Install godot dependencies"
