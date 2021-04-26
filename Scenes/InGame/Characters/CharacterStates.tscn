@@ -53,6 +53,10 @@ func physics_process(delta):
 		else:
 			camera.position.y = 0
 			
+	_resolve_collisions(velocity)
+	
+	_update_animation(velocity)
+	
 	if Input.is_action_just_pressed(\"ui_select\") and is_colliding_to_platform():
 		snap = Vector2.ZERO
 		velocity.y = _player.jump_impulse.y
@@ -62,9 +66,6 @@ func physics_process(delta):
 	if !is_colliding_to_platform() && velocity.y > 0:
 		fsm.change_to(\"Jumping\", [])
 
-	_resolve_collisions(velocity)
-	
-	_update_animation(velocity)
 
 	_player.velocity = _player.integrate_with_snap(delta, velocity, snap)
 	
@@ -423,11 +424,11 @@ func _update_animation(velocity : Vector2):
 		animated_sprite.play(\"JumpingDown\")
 
 func _resolve_collisions(velocity : Vector2):
-#	for area in center.get_overlapping_areas():
-#		if area.get_parent().is_in_group(\"Ladders\") \\
-#			and (Input.is_action_just_pressed(\"ui_up\") \\
-#			or Input.is_action_just_pressed(\"ui_down\")):
-#			fsm.change_to(\"ClimbingLadder\", [area])
+	for area in center.get_overlapping_areas():
+		if area.get_parent().is_in_group(\"Ladders\") \\
+			and (Input.is_action_just_pressed(\"ui_up\") \\
+			or Input.is_action_just_pressed(\"ui_down\")):
+			fsm.change_to(\"ClimbingLadder\", [area])
 
 	for area in center.get_overlapping_areas():
 		if area.is_in_group(\"Ropes\") and Input.is_action_pressed(\"ui_up\"):
