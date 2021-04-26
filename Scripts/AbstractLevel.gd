@@ -98,7 +98,7 @@ func _on_throw_rope_signal():
 		var root = area.get_root_scene()
 		var pos = root.position
 		var right = root.right
-		Events.emit_signal("rope_thrown_signal")
+		Events.emit_signal("rope_thrown_signal", area)
 		var rope = RopeTscn.instance()
 		var tp_position_offset = root.find_node("Offset").position
 		rope.init(right, GlobalData.LENGTH_ROPE, tp_position_offset)

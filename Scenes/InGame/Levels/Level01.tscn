@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Assets/atlas_collision.svg" type="Texture" id=1]
 [ext_resource path="res://Scenes/InGame/Elements/Box.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/InGame/Elements/RopeSpot.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Assets/Levels/lvl164.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Fonts/indiana_jonas/Indiana-Jonas-48p.otf" type="DynamicFontData" id=5]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends \"res://Scripts/AbstractLevel.gd\"
@@ -18,7 +19,10 @@ var start_inventory = {
 
 func _ready():
 	.init_level(player_start_pos, start_inventory, objective_position, player_start_pos)
-	
+	Events.connect(\"rope_thrown_signal\", self, \"_on_rope_thrown\")
+
+func _on_rope_thrown(args):
+	print(args)
 "
 
 [sub_resource type="ConvexPolygonShape2D" id=2]
@@ -89,31 +93,277 @@ points = PoolVector2Array( 64, 64, 0, 64, 0, 0, 64, 0 )
 3/shapes = [  ]
 3/z_index = 0
 
+[sub_resource type="DynamicFont" id=4]
+size = 39
+outline_size = 2
+font_data = ExtResource( 5 )
+
+[sub_resource type="GDScript" id=5]
+script/source = "extends Label
+
+onready var readable_area = $Area2D
+var is_rope_set = false
+var disable_check = false
+
+func _ready():
+	Events.connect(\"rope_thrown_signal\", self, \"_on_rope_thrown_signal\")
+
+func _on_rope_thrown_signal(area):
+	print(area.is_in_group(\"RopeSpotTuto\"))
+	is_rope_set = true
+	self.hide()
+
+func _physics_process(delta):
+	if not self.disable_check:
+		for body in readable_area.get_overlapping_bodies():
+			if not is_rope_set:
+				self.text = \"Ho, you forget to put a rope, so you are locked now.\" + \\
+				\"\\n You can still reset the level in the menu.\" 
+			self.disable_check = true
+"
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 368.107, 85.7443 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 39
+outline_size = 2
+font_data = ExtResource( 5 )
+
+[sub_resource type="GDScript" id=8]
+script/source = "extends Label
+
+onready var readable_area = $AreaDetection
+var is_rope_set = false
+var disable_check = false
+
+func _ready():
+	Events.connect(\"rope_thrown_signal\", self, \"_on_rope_thrown_signal\")
+	self.hide()
+
+func _on_rope_thrown_signal(area):
+	print(area.is_in_group(\"RopeSpotTuto2\"))
+	is_rope_set = true
+
+func _physics_process(delta):
+	if not self.disable_check:
+		for body in readable_area.get_overlapping_bodies():
+			if not is_rope_set and get_parent().get_parent().objective_reached:
+				self.text = \"Ho, you forget to put a rope, so you are locked now.\" + \\
+				\"\\n You can still reset the level in the menu.\" 
+				self.disable_check = true
+				self.show()
+"
+
+[sub_resource type="RectangleShape2D" id=9]
+extents = Vector2( 247.247, 75.8682 )
+
+[sub_resource type="GDScript" id=10]
+script/source = "extends Label
+
+var is_rope_set = false
+var disable_check = false
+
+func _ready():
+	Events.connect(\"rope_thrown_signal\", self, \"_on_rope_thrown_signal\")
+	self.hide()
+
+
+func _physics_process(delta):
+	if not self.disable_check and get_parent().get_parent().objective_reached:
+		self.disable_check = true
+		self.show()
+"
+
 [node name="Level01" type="Node2D"]
-position = Vector2( 1, 0 )
 script = SubResource( 1 )
 
 [node name="TileMap" type="TileMap" parent="."]
 visible = false
 tile_set = SubResource( 3 )
-collision_mask = 3
+collision_mask = 2
 format = 1
 tile_data = PoolIntArray( 0, 1, 0, 1, 1, 0, 2, 1, 0, 3, 1, 0, 4, 1, 0, 5, 1, 0, 6, 1, 0, 7, 1, 0, 8, 1, 0, 9, 1, 0, 10, 1, 0, 11, 1, 0, 12, 1, 0, 13, 1, 0, 14, 1, 0, 65550, 1, 0, 131086, 1, 0, 196608, 1, 0, 196609, 1, 0, 196610, 1, 0, 196611, 1, 0, 196612, 1, 0, 196622, 1, 0, 262144, 1, 0, 262148, 1, 0, 262158, 1, 0, 327680, 1, 0, 327684, 1, 0, 327685, 1, 0, 327686, 1, 0, 327687, 1, 0, 327688, 1, 0, 327689, 1, 0, 327690, 1, 0, 327694, 1, 0, 393216, 1, 0, 393230, 1, 0, 458752, 1, 0, 458766, 1, 0, 524288, 1, 0, 524302, 1, 0, 589824, 1, 0, 589833, 1, 0, 589834, 1, 0, 589835, 1, 0, 589836, 1, 0, 589837, 1, 0, 589838, 1, 0, 655360, 1, 0, 655365, 1, 0, 655366, 1, 0, 655367, 1, 0, 655368, 1, 0, 655374, 1, 0, 720896, 1, 0, 720899, 1, 0, 720900, 1, 0, 720910, 1, 0, 786432, 1, 0, 786446, 1, 0, 851968, 1, 0, 851982, 1, 0, 917504, 1, 0, 917518, 1, 0, 983040, 1, 0, 983041, 1, 0, 983042, 1, 0, 983053, 1, 0, 983054, 1, 0, 1048576, 1, 0, 1048577, 1, 0, 1048578, 1, 0, 1048579, 1, 0, 1048580, 1, 0, 1048581, 1, 0, 1048582, 1, 0, 1048583, 1, 0, 1048584, 1, 0, 1048585, 1, 0, 1048586, 1, 0, 1048587, 1, 0, 1048588, 1, 0, 1048589, 1, 0, 1048590, 1, 0 )
 
 [node name="Box" parent="." instance=ExtResource( 2 )]
-position = Vector2( 516.407, 273.326 )
+position = Vector2( 497.51, 283.731 )
 
-[node name="RopeSpot" parent="." instance=ExtResource( 3 )]
+[node name="Subtitle3" type="Label" parent="Box"]
+margin_left = -126.121
+margin_top = -89.5251
+margin_right = 168.879
+margin_bottom = -0.525146
+rect_rotation = -0.00846303
+rect_scale = Vector2( 0.3, 0.3 )
+rect_pivot_offset = Vector2( 117.238, 36.5184 )
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "You can push boxes to
+ reach higher places"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RopeSpot" parent="." groups=[
+"RopeSpotTuto",
+] instance=ExtResource( 3 )]
 position = Vector2( 709.715, 313.876 )
 
-[node name="RopeSpot2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 184.891, 693.718 )
+[node name="RopeSpot2" parent="." groups=[
+"RopeSpotTuto2",
+] instance=ExtResource( 3 )]
+position = Vector2( 184.891, 693.123 )
 right = false
 
 [node name="RopeSpot3" parent="." instance=ExtResource( 3 )]
 position = Vector2( 320.003, 190.286 )
 
 [node name="BackGround" type="Sprite" parent="."]
-position = Vector2( 2.99658, 1.49829 )
+position = Vector2( -0.405688, -6.55933 )
 texture = ExtResource( 4 )
 centered = false
+
+[node name="Node2D" type="Control" parent="."]
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Subtitle" type="Label" parent="Node2D"]
+margin_left = 521.286
+margin_top = 200.126
+margin_right = 948.286
+margin_bottom = 335.126
+rect_rotation = -0.00846303
+rect_scale = Vector2( 0.3, 0.3 )
+rect_pivot_offset = Vector2( 117.238, 36.5184 )
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Next to border you can
+select the rope and press enter.
+"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Subtitle2" type="Label" parent="Node2D"]
+margin_left = 507.393
+margin_top = 397.842
+margin_right = 879.393
+margin_bottom = 486.842
+rect_rotation = -0.00846303
+rect_scale = Vector2( 0.3, 0.3 )
+rect_pivot_offset = Vector2( 236.751, 116.97 )
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Don't forget to put a 
+ropes or you will be stuck..."
+align = 1
+valign = 1
+script = SubResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Area2D" type="Area2D" parent="Node2D/Subtitle2"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Subtitle2/Area2D"]
+position = Vector2( 208.463, 228.223 )
+shape = SubResource( 6 )
+
+[node name="Subtitle6" type="Label" parent="Node2D"]
+margin_left = -78.1252
+margin_top = 775.243
+margin_right = 293.875
+margin_bottom = 864.243
+rect_rotation = -0.00846303
+rect_scale = Vector2( 0.3, 0.3 )
+rect_pivot_offset = Vector2( 236.751, 116.97 )
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Don't forget to put a 
+ropes or you will be stuck..."
+align = 1
+valign = 1
+script = SubResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AreaDetection" type="Area2D" parent="Node2D/Subtitle6"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Subtitle6/AreaDetection"]
+position = Vector2( 187.255, 224.773 )
+shape = SubResource( 9 )
+
+[node name="Subtitle4" type="Label" parent="Node2D"]
+margin_left = 211.621
+margin_top = 72.4055
+margin_right = 527.621
+margin_bottom = 161.405
+rect_rotation = -0.00846303
+rect_scale = Vector2( 0.3, 0.3 )
+rect_pivot_offset = Vector2( 117.238, 36.5184 )
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Press up or down 
+to look in the direction"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Subtitle3" type="Label" parent="Node2D"]
+margin_left = -14.5442
+margin_top = 163.879
+margin_right = 560.456
+margin_bottom = 344.879
+rect_rotation = -0.00846303
+rect_scale = Vector2( 0.3, 0.3 )
+rect_pivot_offset = Vector2( 117.238, 36.5184 )
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Hi LuK-2ooO!
+ Find a way to reach he bottom of the level
+ without blocking yourself at the bottom."
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Subtitle5" type="Label" parent="Node2D"]
+margin_left = 616.001
+margin_top = 841.727
+margin_right = 1055.0
+margin_bottom = 884.727
+rect_rotation = -0.00846303
+rect_scale = Vector2( 0.4, 0.4 )
+rect_pivot_offset = Vector2( 117.238, 36.5184 )
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "WellPlayed! can you escape now ?"
+align = 1
+valign = 1
+script = SubResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

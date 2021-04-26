@@ -99,7 +99,7 @@ func _resolve_collisions(velocity : Vector2):
 			fsm.change_to(\"ClimbingRope\", [area.get_root_scene()])
 
 func _on_rope_thrown_signal(area):
-	fsm.change_to(\"ThrowingRope\", [])
+	fsm.change_to(\"ThrowingRope\", [area])
 
 func is_above(group: String):
 	return platform_detector.is_colliding() and platform_detector.get_collider().is_in_group(group) or \\
