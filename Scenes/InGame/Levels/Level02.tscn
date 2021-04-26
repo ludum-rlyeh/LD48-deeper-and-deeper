@@ -8,7 +8,7 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends \"res://Scripts/AbstractLevel.gd\"
 
-var objective_position = Vector2(0, 0)
+var objective_position = Vector2(13 * 64, 22 * 64)
 var player_start_pos = Vector2(960, 120)
 var start_inventory = {
 	GlobalData.OBJECT_TYPE.ROPE: 3,
@@ -78,6 +78,7 @@ position = Vector2( -190.508, 5 )
 script = SubResource( 1 )
 
 [node name="TileMap" type="TileMap" parent="."]
+visible = false
 tile_set = SubResource( 3 )
 collision_mask = 3
 format = 1
