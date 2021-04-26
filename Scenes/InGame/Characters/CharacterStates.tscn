@@ -204,7 +204,7 @@ func enter(args : Array):
 		get_parent().set_physics_process(false)
 		animated_player.play(\"teleport\")
 		yield(animated_player, \"animation_finished\")
-		var tp_position = line2D.global_position + Vector2.DOWN * 20
+		var tp_position = line2D.global_position + Vector2.DOWN * 30
 		_player.global_position = tp_position
 		animated_player.play_backwards(\"teleport\")
 		yield(animated_player, \"animation_finished\")
