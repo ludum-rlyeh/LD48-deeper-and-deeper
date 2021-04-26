@@ -16,6 +16,7 @@ onready var platform_detector : RayCast2D = get_parent().get_parent().find_node(
 onready var platform_detector_corner_left : RayCast2D = get_parent().get_parent().find_node(\"PlatformDetectorCornerLeft\")
 onready var platform_detector_corner_right : RayCast2D = get_parent().get_parent().find_node(\"PlatformDetectorCornerRight\")
 onready var _player : KinematicBody2D = get_parent().get_parent()
+onready var _audioWalk : AudioStreamPlayer2D = _player.find_node(\"AudioWalk\")
 var _old_velocity = Vector2.ZERO
 var _back_timer = 0
 var _back_timer_total = 0.4
@@ -89,6 +90,8 @@ func _compute_lateral_velocity(velocity : Vector2, direction : Vector2):
 	elif sign(velocity.x) == sign(direction.x) and _back_timer > 0:
 		_back_timer = 0
 		velocity.x = direction.x * _player.speed.x
+		if !_audioWalk.is_playing():
+			_audioWalk.play()
 	else:
 		velocity.x = direction.x * _player.speed.x
 		
