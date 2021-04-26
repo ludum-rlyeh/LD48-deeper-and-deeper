@@ -1,16 +1,21 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Assets/atlas_collision.svg" type="Texture" id=1]
 [ext_resource path="res://Scenes/InGame/Elements/Box.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/InGame/Elements/RopeSpot.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Assets/Levels/lvl2.png" type="Texture" id=4]
 [ext_resource path="res://Assets/bg/BgLvl2.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Sprites/panneau.png" type="Texture" id=6]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends \"res://Scripts/AbstractLevel.gd\"
 
+# Use this one for tests ;)
+# var objective_position = Vector2(13*64, 3 * 64)
 var objective_position = Vector2(13 * 64, 22 * 64)
-var player_start_pos = Vector2(960, 120)
+
+var player_start_pos = Vector2(16*64, 3 * 64)
+
 var start_inventory = {
 	GlobalData.OBJECT_TYPE.ROPE: 3,
 	GlobalData.OBJECT_TYPE.LADDER: 1
@@ -18,6 +23,17 @@ var start_inventory = {
 
 func _ready():
 	.init_level(player_start_pos, start_inventory, objective_position, player_start_pos, Vector2(1025, 1660), GlobalData.TREASURE_TYPE.BROSS)
+"
+
+[sub_resource type="GDScript" id=4]
+script/source = "extends Sprite
+
+
+func _ready():
+	Events.connect(\"objective_reached_signal\", self, \"_objective_reached\")
+
+func _objective_reached():
+	self.flip_h = false
 "
 
 [sub_resource type="ConvexPolygonShape2D" id=2]
@@ -78,6 +94,12 @@ points = PoolVector2Array( 64, 64, 0, 64, 0, 0, 64, 0 )
 position = Vector2( -190.508, 5 )
 script = SubResource( 1 )
 
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 1026.36, 239.574 )
+texture = ExtResource( 6 )
+flip_h = true
+script = SubResource( 4 )
+
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
@@ -92,7 +114,6 @@ scale = Vector2( 1.55664, 1.58264 )
 texture = ExtResource( 5 )
 
 [node name="TileMap" type="TileMap" parent="."]
-visible = false
 tile_set = SubResource( 3 )
 collision_mask = 3
 format = 1
