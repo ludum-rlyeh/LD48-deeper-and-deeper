@@ -125,7 +125,7 @@ func _physics_process(delta):
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 368.107, 85.7443 )
 
-[sub_resource type="DynamicFont" id=11]
+[sub_resource type="DynamicFont" id=7]
 size = 39
 outline_size = 2
 font_data = ExtResource( 5 )
@@ -224,6 +224,7 @@ position = Vector2( 320.003, 190.286 )
 
 [node name="BackGround" type="Sprite" parent="."]
 position = Vector2( -0.405688, -6.55933 )
+z_index = 2
 texture = ExtResource( 4 )
 centered = false
 
@@ -290,7 +291,7 @@ margin_bottom = 864.243
 rect_rotation = -0.00846303
 rect_scale = Vector2( 0.3, 0.3 )
 rect_pivot_offset = Vector2( 236.751, 116.97 )
-custom_fonts/font = SubResource( 11 )
+custom_fonts/font = SubResource( 7 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
