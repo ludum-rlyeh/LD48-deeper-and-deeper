@@ -91,6 +91,7 @@ outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 1 )
 
 [node name="MainMenu" type="Control"]
+pause_mode = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = SubResource( 1 )
@@ -103,7 +104,7 @@ position = Vector2( 121.894, 394.222 )
 scale = Vector2( 0.341514, 0.328636 )
 frames = ExtResource( 10 )
 animation = "Idle"
-frame = 65
+frame = 58
 playing = true
 
 [node name="Background" type="TextureRect" parent="."]
@@ -348,7 +349,7 @@ position = Vector2( 147.628, -126.198 )
 scale = Vector2( 0.555281, 0.529765 )
 frames = ExtResource( 10 )
 animation = "Walking"
-frame = 28
+frame = 9
 playing = true
 
 [node name="Jump" type="Control" parent="Controls"]
@@ -390,7 +391,7 @@ position = Vector2( 23.5451, -173.009 )
 scale = Vector2( 0.383806, 0.331007 )
 frames = ExtResource( 10 )
 animation = "JumpingUp"
-frame = 12
+frame = 14
 playing = true
 
 [node name="Items" type="Control" parent="Controls"]
@@ -478,7 +479,7 @@ position = Vector2( 438.161, -180.871 )
 scale = Vector2( 0.277422, 0.261851 )
 frames = ExtResource( 10 )
 animation = "Idle"
-frame = 54
+frame = 47
 playing = true
 
 [node name="TextureRect" type="TextureRect" parent="Controls/Items/PlaceRope"]
@@ -509,7 +510,7 @@ position = Vector2( 579.474, -145.664 )
 scale = Vector2( 0.250038, 0.242483 )
 frames = ExtResource( 10 )
 animation = "Idle"
-frame = 12
+frame = 5
 playing = true
 
 [node name="TextureRect" type="TextureRect" parent="Controls/Items/PlaceLadder"]
