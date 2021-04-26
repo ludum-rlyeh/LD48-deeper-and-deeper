@@ -16,6 +16,9 @@ onready var platform_detector : RayCast2D = get_parent().get_parent().find_node(
 onready var platform_detector_corner_left : RayCast2D = get_parent().get_parent().find_node(\"PlatformDetectorCornerLeft\")
 onready var platform_detector_corner_right : RayCast2D = get_parent().get_parent().find_node(\"PlatformDetectorCornerRight\")
 onready var _player : KinematicBody2D = get_parent().get_parent()
+var _old_velocity = Vector2.ZERO
+var _back_timer = 0
+var _back_timer_total = 0.4
 
 onready var camera : Camera2D = _player.find_node(\"Camera2D\", false)
 
@@ -31,19 +34,21 @@ func enter(args : Array):
 	platform_detector = fsm.player.find_node(\"PlatformDetector\")
 	platform_detector_corner_left = fsm.player.find_node(\"PlatformDetectorCornerLeft\")
 	platform_detector_corner_right = fsm.player.find_node(\"PlatformDetectorCornerRight\")
+	_old_velocity = Vector2.ZERO
 
 func physics_process(delta):
 	var velocity = _player.velocity
 	var snap = platform_detector.cast_to
 
-	if is_colliding_to_platform():
-		if Input.is_action_pressed(\"ui_right\"):
-			velocity.x = _player.speed.x
-		elif Input.is_action_pressed(\"ui_left\"):
-			velocity.x= -_player.speed.x
-		else:
-			velocity.x=0
+	var direction = Vector2.ZERO
+	if Input.is_action_pressed(\"ui_right\"):
+		direction = Vector2.RIGHT 
+	elif Input.is_action_pressed(\"ui_left\"):
+		direction = Vector2.LEFT
 		
+	if is_colliding_to_platform():
+		velocity = _compute_lateral_velocity(velocity, direction)
+
 		if Input.is_action_pressed(\"ui_down\"):
 			if camera.position.y < 150:
 				camera.position.y += delta * _player.camera_speed.y
@@ -57,51 +62,81 @@ func physics_process(delta):
 	
 	_update_animation(velocity)
 	
+	_back_timer = max(_back_timer - delta, 0)
+	
 	if Input.is_action_just_pressed(\"ui_select\") and is_colliding_to_platform():
 		snap = Vector2.ZERO
 		velocity.y = _player.jump_impulse.y
 		_player.velocity = _player.integrate(delta, velocity)
+		_back_timer = 0
 		fsm.change_to(\"Jumping\", [])
 		
 	if !is_colliding_to_platform() && velocity.y > 0:
+		_back_timer = 0
 		fsm.change_to(\"Jumping\", [])
-
 
 	_player.velocity = _player.integrate_with_snap(delta, velocity, snap)
 	
+	_old_velocity = velocity
+	
+	
+func _compute_lateral_velocity(velocity : Vector2, direction : Vector2):
+	if sign(velocity.x) != sign(direction.x) and abs(velocity.x) > _player.speed.x/2 and _back_timer == 0:
+		_back_timer = _back_timer_total
+		velocity.x = -direction.x * _player.speed.x
+	elif sign(velocity.x) != sign(direction.x) and _back_timer > 0:
+		velocity.x = -direction.x * _player.speed.x * _back_timer / _back_timer_total
+	elif sign(velocity.x) == sign(direction.x) and _back_timer > 0:
+		_back_timer = 0
+		velocity.x = direction.x * _player.speed.x
+	else:
+		velocity.x = direction.x * _player.speed.x
+		
+	return velocity
+	
 func _update_animation(velocity : Vector2):
 	var animated_sprite = fsm.animated_sprite
+	
 	if velocity.x > 0:
 		animated_sprite.flip_h=false
-		animated_sprite.play(\"Walking\")
 	elif velocity.x < 0:
 		animated_sprite.flip_h=true
+	
+	if _back_timer > 0:
+		animated_sprite.play(\"Back\")
+	elif velocity.x != 0 :
 		animated_sprite.play(\"Walking\")
-	else:
+	elif _back_timer <= 0 :
 		animated_sprite.play(\"Idle\")
+		
 
 func _resolve_collisions(velocity : Vector2):
 	if is_colliding_to_platform():
 		if (CrateDetectorRight.is_colliding() and velocity.x > 0) \\
 		or (CrateDetectorLeft.is_colliding() and velocity.x < 0):
+			_back_timer = 0
 			fsm.change_to(\"PushingCrates\", [])
 			
 	for area in center.get_overlapping_areas():
 		if area.get_parent().is_in_group(\"Ladders\") \\
 			and (Input.is_action_just_pressed(\"ui_up\") \\
 			or Input.is_action_just_pressed(\"ui_down\")):
+			_back_timer = 0
 			fsm.change_to(\"ClimbingLadder\", [area])
 
 	for area in ground_area.get_overlapping_areas():
 		if (area.is_in_group(\"TopRopes\") and Input.is_action_just_pressed(\"ui_down\")) :
+			_back_timer = 0
 			fsm.change_to(\"ClimbingRope\", [area.get_root_scene()])
 			
 	for area in center.get_overlapping_areas():
 		if area.is_in_group(\"Ropes\") and Input.is_action_pressed(\"ui_up\"):
 #			Events.emit_signal(\"rope_handled\", fsm.velocity)
+			_back_timer = 0
 			fsm.change_to(\"ClimbingRope\", [area.get_root_scene()])
 
 func _on_rope_thrown_signal(area):
+	_back_timer = 0
 	fsm.change_to(\"ThrowingRope\", [area])
 
 func is_above(group: String):
@@ -115,11 +150,13 @@ func _use_current_item():
 		and fsm.player.get_item_number(GlobalData.OBJECT_TYPE.LADDER) > 0 \\
 		and is_colliding_to_platform() \\
 		and not is_above(\"Boxes\"):
+		_back_timer = 0
 		Events.emit_signal(\"place_ladder_signal\")
 
 func _on_Area2D_area_entered(area):
 	if area.is_in_group(\"Ropes\"):
 		Events.emit_signal(\"rope_handled_signal\", fsm.player.velocity)
+		_back_timer = 0
 		fsm.change_to(\"ClimbingRope\", [])
 "
 
