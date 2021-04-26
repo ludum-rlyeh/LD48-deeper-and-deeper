@@ -1,8 +1,13 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://Assets/Sounds/Click.wav" type="AudioStream" id=1]
+[ext_resource path="res://Assets/Sounds/Robot/run.wav" type="AudioStream" id=1]
 [ext_resource path="res://Scenes/InGame/Characters/CharacterStates.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Assets/Animations/CharacterAnimation.res" type="SpriteFrames" id=3]
+[ext_resource path="res://Assets/Sounds/Robot/Idle.wav" type="AudioStream" id=4]
+[ext_resource path="res://Assets/Sounds/Robot/ladder.wav" type="AudioStream" id=5]
+[ext_resource path="res://Assets/Sounds/Robot/Action.wav" type="AudioStream" id=6]
+[ext_resource path="res://Assets/Sounds/Robot/Drifting.wav" type="AudioStream" id=7]
+[ext_resource path="res://Assets/Sounds/Robot/skid.ogg" type="AudioStream" id=8]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends KinematicBody2D
@@ -12,7 +17,8 @@ export (float) var gravity_scale = 12
 export (Vector2) var jump_speed= Vector2(128, 0)
 export (Vector2) var jump_impulse= Vector2(0, -500)
 export (Vector2) var speed= Vector2(200,0)
-export (Vector2) var climbing_speed = Vector2(0, 300)
+export (Vector2) var climbing_up_speed = Vector2(0, -50)
+export (Vector2) var climbing_down_speed = Vector2(0, 100)
 export (Vector2) var gravity = Vector2(0,98)
 export (float) var interrupt_jump_factor = 0.7
 export (Vector2) var camera_speed = Vector2(0, 100)
@@ -25,7 +31,7 @@ func integrate_with_snap(delta : float, velocity : Vector2, snap : Vector2):
 	
 func integrate(delta : float, velocity):
 	velocity += gravity * delta * gravity_scale
-	return move_and_slide(velocity) 
+	return move_and_slide(velocity)
 	
 func integrate_without_gravity(velocity : Vector2):
 	return move_and_slide(velocity)
@@ -40,11 +46,8 @@ extents = Vector2( 12.8726, 25.5035 )
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 12.8024, 1.71827 )
 
-[sub_resource type="AudioStreamRandomPitch" id=4]
-audio_stream = ExtResource( 1 )
-
 [node name="Character" type="KinematicBody2D"]
-z_index = 1
+z_index = 2
 collision_mask = 3
 script = SubResource( 1 )
 
@@ -106,8 +109,8 @@ shape = SubResource( 3 )
 modulate = Color( 0.909804, 0.909804, 0.909804, 1 )
 scale = Vector2( 0.119999, 0.119999 )
 frames = ExtResource( 3 )
-animation = "Idle"
-frame = 49
+animation = "ClimbingLadderIdle"
+frame = 1
 playing = true
 __meta__ = {
 "_edit_lock_": true
@@ -121,5 +124,28 @@ limit_top = 0
 limit_smoothed = true
 smoothing_enabled = true
 
-[node name="AudioWalk" type="AudioStreamPlayer2D" parent="."]
-stream = SubResource( 4 )
+[node name="Sounds" type="Node2D" parent="."]
+
+[node name="AudioWalk" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource( 1 )
+bus = "Character"
+
+[node name="AudioIdle" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource( 4 )
+bus = "Character"
+
+[node name="AudioLadder" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource( 5 )
+bus = "Character"
+
+[node name="AudioAction" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource( 6 )
+bus = "Character"
+
+[node name="AudioSkid" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource( 8 )
+bus = "Character"
+
+[node name="AudioDrifting" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource( 7 )
+bus = "Character"

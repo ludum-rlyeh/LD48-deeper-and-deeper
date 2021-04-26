@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Assets/atlas_collision.svg" type="Texture" id=1]
 [ext_resource path="res://Scenes/InGame/Elements/Box.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/InGame/Elements/RopeSpot.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Assets/Levels/lvl2.png" type="Texture" id=4]
+[ext_resource path="res://Assets/bg/BgLvl2.png" type="Texture" id=5]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends \"res://Scripts/AbstractLevel.gd\"
@@ -77,6 +78,19 @@ points = PoolVector2Array( 64, 64, 0, 64, 0, 0, 64, 0 )
 position = Vector2( -190.508, 5 )
 script = SubResource( 1 )
 
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.9, 1 )
+
+[node name="Bg" type="Node2D" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2( -190.508, 5 )
+
+[node name="Bglvl2" type="Sprite" parent="ParallaxBackground/ParallaxLayer/Bg"]
+position = Vector2( 702.174, 832.557 )
+scale = Vector2( 1.55664, 1.58264 )
+texture = ExtResource( 5 )
+
 [node name="TileMap" type="TileMap" parent="."]
 visible = false
 tile_set = SubResource( 3 )
@@ -145,6 +159,6 @@ position = Vector2( 408.508, 1439.08 )
 [node name="LevelBackground" type="Sprite" parent="."]
 position = Vector2( 190.611, -3.37061 )
 scale = Vector2( 1.568, 1.582 )
-z_index = 2
+z_index = 3
 texture = ExtResource( 4 )
 centered = false

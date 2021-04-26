@@ -193,14 +193,28 @@ tile_data = PoolIntArray( -131072, 1, 0, -131071, 1, 0, -131070, 1, 0, -131069, 
 [node name="RopeSpots" type="Node2D" parent="."]
 
 [node name="RopeSpot" parent="RopeSpots" instance=ExtResource( 3 )]
-position = Vector2( 776.114, 311.967 )
+position = Vector2( 767.855, 319.046 )
 
 [node name="RopeSpot3" parent="RopeSpots" instance=ExtResource( 3 )]
-position = Vector2( 503.832, 244.856 )
+position = Vector2( 576.57, 255.367 )
 right = false
 
+[node name="RopeSpot4" parent="RopeSpots" instance=ExtResource( 3 )]
+position = Vector2( 639.82, 255.617 )
+
+[node name="RopeSpot5" parent="RopeSpots" instance=ExtResource( 3 )]
+position = Vector2( 128.339, 574.782 )
+
 [node name="RopeSpot2" parent="RopeSpots" instance=ExtResource( 3 )]
-position = Vector2( 329.458, 247.164 )
+position = Vector2( 319.79, 255.64 )
+
+[node name="RopeSpot6" parent="RopeSpots" instance=ExtResource( 3 )]
+position = Vector2( 704.576, 320.017 )
+right = false
+
+[node name="RopeSpot7" parent="RopeSpots" instance=ExtResource( 3 )]
+position = Vector2( 639.827, 383.715 )
+right = false
 
 [node name="Boxes" type="Node2D" parent="."]
 
