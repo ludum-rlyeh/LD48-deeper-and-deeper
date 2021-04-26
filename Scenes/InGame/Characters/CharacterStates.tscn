@@ -421,11 +421,11 @@ func _update_animation(velocity : Vector2):
 		animated_sprite.play(\"JumpingDown\")
 
 func _resolve_collisions(velocity : Vector2):
-#	for area in center.get_overlapping_areas():
-#		if area.get_parent().is_in_group(\"Ladders\") \\
-#			and (Input.is_action_just_pressed(\"ui_up\") \\
-#			or Input.is_action_just_pressed(\"ui_down\")):
-#			fsm.change_to(\"ClimbingLadder\", [area])
+	for area in center.get_overlapping_areas():
+		if area.get_parent().is_in_group(\"Ladders\") \\
+			and (Input.is_action_just_pressed(\"ui_up\") \\
+			or Input.is_action_just_pressed(\"ui_down\")):
+			fsm.change_to(\"ClimbingLadder\", [area])
 
 	for area in center.get_overlapping_areas():
 		if area.is_in_group(\"Ropes\") and Input.is_action_pressed(\"ui_up\"):
