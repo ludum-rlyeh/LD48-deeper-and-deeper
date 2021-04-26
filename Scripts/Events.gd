@@ -15,6 +15,7 @@ signal objective_reached_signal
 signal exit_reached_signal
 signal player_enter_jump_state_signal
 signal player_exit_jump_state_signal
+signal victory_signal
 
 # Menus Signals
 signal button_pressed_signal

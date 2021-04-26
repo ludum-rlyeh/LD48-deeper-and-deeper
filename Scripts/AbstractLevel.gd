@@ -135,4 +135,4 @@ func _on_player_reached_objective():
 func _on_player_reached_exit():
 	if self.objective_reached:
 		self.exit.toggle()
-		print("GG !")
+		Events.emit_signal("victory_signal")

@@ -10,7 +10,7 @@ script/source = "extends CanvasLayer
 var enable = true
 
 func _ready():
-	Events.connect(\"exit_reached_signal\",self,\"_on_exit_reached_signal\")
+	Events.connect(\"victory_signal\",self,\"_on_victory_signal\")
 	$Elements.visible = false
 	set_process_input(true)
 	get_tree().paused = false
@@ -47,7 +47,7 @@ func _on_RestartButton_pressed():
 	yield($ButtonPressedAudio, \"finished\")
 	Events.emit_signal(\"button_pressed_signal\", GlobalData.MENU_ACTION.RELOAD)
 
-func _on_exit_reached_signal(var type):
+func _on_victory_signal():
 	self.enable = false
 
 func _on_button_mouse_entered():
