@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Assets/atlas_collision.svg" type="Texture" id=1]
 [ext_resource path="res://Scenes/InGame/Elements/Box.tscn" type="PackedScene" id=2]
@@ -120,12 +120,12 @@ func _physics_process(delta):
 		for body in readable_area.get_overlapping_bodies():
 			if not is_rope_set:
 				self.text = \"Ho, you forget to put a rope...\" + \\
-				\"\\n You can still reset the level in the echap menu.\" 
+				\"\\n You can still reset the level in the echap menu\\n(Escape)\" 
 			self.disable_check = true
 "
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 368.107, 85.7443 )
+extents = Vector2( 368.107, 56.7943 )
 
 [sub_resource type="DynamicFont" id=7]
 size = 39
@@ -155,12 +155,12 @@ func _physics_process(delta):
 	if self.objective_reached and not is_rope_set:
 		for body in readable_area.get_overlapping_bodies():
 			self.text = \"Ho, you forget to put a rope...\" + \\
-				\"\\n You can still reset the level in the echap menu.\" 
+				\"\\n You can still reset the level in the pause menu\\n(Escape)\" 
 			self.show()
 "
 
 [sub_resource type="RectangleShape2D" id=9]
-extents = Vector2( 247.247, 75.8682 )
+extents = Vector2( 150.415, 75.8682 )
 
 [sub_resource type="GDScript" id=10]
 script/source = "extends Label
@@ -172,6 +172,9 @@ func _ready():
 func _objective_reached():
 	self.show()
 "
+
+[sub_resource type="RectangleShape2D" id=11]
+extents = Vector2( 10, 131.62 )
 
 [node name="Level01" type="Node2D"]
 script = SubResource( 1 )
@@ -227,7 +230,7 @@ margin_top = -134.961
 margin_right = 167.543
 margin_bottom = -45.961
 rect_rotation = -0.00846303
-rect_scale = Vector2( 0.3, 0.3 )
+rect_scale = Vector2( 0.4, 0.4 )
 rect_pivot_offset = Vector2( 117.238, 36.5184 )
 custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -268,12 +271,12 @@ __meta__ = {
 }
 
 [node name="Subtitle" type="Label" parent="Node2D"]
-margin_left = 530.579
-margin_top = 156.979
-margin_right = 1276.58
-margin_bottom = 337.979
+margin_left = 488.579
+margin_top = 184.979
+margin_right = 1234.58
+margin_bottom = 411.979
 rect_rotation = -0.00846303
-rect_scale = Vector2( 0.3, 0.3 )
+rect_scale = Vector2( 0.4, 0.4 )
 rect_pivot_offset = Vector2( 117.238, 36.5184 )
 custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -291,12 +294,12 @@ __meta__ = {
 }
 
 [node name="Subtitle2" type="Label" parent="Node2D"]
-margin_left = 507.393
+margin_left = 479.393
 margin_top = 397.842
-margin_right = 879.393
+margin_right = 851.393
 margin_bottom = 486.842
 rect_rotation = -0.00846303
-rect_scale = Vector2( 0.3, 0.3 )
+rect_scale = Vector2( 0.4, 0.4 )
 rect_pivot_offset = Vector2( 236.751, 116.97 )
 custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -314,7 +317,7 @@ __meta__ = {
 [node name="Area2D" type="Area2D" parent="Node2D/Subtitle2"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Subtitle2/Area2D"]
-position = Vector2( 208.463, 228.223 )
+position = Vector2( 260.69, 180.731 )
 shape = SubResource( 6 )
 
 [node name="Subtitle6" type="Label" parent="Node2D"]
@@ -323,7 +326,7 @@ margin_top = 775.243
 margin_right = 293.875
 margin_bottom = 864.243
 rect_rotation = -0.00846303
-rect_scale = Vector2( 0.3, 0.3 )
+rect_scale = Vector2( 0.4, 0.4 )
 rect_pivot_offset = Vector2( 236.751, 116.97 )
 custom_fonts/font = SubResource( 7 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -339,7 +342,7 @@ __meta__ = {
 [node name="AreaDetection" type="Area2D" parent="Node2D/Subtitle6"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Subtitle6/AreaDetection"]
-position = Vector2( 187.255, 224.773 )
+position = Vector2( 187.26, 187.692 )
 shape = SubResource( 9 )
 
 [node name="Subtitle4" type="Label" parent="Node2D"]
@@ -348,7 +351,7 @@ margin_top = 82.2686
 margin_right = 597.663
 margin_bottom = 171.269
 rect_rotation = -0.00846303
-rect_scale = Vector2( 0.3, 0.3 )
+rect_scale = Vector2( 0.4, 0.4 )
 rect_pivot_offset = Vector2( 117.238, 36.5184 )
 custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -363,12 +366,12 @@ __meta__ = {
 }
 
 [node name="Subtitle3" type="Label" parent="Node2D"]
-margin_left = -15.8806
-margin_top = 52.9621
-margin_right = 559.12
-margin_bottom = 233.962
+margin_left = -38.2132
+margin_top = 66.9621
+margin_right = 549.787
+margin_bottom = 247.962
 rect_rotation = -0.00846303
-rect_scale = Vector2( 0.3, 0.3 )
+rect_scale = Vector2( 0.4, 0.4 )
 rect_pivot_offset = Vector2( 117.238, 36.5184 )
 custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -384,12 +387,12 @@ __meta__ = {
 }
 
 [node name="Subtitle5" type="Label" parent="Node2D"]
-margin_left = 616.001
+margin_left = 585.001
 margin_top = 841.727
-margin_right = 1055.0
+margin_right = 1025.0
 margin_bottom = 884.727
 rect_rotation = -0.00846303
-rect_scale = Vector2( 0.4, 0.4 )
+rect_scale = Vector2( 0.5, 0.5 )
 rect_pivot_offset = Vector2( 117.238, 36.5184 )
 custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -402,3 +405,9 @@ script = SubResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( -10.6634, 93.3775 )
+shape = SubResource( 11 )
