@@ -1,46 +1,69 @@
 extends Node2D
 
-var Ladder = preload("res://Scenes/InGame/Elements/Ladder.tscn")
+var LadderTscn = preload("res://Scenes/InGame/Elements/Ladder.tscn")
 var PlayerTscn = preload("res://Scenes/InGame/Characters/Character.tscn")
 var RopeTscn = preload("res://Scenes/InGame/Elements/Rope.tscn")
-
 var InventoryTscn = preload("res://Scenes/InGame/HUD/Inventory.tscn")
+var ObjectiveTscn = preload("res://Scenes/InGame/Elements/Objective.tscn")
 
 var player = null
 var inventory
+var objective = null
+var exit = null
 
+var objective_reached = false
 
 # The arguments should be the inputs of a levels:
 # - One objective
 # - The starting position of the player
 # - The inventory
 # - The position of the "artefact"
-func init_level(player_start_pos: Vector2, start_inventory, objectif_position: Vector2):
+func init_level(player_start_pos: Vector2, 
+				start_inventory, 
+				objectif_position: Vector2, 
+				end_position: Vector2):
 	self.player = init_player(player_start_pos)
-	self.add_child(player)
+
 	self.inventory = init_inventory(start_inventory)
 	self.player.find_node("Camera2D", false).add_child(inventory)
-
+	# Init the two objectives (the point to reach, and the exit)
+	self.objective = self.init_objective(objectif_position, "objective_reached_signal")
+	self.exit = self.init_objective(end_position, "exit_reached_signal")
 
 func init_player(player_start_pos: Vector2):
 	var player = PlayerTscn.instance()
 	player.set_position(player_start_pos)
+	self.add_child(player)
 	return player
+
 
 func init_inventory(start_inventory):
 	var inventory = InventoryTscn.instance()
 	inventory.set_inventory(start_inventory)
 	return inventory
 
+
+func init_objective(objectif_position: Vector2, objective_signal: String):
+	var objective = ObjectiveTscn.instance()
+	objective.set_signal_to_emit(objective_signal)
+	objective.set_position(objectif_position)
+	self.add_child(objective)
+	return objective
+
+
 # Called automatically before childs.
 func _ready():
+	# Emitted by player
 	Events.connect("place_ladder_signal", self, "_on_place_ladder_signal")
 	Events.connect("throw_rope_signal", self, "_on_throw_rope_signal")
 
+	# Emitted by res://Scenes/InGame/Elements/Objective.tscn
+	Events.connect("objective_reached_signal", self, "_on_player_reached_objective")
+	Events.connect("exit_reached_signal", self, "_on_player_reached_exit")
 
 func _on_place_ladder_signal():
 	if _player_is_on_platform() and not _player_is_above("Boxes"):
-		var ladder = Ladder.instance()
+		var ladder = LadderTscn.instance()
 		ladder.position += player.position
 		ladder.visible = false
 		add_child(ladder)
@@ -81,18 +104,31 @@ func _on_throw_rope_signal():
 		add_child(rope)
 		rope.start_animation()
 
+
 func _player_is_on_platform():
 	return player.find_node("PlatformDetector", false).is_colliding() or \
 		   player.find_node("PlatformDetectorCornerLeft", false).is_colliding()  or \
 		   player.find_node("PlatformDetectorCornerRight", false).is_colliding()
+
 
 func _player_is_above(group: String):
 	return (player.find_node("PlatformDetector", false).is_colliding() and player.find_node("PlatformDetector", false).get_collider().is_in_group(group)) or \
 		   (player.find_node("PlatformDetectorCornerLeft", false).is_colliding() and player.find_node("PlatformDetectorCornerLeft", false).get_collider().is_in_group(group)) or \
 		   (player.find_node("PlatformDetectorCornerRight", false).is_colliding() and player.find_node("PlatformDetectorCornerRight", false).get_collider().is_in_group(group)) 
 
+
 func _player_is_on_rope_spot():
 	for area in player.find_node("GroundArea", false).get_overlapping_areas():
 		if area.is_in_group("RopeSpots"):
 			return area
 	return null
+
+
+func _on_player_reached_objective():
+	self.objective_reached = true
+	self.objective.toggle()
+
+func _on_player_reached_exit():
+	if self.objective_reached:
+		self.exit.toggle()
+		print("GG !")
