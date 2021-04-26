@@ -87,8 +87,8 @@ tile_data = PoolIntArray( 0, 1, 0, 1, 1, 0, 2, 1, 0, 3, 1, 0, 4, 1, 0, 5, 1, 0, 
 position = Vector2( 516.407, 273.326 )
 
 [node name="RopeSpot" parent="." instance=ExtResource( 3 )]
-position = Vector2( 709.378, 310.081 )
+position = Vector2( 703.708, 319.215 )
 
 [node name="RopeSpot2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 184.494, 691.95 )
+position = Vector2( 192.233, 703.062 )
 right = false

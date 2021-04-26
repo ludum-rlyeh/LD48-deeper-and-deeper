@@ -14,7 +14,6 @@ var start_inventory = {
 	GlobalData.OBJECT_TYPE.LADDER: 1
 }
 
-
 func _ready():
 	.init_level(player_start_pos, start_inventory, objective)
 "
@@ -85,39 +84,39 @@ tile_data = PoolIntArray( 3, 1, 0, 4, 1, 0, 5, 1, 0, 6, 1, 0, 7, 1, 0, 8, 1, 0, 
 [node name="RopeSpots" type="Node2D" parent="."]
 
 [node name="RopeSpot" parent="RopeSpots" instance=ExtResource( 3 )]
-position = Vector2( 378.75, 371.552 )
+position = Vector2( 383.922, 384.233 )
 right = false
 
 [node name="RopeSpot2" parent="RopeSpots" instance=ExtResource( 3 )]
-position = Vector2( 710.771, 374.512 )
+position = Vector2( 704.282, 383.715 )
 
 [node name="RopeSpot3" parent="RopeSpots" instance=ExtResource( 3 )]
-position = Vector2( 501.646, 566.227 )
+position = Vector2( 511.41, 575.361 )
 right = false
 
 [node name="RopeSpot4" parent="RopeSpots" instance=ExtResource( 3 )]
-position = Vector2( 586.567, 564.335 )
+position = Vector2( 577.118, 575.989 )
 
 [node name="RopeSpot5" parent="RopeSpots" instance=ExtResource( 3 )]
-position = Vector2( 760.328, 248.884 )
+position = Vector2( 767.354, 255.786 )
 right = false
 
 [node name="RopeSpot6" parent="RopeSpots" instance=ExtResource( 3 )]
-position = Vector2( 698.434, 945.897 )
+position = Vector2( 704.393, 959.802 )
 right = false
 
 [node name="RopeSpot7" parent="RopeSpots" instance=ExtResource( 3 )]
-position = Vector2( 581.891, 890.017 )
+position = Vector2( 576.196, 895.447 )
 
 [node name="RopeSpot9" parent="RopeSpots" instance=ExtResource( 3 )]
-position = Vector2( 519.442, 1460.1 )
+position = Vector2( 512.599, 1471.54 )
 
 [node name="RopeSpot8" parent="RopeSpots" instance=ExtResource( 3 )]
-position = Vector2( 442.36, 1143.57 )
+position = Vector2( 447.433, 1151.95 )
 right = false
 
 [node name="RopeSpot10" parent="RopeSpots" instance=ExtResource( 3 )]
-position = Vector2( 822.246, 1458.88 )
+position = Vector2( 831.921, 1471.5 )
 right = false
 
 [node name="Boxes" type="Node2D" parent="."]
