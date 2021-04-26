@@ -1,3 +1,51 @@
-[gd_scene format=2]
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node
+
+var MainMenu = preload(\"res://Scenes/Menus/MainMenu.tscn\")
+
+var Levels = {
+		\"level-1\": preload(\"res://Scenes/InGame/Levels/Level01.tscn\"),
+		\"level-2\": preload(\"res://Scenes/InGame/Levels/Level02.tscn\")
+	}
+
+func _ready():
+	Events.connect(\"button_pressed_signal\",self,\"_on_button_pressed_signal\")
+	Events.connect(\"level_selected_signal\", self, \"_on_level_selected_signal\")
+	var main_menu_instance = MainMenu.instance()
+	self.add_child(main_menu_instance)
+
+func _on_button_pressed_signal(var button_pressed):
+	if button_pressed == GlobalData.MENU_ACTION.START:
+		self.call_deferred(\"_goto_scene\", \"level-1\")
+	elif button_pressed == GlobalData.MENU_ACTION.MAIN:
+		self.call_deferred(\"_goto_scene\", \"mainmenu\")
+	elif button_pressed == GlobalData.MENU_ACTION.QUIT:
+		self.call_deferred(\"_quit_game\")
+
+func _on_level_selected_signal(var level):
+	if level and Levels.has(level):
+		self.call_deferred(\"_goto_scene\", level)
+
+func _goto_scene(var scene):
+	if scene :
+		# remove all children
+		for child in self.get_children():
+			self.remove_child(child)
+			child.queue_free()
+		
+		# load asked scene
+		if scene == \"mainmenu\":
+			var main_menu_instance = MainMenu.instance()
+			self.add_child(main_menu_instance)
+		elif Levels.has(scene): # load level
+			var level = Levels[scene].instance()
+			self.add_child(level)
+
+func _quit_game():
+	get_tree().quit()
+"
 
 [node name="Main" type="Node"]
+script = SubResource( 1 )
