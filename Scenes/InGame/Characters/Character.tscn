@@ -47,7 +47,7 @@ extents = Vector2( 12.8726, 25.5035 )
 extents = Vector2( 12.8024, 1.71827 )
 
 [node name="Character" type="KinematicBody2D"]
-z_index = 1
+z_index = 2
 collision_mask = 3
 script = SubResource( 1 )
 
@@ -110,7 +110,7 @@ modulate = Color( 0.909804, 0.909804, 0.909804, 1 )
 scale = Vector2( 0.119999, 0.119999 )
 frames = ExtResource( 3 )
 animation = "ClimbingLadderIdle"
-frame = 8
+frame = 27
 playing = true
 __meta__ = {
 "_edit_lock_": true

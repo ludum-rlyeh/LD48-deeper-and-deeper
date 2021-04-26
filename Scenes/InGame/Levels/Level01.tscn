@@ -261,7 +261,7 @@ position = Vector2( 320.003, 190.286 )
 [node name="BackGround" type="Sprite" parent="."]
 position = Vector2( -1.38814, -5.34941 )
 scale = Vector2( 1, 1.00918 )
-z_index = 2
+z_index = 3
 texture = ExtResource( 4 )
 centered = false
 
