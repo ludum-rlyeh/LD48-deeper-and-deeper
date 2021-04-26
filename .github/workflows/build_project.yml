@@ -51,4 +51,5 @@ jobs:
               EOF
 
       - run: /tmp/${GODOT} --export HTML5 _build/LD48-$(git rev-parse --short "$GITHUB_SHA").html
+      - run: ls -l _build/
 
