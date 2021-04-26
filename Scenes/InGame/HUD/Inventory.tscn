@@ -81,44 +81,44 @@ func _select_rope():
 func _select_ladder():
 	$Background/Ladder/LadderNb.visible = true
 	$Background/Ladder/LadderSelect.visible = true
-	$Ladder/LadderUnelect.visible = false
+	$Background/Ladder/LadderUnelect.visible = false
 	
-	$Rope/RopeNb.visible = false
-	$Rope/RopeSelect.visible = false
-	$Rope/RopeUnselect.visible = true
+	$Background/Rope/RopeNb.visible = false
+	$Background/Rope/RopeSelect.visible = false
+	$Background/Rope/RopeUnselect.visible = true
 
 func _on_ladder_placed_signal():
 	_inventory[GlobalData.OBJECT_TYPE.LADDER] -= 1
 	if _inventory[GlobalData.OBJECT_TYPE.LADDER] > 0:
-		$Ladder/LadderNb.text = String(_inventory[GlobalData.OBJECT_TYPE.LADDER])
+		$Background/Ladder/LadderNb.text = String(_inventory[GlobalData.OBJECT_TYPE.LADDER])
 	else:
-		$Ladder/LadderNb.text = \"o\"
+		$Background/Ladder/LadderNb.text = \"o\"
 
 func _on_rope_thrown_signal():
 	_inventory[GlobalData.OBJECT_TYPE.ROPE] -= 1
 	if _inventory[GlobalData.OBJECT_TYPE.ROPE] > 0:
-		$Rope/RopeNb.text = String(_inventory[GlobalData.OBJECT_TYPE.ROPE])
+		$Background/Rope/RopeNb.text = String(_inventory[GlobalData.OBJECT_TYPE.ROPE])
 	else:
-		$Rope/RopeNb.text = \"o\"
+		$Background/Rope/RopeNb.text = \"o\"
 
 func _on_joy_connection_changed(device_id, connected):
 	if connected:
-		$Prev/LB.visible = true
-		$Next/RB.visible = true
-		$UseItem/X.visible = true
-		$Prev/Q.visible = false
-		$Next/E.visible = false
-		$UseItem/F.visible = false
+		$Background/Prev/LB.visible = true
+		$Background/Next/RB.visible = true
+		$Background/UseItem/X.visible = true
+		$Background/Prev/Q.visible = false
+		$Background/Next/E.visible = false
+		$Background/UseItem/F.visible = false
 	else:
-		$Prev/LB.visible = false
-		$Next/RB.visible = false
-		$UseItem/X.visible = false
-		$Prev/Q.visible = true
-		$Next/E.visible = true
-		$UseItem/F.visible = true
+		$Background/Prev/LB.visible = false
+		$Background/Next/RB.visible = false
+		$Background/UseItem/X.visible = false
+		$Background/Prev/Q.visible = true
+		$Background/Next/E.visible = true
+		$Background/UseItem/F.visible = true
 "
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.937255, 0.596078, 0.2, 0.513726 )
 border_blend = true
 corner_radius_bottom_right = 20
@@ -128,7 +128,7 @@ corner_radius_bottom_left = 20
 size = 41
 font_data = ExtResource( 9 )
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=4]
 size = 41
 font_data = ExtResource( 9 )
 
@@ -150,7 +150,7 @@ grow_vertical = 2
 rect_min_size = Vector2( 382, 201 )
 rect_scale = Vector2( 0.5, 0.5 )
 size_flags_vertical = 0
-custom_styles/panel = SubResource( 4 )
+custom_styles/panel = SubResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -266,7 +266,7 @@ margin_left = 162.847
 margin_top = 119.135
 margin_right = 181.847
 margin_bottom = 165.135
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "o"
