@@ -223,6 +223,7 @@ onready var _player : KinematicBody2D = get_parent().get_parent()
 func enter(args : Array):
 	_player.velocity.x = 0
 	_ladder_area = args[0]
+	_ladder_area.connect(\"area_exited\", self, \"_on_Area2D_area_exited\", [], CONNECT_ONESHOT)
 
 func physics_process(delta):
 	var velocity = _player.velocity
@@ -263,8 +264,7 @@ func _update_animation(velocity : Vector2):
 		animated_sprite.play(\"ClimbingLadderIdle\")
 
 func _on_Area2D_area_exited(area):
-	if area == _ladder_area:
-		fsm.change_to(\"Normal\", [])
+	fsm.change_to(\"Normal\", [])
 "
 
 [sub_resource type="GDScript" id=5]
