@@ -1,6 +1,7 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Assets/Fonts/indiana_jonas/Indiana-Jonas-48p.otf" type="DynamicFontData" id=1]
+[ext_resource path="res://Assets/Sounds/Click.wav" type="AudioStream" id=2]
 [ext_resource path="res://Assets/Sounds/menu_select.wav" type="AudioStream" id=3]
 [ext_resource path="res://Assets/Controls/Q_Key_Light.png" type="Texture" id=4]
 [ext_resource path="res://Assets/Controls/E_Key_Light.png" type="Texture" id=5]
@@ -92,7 +93,10 @@ outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 1 )
 
 [sub_resource type="AudioStreamRandomPitch" id=6]
-random_pitch = 1.0
+audio_stream = ExtResource( 2 )
+
+[sub_resource type="AudioStreamRandomPitch" id=7]
+audio_stream = ExtResource( 3 )
 
 [node name="MainMenu" type="Control"]
 pause_mode = 2
@@ -118,7 +122,7 @@ position = Vector2( 121.894, 394.222 )
 scale = Vector2( 0.341514, 0.328636 )
 frames = ExtResource( 10 )
 animation = "Idle"
-frame = 17
+frame = 65
 playing = true
 
 [node name="Background" type="TextureRect" parent="."]
@@ -363,7 +367,7 @@ position = Vector2( 147.628, -126.198 )
 scale = Vector2( 0.555281, 0.529765 )
 frames = ExtResource( 10 )
 animation = "Walking"
-frame = 8
+frame = 4
 playing = true
 
 [node name="Jump" type="Control" parent="Controls"]
@@ -405,7 +409,7 @@ position = Vector2( 23.5451, -173.009 )
 scale = Vector2( 0.383806, 0.331007 )
 frames = ExtResource( 10 )
 animation = "JumpingUp"
-frame = 23
+frame = 24
 playing = true
 
 [node name="Items" type="Control" parent="Controls"]
@@ -493,7 +497,7 @@ position = Vector2( 438.161, -180.871 )
 scale = Vector2( 0.277422, 0.261851 )
 frames = ExtResource( 10 )
 animation = "Idle"
-frame = 6
+frame = 54
 playing = true
 
 [node name="TextureRect" type="TextureRect" parent="Controls/Items/PlaceRope"]
@@ -524,7 +528,7 @@ position = Vector2( 579.474, -145.664 )
 scale = Vector2( 0.250038, 0.242483 )
 frames = ExtResource( 10 )
 animation = "Idle"
-frame = 44
+frame = 12
 playing = true
 
 [node name="TextureRect" type="TextureRect" parent="Controls/Items/PlaceLadder"]
@@ -551,12 +555,15 @@ __meta__ = {
 
 [node name="MouseEnteredAudio" type="AudioStreamPlayer" parent="."]
 stream = SubResource( 6 )
+bus = "Menus"
 
 [node name="ButtonPressedAudio" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 3 )
+stream = SubResource( 7 )
+bus = "Menus"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 17 )
+bus = "Background"
 
 [connection signal="mouse_entered" from="Menu/StartButton" to="." method="_on_button_mouse_entered"]
 [connection signal="pressed" from="Menu/StartButton" to="." method="_on_StartButton_pressed"]

@@ -138,6 +138,8 @@ shape = SubResource( 3 )
 modulate = Color( 0.909804, 0.909804, 0.909804, 1 )
 scale = Vector2( 0.119999, 0.119999 )
 frames = ExtResource( 3 )
+animation = "ClimbingLadderIdle"
+frame = 17
 playing = true
 __meta__ = {
 "_edit_lock_": true
@@ -159,6 +161,7 @@ bus = "Character"
 
 [node name="AudioIdle" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource( 4 )
+volume_db = -7.068
 bus = "Character"
 
 [node name="AudioLadder" type="AudioStreamPlayer2D" parent="Sounds"]

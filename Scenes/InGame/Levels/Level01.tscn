@@ -8,7 +8,7 @@
 [ext_resource path="res://Assets/bg/grotte_flou.jpg" type="Texture" id=6]
 [ext_resource path="res://Assets/bg/gold.jpg" type="Texture" id=7]
 [ext_resource path="res://Assets/bg/jungle_flou.jpg" type="Texture" id=8]
-[ext_resource path="res://Assets/bg/bglvl1.png" type="Texture" id=9]
+[ext_resource path="res://Assets/bg/bglvl12.png" type="Texture" id=9]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends \"res://Scripts/AbstractLevel.gd\"
@@ -217,8 +217,8 @@ region_enabled = true
 region_rect = Rect2( 286, 139, 639, 120 )
 
 [node name="Bg" type="Sprite" parent="BG"]
-position = Vector2( -1.52588e-05, -14.8627 )
-scale = Vector2( 0.485638, 0.782439 )
+position = Vector2( 7.24069, -14.2444 )
+scale = Vector2( 0.507427, 0.783578 )
 texture = ExtResource( 9 )
 
 [node name="TileMap" type="TileMap" parent="."]

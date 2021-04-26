@@ -420,11 +420,11 @@ func physics_process(delta):
 		if CrateDetectorRight.is_colliding():
 			var object = CrateDetectorRight.get_collider()
 			if object.is_in_group(\"Boxes\") and velocity.x > 0:
-					object.push(velocity / 10.0)
+					object.push(velocity / 6.0)
 		if CrateDetectorLeft.is_colliding():
 			var object = CrateDetectorLeft.get_collider()
 			if object.is_in_group(\"Boxes\")  and velocity.x < 0:
-				object.push(velocity / 10.0)
+				object.push(velocity / 6.0)
 	
 	_resolve_collision(velocity)
 

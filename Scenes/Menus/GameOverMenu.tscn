@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Assets/Animations/CharacterAnimation.res" type="SpriteFrames" id=1]
 [ext_resource path="res://Assets/Fonts/indiana_jonas/Indiana-Jonas-48p.otf" type="DynamicFontData" id=2]
@@ -207,6 +207,12 @@ tracks/4/keys = {
 "values": [ false, true ]
 }
 
+[sub_resource type="AudioStreamRandomPitch" id=5]
+audio_stream = ExtResource( 5 )
+
+[sub_resource type="AudioStreamRandomPitch" id=6]
+audio_stream = ExtResource( 4 )
+
 [node name="GameOverMenu" type="CanvasLayer"]
 pause_mode = 2
 layer = 2
@@ -310,10 +316,12 @@ anims/gameover = SubResource( 3 )
 "anims/gameover without next" = SubResource( 4 )
 
 [node name="MouseEnteredAudio" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 5 )
+stream = SubResource( 5 )
+bus = "Menus"
 
 [node name="ButtonPressedAudio" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 4 )
+stream = SubResource( 6 )
+bus = "Menus"
 
 [connection signal="mouse_entered" from="Elements/NextButton" to="." method="_on_button_mouse_entered"]
 [connection signal="pressed" from="Elements/NextButton" to="." method="_on_NextButton_pressed"]
