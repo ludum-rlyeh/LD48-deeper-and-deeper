@@ -167,13 +167,13 @@ extents = Vector2( 164.42, 130.669 )
 extents = Vector2( 297.691, 50.0902 )
 
 [sub_resource type="RectangleShape2D" id=8]
-extents = Vector2( 56.5194, 72.3533 )
+extents = Vector2( 56.5194, 206.439 )
 
 [sub_resource type="RectangleShape2D" id=9]
-extents = Vector2( 87.8093, 66.8965 )
+extents = Vector2( 87.8093, 232.797 )
 
 [sub_resource type="RectangleShape2D" id=10]
-extents = Vector2( 73.7257, 54.385 )
+extents = Vector2( 126.218, 54.385 )
 
 [sub_resource type="RectangleShape2D" id=11]
 extents = Vector2( 83.6527, 71.7638 )
@@ -271,7 +271,6 @@ __meta__ = {
 }
 
 [node name="Label2" type="Label" parent="Control"]
-visible = false
 margin_left = 53.2599
 margin_top = 103.119
 margin_right = 534.26
@@ -327,10 +326,10 @@ shape = SubResource( 7 )
 
 [node name="Label4" type="Label" parent="Control"]
 visible = false
-margin_left = 446.301
-margin_top = 113.883
-margin_right = 927.301
-margin_bottom = 211.883
+margin_left = 367.825
+margin_top = 557.421
+margin_right = 848.825
+margin_bottom = 655.421
 rect_rotation = -0.00846303
 rect_scale = Vector2( 0.4, 0.4 )
 rect_pivot_offset = Vector2( 117.238, 36.5184 )
@@ -350,7 +349,7 @@ __meta__ = {
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Control/Label4/AreaLabel4"]
-position = Vector2( 265.149, 223.129 )
+position = Vector2( 222.669, 88.1228 )
 shape = SubResource( 8 )
 
 [node name="Label5" type="Label" parent="Control"]
@@ -377,7 +376,7 @@ __meta__ = {
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Control/Label5/AreaLabel5"]
-position = Vector2( 141.8, 176.887 )
+position = Vector2( 129.326, 1.88513 )
 shape = SubResource( 9 )
 
 [node name="Sublabel" type="Label" parent="Control/Label5"]
@@ -412,7 +411,7 @@ custom_fonts/font = SubResource( 5 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-text = "And dev by @avzgui"
+text = "Dev by @avzgui"
 align = 1
 valign = 1
 __meta__ = {
@@ -422,7 +421,7 @@ __meta__ = {
 [node name="AreaLabel6" type="Area2D" parent="Control/Label6"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Control/Label6/AreaLabel6"]
-position = Vector2( 462.5, -2.43164 )
+position = Vector2( 402.502, -17.4406 )
 shape = SubResource( 10 )
 
 [node name="Label7" type="Label" parent="Control"]
