@@ -117,15 +117,15 @@ func _physics_process(delta):
 	if not self.disable_check:
 		for body in readable_area.get_overlapping_bodies():
 			if not is_rope_set:
-				self.text = \"Ho, you forget to put a rope, so you are locked now.\" + \\
-				\"\\n You can still reset the level in the menu.\" 
+				self.text = \"Ho, you forget to put a rope...\" + \\
+				\"\\n You can still reset the level in the menu (press echap).\" 
 			self.disable_check = true
 "
 
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 368.107, 85.7443 )
 
-[sub_resource type="DynamicFont" id=7]
+[sub_resource type="DynamicFont" id=11]
 size = 39
 outline_size = 2
 font_data = ExtResource( 5 )
@@ -189,10 +189,10 @@ tile_data = PoolIntArray( 0, 1, 0, 1, 1, 0, 2, 1, 0, 3, 1, 0, 4, 1, 0, 5, 1, 0, 
 position = Vector2( 497.51, 283.731 )
 
 [node name="Subtitle3" type="Label" parent="Box"]
-margin_left = -126.121
-margin_top = -89.5251
-margin_right = 168.879
-margin_bottom = -0.525146
+margin_left = -127.457
+margin_top = -134.961
+margin_right = 167.543
+margin_bottom = -45.961
 rect_rotation = -0.00846303
 rect_scale = Vector2( 0.3, 0.3 )
 rect_pivot_offset = Vector2( 117.238, 36.5184 )
@@ -201,7 +201,7 @@ custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "You can push boxes to
- reach higher places"
+ reach higher places."
 align = 1
 valign = 1
 __meta__ = {
@@ -233,10 +233,10 @@ __meta__ = {
 }
 
 [node name="Subtitle" type="Label" parent="Node2D"]
-margin_left = 521.286
-margin_top = 200.126
-margin_right = 948.286
-margin_bottom = 335.126
+margin_left = 520.841
+margin_top = 199.681
+margin_right = 947.841
+margin_bottom = 334.681
 rect_rotation = -0.00846303
 rect_scale = Vector2( 0.3, 0.3 )
 rect_pivot_offset = Vector2( 117.238, 36.5184 )
@@ -288,12 +288,10 @@ margin_bottom = 864.243
 rect_rotation = -0.00846303
 rect_scale = Vector2( 0.3, 0.3 )
 rect_pivot_offset = Vector2( 236.751, 116.97 )
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 11 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-text = "Don't forget to put a 
-ropes or you will be stuck..."
 align = 1
 valign = 1
 script = SubResource( 8 )
@@ -308,10 +306,10 @@ position = Vector2( 187.255, 224.773 )
 shape = SubResource( 9 )
 
 [node name="Subtitle4" type="Label" parent="Node2D"]
-margin_left = 211.621
-margin_top = 72.4055
-margin_right = 527.621
-margin_bottom = 161.405
+margin_left = 274.663
+margin_top = 82.2686
+margin_right = 597.663
+margin_bottom = 171.269
 rect_rotation = -0.00846303
 rect_scale = Vector2( 0.3, 0.3 )
 rect_pivot_offset = Vector2( 117.238, 36.5184 )
@@ -320,7 +318,7 @@ custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Press up or down 
-to look in the direction"
+to look in the direction."
 align = 1
 valign = 1
 __meta__ = {
@@ -328,10 +326,10 @@ __meta__ = {
 }
 
 [node name="Subtitle3" type="Label" parent="Node2D"]
-margin_left = -14.5442
-margin_top = 163.879
-margin_right = 560.456
-margin_bottom = 344.879
+margin_left = -15.8806
+margin_top = 52.9621
+margin_right = 559.12
+margin_bottom = 233.962
 rect_rotation = -0.00846303
 rect_scale = Vector2( 0.3, 0.3 )
 rect_pivot_offset = Vector2( 117.238, 36.5184 )
