@@ -39,7 +39,7 @@ func _input(event : InputEvent):
 			Events.emit_signal(\"place_ladder_signal\")
 		elif current_item == GlobalData.OBJECT_TYPE.ROPE \\
 		and _inventory[GlobalData.OBJECT_TYPE.ROPE] > 0:
-			Events.emit_signal(\"throw_rope_signal\", \"\")
+			Events.emit_signal(\"throw_rope_signal\")
 
 func set_inventory(inventory):
 	_inventory = inventory

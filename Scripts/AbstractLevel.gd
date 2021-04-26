@@ -92,7 +92,7 @@ func _on_place_ladder_signal():
 		Events.emit_signal("ladder_not_placed_signal") # not connected yet
 
 
-func _on_throw_rope_signal(var val):
+func _on_throw_rope_signal():
 	var area = _player_is_on_rope_spot()
 	if area != null:
 		var root = area.get_root_scene()
