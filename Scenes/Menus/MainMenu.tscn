@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Assets/Fonts/indiana_jonas/Indiana-Jonas-48p.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://Assets/Sounds/Click.wav" type="AudioStream" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://Scenes/InGame/Elements/Ladder.tscn" type="PackedScene" id=15]
 [ext_resource path="res://Assets/Levels/mainmenulayout.png" type="Texture" id=16]
 [ext_resource path="res://Assets/Sounds/500190__quetzalcontla__robot-voice.mp3" type="AudioStream" id=17]
+[ext_resource path="res://Assets/bg/jungle_flou.jpg" type="Texture" id=18]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -104,12 +105,22 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Background2" type="TextureRect" parent="."]
+margin_top = 1.0
+margin_right = 1000.0
+margin_bottom = 626.0
+rect_scale = Vector2( 1.03, 0.95 )
+texture = ExtResource( 18 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 121.894, 394.222 )
 scale = Vector2( 0.341514, 0.328636 )
 frames = ExtResource( 10 )
 animation = "Idle"
-frame = 72
+frame = 17
 playing = true
 
 [node name="Background" type="TextureRect" parent="."]
@@ -354,7 +365,7 @@ position = Vector2( 147.628, -126.198 )
 scale = Vector2( 0.555281, 0.529765 )
 frames = ExtResource( 10 )
 animation = "Walking"
-frame = 21
+frame = 8
 playing = true
 
 [node name="Jump" type="Control" parent="Controls"]
@@ -396,7 +407,7 @@ position = Vector2( 23.5451, -173.009 )
 scale = Vector2( 0.383806, 0.331007 )
 frames = ExtResource( 10 )
 animation = "JumpingUp"
-frame = 11
+frame = 23
 playing = true
 
 [node name="Items" type="Control" parent="Controls"]
@@ -484,7 +495,7 @@ position = Vector2( 438.161, -180.871 )
 scale = Vector2( 0.277422, 0.261851 )
 frames = ExtResource( 10 )
 animation = "Idle"
-frame = 61
+frame = 6
 playing = true
 
 [node name="TextureRect" type="TextureRect" parent="Controls/Items/PlaceRope"]
@@ -515,7 +526,7 @@ position = Vector2( 579.474, -145.664 )
 scale = Vector2( 0.250038, 0.242483 )
 frames = ExtResource( 10 )
 animation = "Idle"
-frame = 19
+frame = 44
 playing = true
 
 [node name="TextureRect" type="TextureRect" parent="Controls/Items/PlaceLadder"]
