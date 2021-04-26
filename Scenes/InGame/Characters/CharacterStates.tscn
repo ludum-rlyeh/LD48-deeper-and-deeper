@@ -398,6 +398,7 @@ onready var CrateDetectorLeft : RayCast2D = get_parent().get_parent().find_node(
 onready var platform_detector : RayCast2D = get_parent().get_parent().find_node(\"PlatformDetector\")
 onready var center: Area2D = get_parent().get_parent().find_node(\"Area2D\", false)
 onready var _player : KinematicBody2D = get_parent().get_parent()
+var _old_velocity = Vector2.ZERO
 
 func enter(args : Array):
 	pass
@@ -426,11 +427,12 @@ func physics_process(delta):
 			if object.is_in_group(\"Boxes\")  and velocity.x < 0:
 				object.push(velocity / 6.0)
 	
+	_player.velocity = _player.integrate_with_snap(delta, velocity, snap)
+	
 	_resolve_collision(velocity)
 
 	_update_animation(velocity)
 
-	_player.velocity = _player.integrate_with_snap(delta, velocity, snap)
 
 	
 func _update_animation(velocity : Vector2):
@@ -452,6 +454,7 @@ func _resolve_collision(velocity : Vector2):
 	
 	if (velocity.x < 0 and CrateDetectorRight.is_colliding()) \\
 	or (velocity.x > 0 and CrateDetectorLeft.is_colliding()) \\
+	or not CrateDetectorRight.is_colliding() and not CrateDetectorLeft.is_colliding() \\
 	or velocity.x == 0:
 		_player.velocity.x=0
 		fsm.change_to(\"Normal\", [])
