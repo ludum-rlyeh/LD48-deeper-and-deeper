@@ -16,7 +16,7 @@ var start_inventory = {
 }
 
 func _ready():
-	.init_level(player_start_pos, start_inventory, objective_position, player_start_pos)
+	.init_level(player_start_pos, start_inventory, objective_position, player_start_pos, Vector2(1025, 1660))
 "
 
 [sub_resource type="ConvexPolygonShape2D" id=2]
@@ -74,7 +74,7 @@ points = PoolVector2Array( 64, 64, 0, 64, 0, 0, 64, 0 )
 2/z_index = 0
 
 [node name="Level02" type="Node2D"]
-position = Vector2( 1, 0 )
+position = Vector2( -190.508, 5 )
 script = SubResource( 1 )
 
 [node name="TileMap" type="TileMap" parent="."]

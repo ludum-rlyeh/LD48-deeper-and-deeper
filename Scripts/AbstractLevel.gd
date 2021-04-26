@@ -21,8 +21,9 @@ var objective_reached = false
 func init_level(player_start_pos: Vector2, 
 				start_inventory, 
 				objectif_position: Vector2, 
-				end_position: Vector2):
-	self.player = init_player(player_start_pos)
+				end_position: Vector2,
+				limits_right_corner : Vector2):
+	self.player = init_player(player_start_pos, limits_right_corner)
 
 	self.inventory = init_inventory(start_inventory)
 #	self.player.find_node("Camera2D", false).add_child(inventory)
@@ -34,9 +35,12 @@ func init_level(player_start_pos: Vector2,
 	self.objective = self.init_objective(objectif_position, "objective_reached_signal")
 	self.exit = self.init_objective(end_position, "exit_reached_signal")
 
-func init_player(player_start_pos: Vector2):
+func init_player(player_start_pos: Vector2, limits_right_corner : Vector2):
 	var player = PlayerTscn.instance()
 	player.set_position(player_start_pos)
+	var camera : Camera2D = player.find_node("Camera2D")
+	camera.limit_right = limits_right_corner.x
+	camera.limit_bottom = limits_right_corner.y
 	self.add_child(player)
 	return player
 
