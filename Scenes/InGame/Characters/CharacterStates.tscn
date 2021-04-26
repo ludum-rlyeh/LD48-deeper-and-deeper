@@ -308,16 +308,16 @@ func physics_process(delta):
 	
 	_resolve_collision(velocity)
 
-	_update_animation(true if velocity.x > 0 else false)
+	_update_animation(velocity)
 
 	_player.velocity = _player.integrate_with_snap(delta, velocity, snap)
 
 	
-func _update_animation(right : bool):
+func _update_animation(velocity : Vector2):
 	var animated_sprite = fsm.animated_sprite
-	if right:
+	if velocity.x > 0:
 		animated_sprite.flip_h=false
-	else:
+	elif velocity.x < 0:
 		animated_sprite.flip_h=true
 
 	if animated_sprite.animation != \"PushingCrate\":
