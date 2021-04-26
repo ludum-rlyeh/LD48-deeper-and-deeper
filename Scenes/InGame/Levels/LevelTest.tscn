@@ -15,7 +15,6 @@ var start_inventory = {
 
 func _ready():
 	.init_level($Start.position, start_inventory, objective)
-	
 "
 
 [sub_resource type="ConvexPolygonShape2D" id=2]
