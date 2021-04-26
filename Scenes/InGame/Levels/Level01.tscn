@@ -138,24 +138,26 @@ script/source = "extends Label
 
 onready var readable_area = $AreaDetection
 var is_rope_set = false
-var disable_check = false
+var objective_reached = false
 
 func _ready():
 	Events.connect(\"rope_thrown_signal\", self, \"_on_rope_thrown_signal\")
-	self.hide()
+	Events.connect(\"objective_reached_signal\", self, \"_objective_reached\")
+
+func _objective_reached():
+	self.objective_reached = true
 
 func _on_rope_thrown_signal(area):
-	print(area.is_in_group(\"RopeSpotTuto2\"))
-	is_rope_set = true
+	if area.is_in_group(\"RopeSpotTuto2\"):
+		is_rope_set = true
+		self.hide()
 
 func _physics_process(delta):
-	if not self.disable_check:
+	if self.objective_reached and not is_rope_set:
 		for body in readable_area.get_overlapping_bodies():
-			if not is_rope_set and get_parent().get_parent().objective_reached:
-				self.text = \"Ho, you forget to put a rope, so you are stuck now.\" + \\
-				\"\\n You can still reset the level in the menu.\" 
-				self.disable_check = true
-				self.show()
+			self.text = \"Ho, you forget to put a rope...\" + \\
+				\"\\n You can still reset the level in the echap menu.\" 
+			self.show()
 "
 
 [sub_resource type="RectangleShape2D" id=9]
@@ -164,18 +166,12 @@ extents = Vector2( 247.247, 75.8682 )
 [sub_resource type="GDScript" id=10]
 script/source = "extends Label
 
-var is_rope_set = false
-var disable_check = false
-
 func _ready():
-	Events.connect(\"rope_thrown_signal\", self, \"_on_rope_thrown_signal\")
+	Events.connect(\"objective_reached_signal\", self, \"_objective_reached\")
 	self.hide()
 
-
-func _physics_process(delta):
-	if not self.disable_check and get_parent().get_parent().objective_reached:
-		self.disable_check = true
-		self.show()
+func _objective_reached():
+	self.show()
 "
 
 [node name="Level01" type="Node2D"]
