@@ -11,12 +11,12 @@ script/source = "extends \"res://Scripts/AbstractLevel.gd\"
 var objective_position = Vector2(0, 0)
 var player_start_pos = Vector2(960, 120)
 var start_inventory = {
-	GlobalData.OBJECT_TYPE.ROPE: 2,
+	GlobalData.OBJECT_TYPE.ROPE: 3,
 	GlobalData.OBJECT_TYPE.LADDER: 1
 }
 
 func _ready():
-	.init_level(player_start_pos, start_inventory, objective_position, player_start_pos, Vector2(1025, 1660))
+	.init_level(player_start_pos, start_inventory, objective_position, player_start_pos, Vector2(1025, 1660), GlobalData.TREASURE_TYPE.BROSS)
 "
 
 [sub_resource type="ConvexPolygonShape2D" id=2]

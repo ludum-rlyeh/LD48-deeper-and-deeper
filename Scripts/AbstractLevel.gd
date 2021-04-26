@@ -10,6 +10,7 @@ var player = null
 var inventory
 var objective = null
 var exit = null
+var treasure = null
 
 var objective_reached = false
 
@@ -22,10 +23,12 @@ func init_level(player_start_pos: Vector2,
 				start_inventory, 
 				objectif_position: Vector2, 
 				end_position: Vector2,
-				limits_right_corner : Vector2):
+				limits_right_corner : Vector2,
+				end_treasure):
 	self.player = init_player(player_start_pos, limits_right_corner)
 
 	self.inventory = init_inventory(start_inventory)
+	self.treasure = end_treasure
 #	self.player.find_node("Camera2D", false).add_child(inventory)
 	var hud_layer = CanvasLayer.new()
 	hud_layer.add_child(inventory)
@@ -139,4 +142,4 @@ func _on_player_reached_objective():
 func _on_player_reached_exit():
 	if self.objective_reached:
 		self.exit.toggle()
-		Events.emit_signal("victory_signal")
+		Events.emit_signal("victory_signal", treasure)

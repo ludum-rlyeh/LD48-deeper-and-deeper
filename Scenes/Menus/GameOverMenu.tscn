@@ -41,9 +41,9 @@ func end_game(var item):
 	else:
 		$AnimationPlayer.play(\"gameover without next\")
 
-func _on_victory_signal():
+func _on_victory_signal(var item):
 	Events.emit_signal(\"set_game_over_signal\",true)
-	call_deferred(\"end_game\", GlobalData.TREASURE_TYPE.SLIP)
+	call_deferred(\"end_game\", item)
 
 func _on_button_mouse_entered():
 	$MouseEnteredAudio.play()
