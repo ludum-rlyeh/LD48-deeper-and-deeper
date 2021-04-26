@@ -7,7 +7,8 @@ var MainMenu = preload(\"res://Scenes/Menus/MainMenu.tscn\")
 
 var Levels = {
 		\"level-1\": preload(\"res://Scenes/InGame/Levels/Level01.tscn\"),
-		\"level-2\": preload(\"res://Scenes/InGame/Levels/Level02.tscn\")
+		\"level-2\": preload(\"res://Scenes/InGame/Levels/Level02.tscn\"),
+		\"level-3\": preload(\"res://Scenes/InGame/Levels/TheMask.tscn\")
 	}
 
 func _ready():
