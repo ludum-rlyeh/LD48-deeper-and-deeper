@@ -17,4 +17,4 @@ signal exit_reached_signal
 # Menus Signals
 signal button_pressed_signal
 signal level_selected_signal
-
+signal set_paused_signal

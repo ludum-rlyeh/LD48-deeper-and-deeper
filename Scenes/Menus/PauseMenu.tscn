@@ -1,0 +1,153 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Assets/Fonts/indiana_jonas/Indiana-Jonas-48p.otf" type="DynamicFontData" id=1]
+[ext_resource path="res://Assets/Sounds/Click.wav" type="AudioStream" id=2]
+[ext_resource path="res://Assets/Sounds/menu_select.wav" type="AudioStream" id=3]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends CanvasLayer
+
+var enable = true
+
+func _ready():
+	Events.connect(\"exit_reached_signal\",self,\"_on_exit_reached_signal\")
+	$Elements.visible = false
+	set_process_input(true)
+	get_tree().paused = false
+
+func _input(event):
+	if event.is_action_pressed(\"ui_cancel\"):
+		pause_unpause()
+
+func pause_unpause():
+	if enable:
+		# Pause game
+		var pause = not get_tree().paused
+		
+		if pause :
+			Events.emit_signal(\"set_paused_signal\", true)
+			get_tree().paused = true
+			$Elements.visible = true
+		else:
+			$Elements.visible = false
+			get_tree().paused = false
+			Events.emit_signal(\"set_paused_signal\", false)
+
+func _on_QuitButton_pressed():
+	$ButtonPressedAudio.play()
+	yield($ButtonPressedAudio, \"finished\")
+	Events.emit_signal(\"button_pressed_signal\", GlobalData.MENU_ACTION.QUIT)
+
+func _on_ResumeButton_pressed():
+	$ButtonPressedAudio.play()
+	self.call_deferred(\"pause_unpause\")
+
+func _on_RestartButton_pressed():
+	$ButtonPressedAudio.play()
+	yield($ButtonPressedAudio, \"finished\")
+	Events.emit_signal(\"button_pressed_signal\", GlobalData.MENU_ACTION.RELOAD)
+
+func _on_exit_reached_signal(var type):
+	self.enable = false
+
+func _on_button_mouse_entered():
+	$MouseEnteredAudio.play()
+"
+
+[sub_resource type="DynamicFont" id=2]
+size = 136
+outline_size = 4
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 24
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 1 )
+
+[node name="PauseMenu" type="CanvasLayer"]
+pause_mode = 2
+layer = 2
+script = SubResource( 1 )
+
+[node name="Elements" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="Elements"]
+margin_right = 1024.0
+margin_bottom = 600.0
+color = Color( 0.486275, 0.486275, 0.486275, 0.498039 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="Elements"]
+margin_left = 206.48
+margin_top = 127.244
+margin_right = 649.48
+margin_bottom = 275.244
+rect_rotation = -5.8407
+rect_scale = Vector2( 1.25, 1.25 )
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 0.956863, 0.788235, 0.0235294, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Pause"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ResumeButton" type="Button" parent="Elements"]
+margin_left = 425.388
+margin_top = 333.0
+margin_right = 548.388
+margin_bottom = 366.0
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "Resume"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RestartButton" type="Button" parent="Elements"]
+margin_left = 425.388
+margin_top = 399.0
+margin_right = 548.388
+margin_bottom = 432.0
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "Restart"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="QuitButton" type="Button" parent="Elements"]
+margin_left = 425.388
+margin_top = 461.0
+margin_right = 548.388
+margin_bottom = 494.0
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "Quit"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MouseEnteredAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 2 )
+
+[node name="ButtonPressedAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+
+[connection signal="mouse_entered" from="Elements/ResumeButton" to="." method="_on_button_mouse_entered"]
+[connection signal="pressed" from="Elements/ResumeButton" to="." method="_on_ResumeButton_pressed"]
+[connection signal="mouse_entered" from="Elements/RestartButton" to="." method="_on_button_mouse_entered"]
+[connection signal="pressed" from="Elements/RestartButton" to="." method="_on_RestartButton_pressed"]
+[connection signal="mouse_entered" from="Elements/QuitButton" to="." method="_on_button_mouse_entered"]
+[connection signal="pressed" from="Elements/QuitButton" to="." method="_on_QuitButton_pressed"]
