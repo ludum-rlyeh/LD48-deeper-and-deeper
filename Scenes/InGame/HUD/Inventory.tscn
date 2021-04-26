@@ -25,13 +25,6 @@ func _ready():
 	Events.connect(\"ladder_placed_signal\", self, \"_on_ladder_placed_signal\")
 	Events.connect(\"rope_thrown_signal\", self, \"_on_rope_thrown_signal\")
 	Input.connect(\"joy_connection_changed\", self, \"_on_joy_connection_changed\")
-	if Input.get_connected_joypads().size() > 0:
-		$Prev/LB.visible = true
-		$Next/RB.visible = true
-		$UseItem/X.visible = true
-		$Prev/Q.visible = false
-		$Next/E.visible = false
-		$UseItem/F.visible = false
 
 func _input(event : InputEvent):
 	if event.is_action_pressed(\"ui_focus_next\"):
