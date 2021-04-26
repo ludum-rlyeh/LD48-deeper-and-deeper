@@ -9,10 +9,10 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends \"res://Scripts/AbstractLevel.gd\"
 
-var objective_position = Vector2(0, 0)
+var objective_position = Vector2(13 * 64, 22 * 64)
 var player_start_pos = Vector2(960, 120)
 var start_inventory = {
-	GlobalData.OBJECT_TYPE.ROPE: 2,
+	GlobalData.OBJECT_TYPE.ROPE: 3,
 	GlobalData.OBJECT_TYPE.LADDER: 1
 }
 
