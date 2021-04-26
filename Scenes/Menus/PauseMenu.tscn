@@ -36,7 +36,7 @@ func pause_unpause():
 func _on_QuitButton_pressed():
 	$ButtonPressedAudio.play()
 	yield($ButtonPressedAudio, \"finished\")
-	Events.emit_signal(\"button_pressed_signal\", GlobalData.MENU_ACTION.QUIT)
+	Events.emit_signal(\"button_pressed_signal\", GlobalData.MENU_ACTION.MAIN)
 
 func _on_ResumeButton_pressed():
 	$ButtonPressedAudio.play()

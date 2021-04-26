@@ -118,7 +118,7 @@ func _physics_process(delta):
 		for body in readable_area.get_overlapping_bodies():
 			if not is_rope_set:
 				self.text = \"Ho, you forget to put a rope...\" + \\
-				\"\\n You can still reset the level in the menu (press echap).\" 
+				\"\\n You can still reset the level in the echap menu.\" 
 			self.disable_check = true
 "
 
@@ -149,7 +149,7 @@ func _physics_process(delta):
 	if not self.disable_check:
 		for body in readable_area.get_overlapping_bodies():
 			if not is_rope_set and get_parent().get_parent().objective_reached:
-				self.text = \"Ho, you forget to put a rope, so you are locked now.\" + \\
+				self.text = \"Ho, you forget to put a rope, so you are stuck now.\" + \\
 				\"\\n You can still reset the level in the menu.\" 
 				self.disable_check = true
 				self.show()
@@ -340,7 +340,7 @@ custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Hi LuK-2ooO!
- Find a way to reach he bottom of the level
+ Find a way to reach the bottom of the level
  without blocking yourself at the bottom."
 align = 1
 valign = 1
