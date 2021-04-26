@@ -30,7 +30,6 @@ onready var camera : Camera2D = _player.find_node(\"Camera2D\", false)
 func _ready():
 	Events.connect(\"rope_thrown_signal\", self, \"_on_rope_thrown_signal\")
 	Events.connect(\"ladder_placed_signal\", self, \"_on_object_placed\")
-	Events.connect(\"rope_placed_signal\", self, \"_on_object_placed\")
 
 func is_colliding_to_platform():
 	return platform_detector.is_colliding()              or \\
@@ -163,6 +162,7 @@ func _reset():
 func _on_rope_thrown_signal(area):
 	_back_timer = 0
 	fsm.change_to(\"ThrowingRope\", [area])
+	_audio_action.play()
 
 func is_above(group: String):
 	return platform_detector.is_colliding() and platform_detector.get_collider().is_in_group(group) or \\
