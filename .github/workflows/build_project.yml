@@ -10,7 +10,7 @@ jobs:
       - run: echo "Configure ubuntu"
       - run: sudo apt update && sudo apt upgrade --yes --force-yes
       - run: sudo apt install unzip curl git --yes --force-yes
-
+      - run: locale
       - run: echo "Install godot dependencies"
       - run: sudo apt install xvfb libxcursor1 libxinerama1 libxrandr2 libxi6 libasound2 libpulse0 libgl1-mesa-glx --yes --force-yes
       - run: echo "Download godot version ${GODOT}"
