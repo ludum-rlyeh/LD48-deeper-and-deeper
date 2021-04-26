@@ -53,6 +53,7 @@ jobs:
 
       - run: echo "export the project"
       - run: /tmp/${GODOT} --export HTML5 _build/LD48-$(git rev-parse --short "$GITHUB_SHA").html
+      - run: cd _build && ln -s LD48-$(git rev-parse --short "$GITHUB_SHA").html index.html
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.1
