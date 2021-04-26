@@ -233,10 +233,10 @@ __meta__ = {
 }
 
 [node name="Subtitle" type="Label" parent="Node2D"]
-margin_left = 520.841
-margin_top = 199.681
-margin_right = 947.841
-margin_bottom = 334.681
+margin_left = 530.579
+margin_top = 156.979
+margin_right = 1276.58
+margin_bottom = 337.979
 rect_rotation = -0.00846303
 rect_scale = Vector2( 0.3, 0.3 )
 rect_pivot_offset = Vector2( 117.238, 36.5184 )
@@ -246,6 +246,8 @@ custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Next to border you can
 select the rope and press enter.
+However, you have only a limited number, 
+so use it wisely!
 "
 align = 1
 valign = 1
