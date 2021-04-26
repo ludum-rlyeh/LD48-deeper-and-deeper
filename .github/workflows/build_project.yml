@@ -8,14 +8,12 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GODOT: Godot_v3.3-stable_linux_headless.64
-      REPO: https://
     steps:
       - run: echo "Configure ubuntu"
       - run: sudo apt update && sudo apt upgrade --yes --force-yes
       - run: sudo apt install unzip curl git --yes --force-yes
       - run: sudo locale-gen en_US.UTF-8
       - run: echo "LANG=en_US.UTF-8" | sudo tee /etc/locale.conf
-      - run: locale
       - run: echo "Install godot dependencies"
       - run: sudo apt install xvfb libxcursor1 libxinerama1 libxrandr2 libxi6 libasound2 libpulse0 libgl1-mesa-glx --yes --force-yes
       - run: echo "Download godot version ${GODOT}"
@@ -24,6 +22,7 @@ jobs:
 
       - name: Check out repository code
         uses: actions/checkout@v2
+      - run: mkdir _build
       - run: echo "Create export_presets.cfg"
       - run: |
               cat > export_presets.cfg <<EOF
@@ -38,6 +37,7 @@ jobs:
               script_export_mode=1
               script_encryption_key=""
               locale="en"
+              export_path="_build"
 
               [preset.0.options]
               custom_template/debug=""
@@ -50,6 +50,7 @@ jobs:
               html/canvas_resize_policy=2
               html/experimental_virtual_keyboard=false
               EOF
+
       - run: echo "export the project"
       - run: /tmp/${GODOT} --export HTML5 _build/LD48-$(git rev-parse --short "$GITHUB_SHA").html
 
