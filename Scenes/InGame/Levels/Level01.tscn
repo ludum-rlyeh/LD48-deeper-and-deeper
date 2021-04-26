@@ -281,7 +281,7 @@ custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Next to border you can
-select the rope and press enter.
+select the rope and press f.
 However, you have only a limited number, 
 so use it wisely!
 "
