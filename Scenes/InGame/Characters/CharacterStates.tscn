@@ -132,7 +132,6 @@ onready var center: Area2D = get_parent().get_parent().find_node(\"Area2D\", fal
 onready var ground_area: Area2D = get_parent().get_parent().find_node(\"GroundArea\", false)
 
 func enter(args : Array):
-	_player.velocity = Vector2.ZERO
 	_rope = args[0]
 	
 	fsm.player.position.x = _rope.position.x 
@@ -140,17 +139,18 @@ func enter(args : Array):
 
 func physics_process(delta):
 	var velocity = _player.velocity
+	velocity.x = 0
 	if Input.is_action_pressed(\"ui_up\"):
 		velocity -= _player.climbing_speed
 	if Input.is_action_pressed(\"ui_down\"):
 		velocity += _player.climbing_speed
 		
-	_player.velocity = _player.integrate(delta, velocity)
-	
 	_resolve_collision()
 	
-	_update_animation(_player.velocity)
-	
+	_update_animation(velocity)
+		
+	_player.velocity = _player.integrate(delta, velocity)
+
 	_player.velocity.y = 0
 	
 func _update_animation(velocity : Vector2):
@@ -169,17 +169,17 @@ func _update_animation(velocity : Vector2):
 
 func _resolve_collision():
 	if Input.is_action_just_pressed(\"ui_select\"):
-		fsm.player.find_node(\"CollisionShape2D\").disabled = false
+		_player.find_node(\"CollisionShape2D\").disabled = false
 		fsm.change_to(\"Normal\", [])
 		
 	for area in center.get_overlapping_areas():
 		if area.is_in_group(\"TopRopes\") and Input.is_action_pressed(\"ui_up\"):
-			fsm.player.position += Vector2(0, -30) 
-			fsm.player.find_node(\"CollisionShape2D\").disabled = false
+			_player.position = _rope.get_tp_position() - Vector2(0, _player.get_tall() * 0.5)
+			_player.find_node(\"CollisionShape2D\").disabled = false
 			fsm.change_to(\"Normal\", [])
 	for area in ground_area.get_overlapping_areas():
-		if area.is_in_group(\"BottomRopes\") and Input.is_action_pressed(\"ui_down\"):
-			fsm.player.find_node(\"CollisionShape2D\").disabled = false
+		if area.is_in_group(\"BottomRopes\") and !Input.is_action_pressed(\"ui_up\"):
+			_player.find_node(\"CollisionShape2D\").disabled = false
 			fsm.change_to(\"Normal\", [])
 "
 

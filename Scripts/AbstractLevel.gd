@@ -73,10 +73,12 @@ func _on_throw_rope_signal():
 		var right = root.right
 		Events.emit_signal("rope_thrown_signal")
 		var rope = RopeTscn.instance()
-		rope.init(right, 200)
+		var tp_position_offset = root.find_node("Offset").position
+		rope.init(right, GlobalData.LENGTH_ROPE, tp_position_offset)
+		rope.position = pos
+		if not right:
+			rope.scale.x = -1
 		add_child(rope)
-
-		rope.set_position(pos+Vector2(10 if right else -10, 0))
 		rope.start_animation()
 
 func _player_is_on_platform():

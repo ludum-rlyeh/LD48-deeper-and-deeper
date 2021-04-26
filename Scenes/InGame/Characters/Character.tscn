@@ -28,6 +28,9 @@ func integrate(delta : float, velocity):
 	
 func integrate_without_gravity(velocity : Vector2):
 	return move_and_slide(velocity)
+	
+func get_tall():
+	return 25.503 * self.scale.y
 "
 
 [sub_resource type="RectangleShape2D" id=2]
@@ -99,7 +102,7 @@ shape = SubResource( 3 )
 scale = Vector2( 0.119999, 0.119999 )
 frames = ExtResource( 3 )
 animation = "Idle"
-frame = 54
+frame = 23
 playing = true
 __meta__ = {
 "_edit_lock_": true
