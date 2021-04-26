@@ -44,7 +44,7 @@ func _on_ControlsButton_pressed():
 	$Controls.visible = true
 	
 	$Controls/Items/PlaceRope/Rope/AnimationPlayer.play(\"ThrowRope\")
-	# TODO: Ladder animation
+	$Controls/Items/PlaceLadder/Ladder/AnimationPlayer.play(\"Unfold\")
 
 func _on_Level1Button_pressed():
 	level_selected(\"level-1\")
@@ -105,7 +105,7 @@ position = Vector2( 121.894, 394.222 )
 scale = Vector2( 0.341514, 0.328636 )
 frames = ExtResource( 10 )
 animation = "Idle"
-frame = 9
+frame = 54
 playing = true
 
 [node name="Background" type="TextureRect" parent="."]
@@ -350,7 +350,7 @@ position = Vector2( 147.628, -126.198 )
 scale = Vector2( 0.555281, 0.529765 )
 frames = ExtResource( 10 )
 animation = "Walking"
-frame = 8
+frame = 23
 playing = true
 
 [node name="Jump" type="Control" parent="Controls"]
@@ -392,7 +392,7 @@ position = Vector2( 23.5451, -173.009 )
 scale = Vector2( 0.383806, 0.331007 )
 frames = ExtResource( 10 )
 animation = "JumpingUp"
-frame = 12
+frame = 8
 playing = true
 
 [node name="Items" type="Control" parent="Controls"]
@@ -480,7 +480,7 @@ position = Vector2( 438.161, -180.871 )
 scale = Vector2( 0.277422, 0.261851 )
 frames = ExtResource( 10 )
 animation = "Idle"
-frame = 78
+frame = 43
 playing = true
 
 [node name="TextureRect" type="TextureRect" parent="Controls/Items/PlaceRope"]
@@ -511,7 +511,7 @@ position = Vector2( 579.474, -145.664 )
 scale = Vector2( 0.250038, 0.242483 )
 frames = ExtResource( 10 )
 animation = "Idle"
-frame = 36
+frame = 1
 playing = true
 
 [node name="TextureRect" type="TextureRect" parent="Controls/Items/PlaceLadder"]

@@ -7,7 +7,7 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends \"res://Scripts/AbstractLevel.gd\"
 
-var objective = Vector2(0, 0)
+var objective_position = Vector2(0, 0)
 var player_start_pos = Vector2(0, 120)
 var start_inventory = {
 	GlobalData.OBJECT_TYPE.ROPE: 2,
@@ -16,7 +16,7 @@ var start_inventory = {
 
 
 func _ready():
-	.init_level(player_start_pos, start_inventory, objective)
+	.init_level(player_start_pos, start_inventory, objective_position, player_start_pos)
 "
 
 [sub_resource type="ConvexPolygonShape2D" id=2]
