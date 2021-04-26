@@ -7,15 +7,15 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends \"res://Scripts/AbstractLevel.gd\"
 
-var objective_position = Vector2(0, 0)
+var objective_position = Vector2(4 * 64, 10 * 64)
 var player_start_pos = Vector2(0, 120)
 var start_inventory = {
 	GlobalData.OBJECT_TYPE.ROPE: 1,
-	GlobalData.OBJECT_TYPE.LADDER: 0
+	GlobalData.OBJECT_TYPE.LADDER: 1
 }
 
 func _ready():
-	.init_level(player_start_pos, start_inventory, objective_position, player_start_pos, Vector2(2000, 2000), GlobalData.TREASURE_TYPE.SOCK)
+	.init_level(player_start_pos, start_inventory, objective_position, player_start_pos, Vector2(16 * 64, 14 * 64), GlobalData.TREASURE_TYPE.SOCK)
 "
 
 [sub_resource type="ConvexPolygonShape2D" id=2]
@@ -125,7 +125,7 @@ points = PoolVector2Array( 31.8099, 0, 64, 0.00572205, 64, 64, 32.0804, 64 )
 5/z_index = 0
 
 [node name="Level01" type="Node2D"]
-position = Vector2( 1, 0 )
+position = Vector2( 129, 128 )
 script = SubResource( 1 )
 
 [node name="TileMap" type="TileMap" parent="."]

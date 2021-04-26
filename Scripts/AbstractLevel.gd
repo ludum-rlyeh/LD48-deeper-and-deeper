@@ -37,6 +37,7 @@ func init_level(player_start_pos: Vector2,
 	# Init the two objectives (the point to reach, and the exit)
 	self.objective = self.init_objective(objectif_position, "objective_reached_signal")
 	self.exit = self.init_objective(end_position, "exit_reached_signal")
+	self.exit.find_node("AnimatedSprite").visible = false
 
 func init_player(player_start_pos: Vector2, limits_right_corner : Vector2):
 	var player = PlayerTscn.instance()

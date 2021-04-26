@@ -257,9 +257,9 @@ polygon = PoolVector2Array( 8.18964, 187.004, 62.3662, 164.325, 88.8246, 219.762
 
 [node name="Treasure" type="TextureRect" parent="Elements/Reward"]
 visible = false
-margin_left = 287.262
+margin_left = 300.899
 margin_top = 2.51982
-margin_right = 464.262
+margin_right = 477.899
 margin_bottom = 151.52
 texture = ExtResource( 3 )
 __meta__ = {
