@@ -2,7 +2,7 @@ name: Build godot project
 on:
   push:
     branches:
-      - CI
+      - "LD48-release"
 jobs:
   Build-HTML5:
     runs-on: ubuntu-latest
