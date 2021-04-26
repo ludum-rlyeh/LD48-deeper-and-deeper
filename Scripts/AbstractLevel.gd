@@ -19,7 +19,7 @@ func init_level(player_start_pos: Vector2, start_inventory, objectif_position: V
 	self.player = init_player(player_start_pos)
 	self.add_child(player)
 	self.inventory = init_inventory(start_inventory)
-	self.player.add_child(inventory)
+	self.player.find_node("Camera2D", false).add_child(inventory)
 
 
 func init_player(player_start_pos: Vector2):

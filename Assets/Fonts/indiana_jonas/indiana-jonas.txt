@@ -1,0 +1,289 @@
+Indiana Jonas
+
+OpenType font
+by Vít Èondák
+2017
+
+fonty.condak.cz
+facebook.com/GunnyHandwritingFont
+
+En Cz Sk Pl Fr De
+
+Category:	cartoon
+
+Panose:		4-7-6-4-3-1-2-2-10-2
+
+
+[ English License ]
+
+Free for personal or non-commercial use.
+In case you want to use the font for a commercial project please contact me to buy a license.
+
+The public version of the font intentionally does not include number 0.
+The full version is available only to licensed users.
+
+If you think something in this font doesn't feel right please contact me.
+
+
+[English description]
+
+While experimenting with OpenType features I got the idea that they can be used 
+to emulate the perspective effect of Indiana Jones logo so I decided to give it a try. =)
+
+The final result is not the exact replica, but some kind of compromise.
+
+The letters of the original logo are slighly overlapping each other and it would be 
+too complicated to handle all possible combinations and exceptions so I had to somewhat 
+unify the width of the letters to fit the perspective curve. 
+
+To make the perspective works you have to enable OpenType feature called "Contextual Alternates".
+The perspective currently works up to five chained lower case letters. The following letters
+keep the same size.
+
+The upper case letters and numbers always keep their original size.
+
+If you want to get closer to the original logo please use Italic version.
+I prefer Regular though. =)
+
+[ Èeská licence ]
+
+Zdarma pro osobní a nekomerèní užití.
+V pøípadì, že chcete font použít pro komerèní úèely, je nutné mì kontaktovat a koupit si licenci.
+
+Veøejná verze fontu zámìrnì neobsahuje èíslici 0.
+Plná verze je dostupná pouze licencovaným uživatelùm.
+
+Pokud ve fontu objevíte nìco, co by bylo vhodné opravit nebo doladit, tak mì prosím kontaktujte.
+
+
+[Èeský popis]
+
+Bìhem experimentování s funkcemi OpenType mì napadlo, že by bylo možné je použít
+k emulaci perspektivního efektu loga filmu Indiana Jones, a tak jsem se o to pokusil. =)
+
+Výsledný font není pøesná replika, ale spíše kompromis.
+
+Písmena originálního loga se èásteènì pøekrývají a vyøešit všechny kombinace a výjimky
+by bylo pøíliš komplikované, takže jsem musel šíøku písmen trochu sjednotit,
+aby užší miniatury nenarušovaly "perspektivní køivku".
+
+Aby perspektiva fungovala, je tøeba zapnout OpenType funkci "Contextual Alternates".
+Perspektivní zmenšování v souèasnosti funguje u malých písmen, která mohou postupnì nabývat 
+pìti velikostí. Následující malá písmena už se dále nezmenšují.
+
+Velká písmena a èíslice si vždy zachovávají svou pùvodní velikost.
+
+Pokud se chcete více pøiblížit originálnímu logu použijte prosím øez Italic.
+Já ovšem dávám pøednost øezu Regular. =)
+
+
+---
+
+History
+
+0.48	2017-09-03
+	* tweaking margins: TM (R) a* d* o* q*
+	* tweaked: c* gbreve*
+	* miniatures to composites: l+middot
+
+0.47	2017-08-28
+	* all margins -100
+	* tweaked: S
+	* tweaking margins: a* u* t* ' " @
+
+0.46	2017-08-27
+	* miniatures to composites: st+cedilla aeiou+ogonek
+	* tweaking margins: O*
+
+0.45	2017-08-25
+	* tweaking margins: ' AQT a*c*mn*qt*u* thorn
+	* miniatures to composites: ccedilla
+	* kerning: ta* fa*
+
+0.44	2017-08-24
+	* tweaking margins a*-z*
+
+0.43	2017-08-24
+	* miniatures to composites: ag+dot ainou+tilde au+ring
+	* tweaked: gcommabelow*
+
+0.42	2017-08-18
+	* miniatures to composites: aeiouy+macron *breve.6
+	* tweaked: longs*
+
+0.41	2017-08-17
+	* miniatures to composites: chgjsw+circ !down ?down
+	* tweaked: j*
+
+0.40	2017-08-16
+	* tweaking margins: g* v* w* x* y* z* oslash*
+	* miniatures to composites: ycirc ncaron
+
+0.39	2017-08-16
+	* tweaked: dieresis
+	* miniatures to composites: i* a*.6 u*.6 z*
+	+ kerning: tcaron+a* a*+tcaron
+
+0.38	2017-08-15
+	+ size .6
+	* fixed kerning of some miniatures
+	* fixed positions: circumflex caron breve
+	* miniatures to composites: e*
+	+ dotaccent.3456
+
+0.37	2017-08-14
+	* miniatures to composites: u* ecirc ydier *acute *grave
+	+ kerning: ay*
+	* tweaked u
+
+0.36	2017-08-12
+	* margins: b d e f z pound currency paragraph etc.
+	+ kerning: by* dy* ly*
+
+0.35	2017-08-11
+	+ quotes.345
+	* fixed miniature acute positions
+	* partial cleanup
+	* margins: .,;
+	* tweaked o
+	* turned some miniatures to composites
+
+0.34	2017-08-10
+	+ pound lira currency mu daggers
+	* 3 yen
+	* partial cleanup
+	* margin: a z
+	* script: dblquote moved to non-letter
+
+0.33	2017-08-09
+	+ IJ ij paragraph ordmas ordfem No perthousand
+	+ 1234superior 1/3 1/2 3/4 < > <= >=
+	* fraction script
+
+0.32	2017-08-08
+	+ Hbar Tbar
+	* imacron
+	* margin: b h
+
+0.31	2017-08-07
+	+ GKLNR+commabelow Eng bullet
+	* margin: V* W* Y*
+	* partial cleanup
+
+0.30	2017-05-21
+	* tweaking margins: a g o s t y z (r) (C)
+	* plusminus 
+
+0.29	2017-05-19
+	+ { }
+	TM.345 (R).345
+
+0.28	2017-05-18
+	+ guillemots.345 multiply.345 divide.345 (R) dashes
+	* -
+
+0.27	2017-05-17
+	+ longs
+	* Lslash lslash guillemots
+
+0.26	2017-05-16
+	+ AEGIOU+breve aegiou+breve germandbls
+	+ Uhungarumlaut uhungarumlaut
+	+ # * [ ] @ (c) guillemots multiply
+	* %
+
+0.25	2017-05-15
+	+ ( ) $ cent | % section Yen
+	* _
+
+0.24	2017-05-11
+	+ Oslash oslash + / \ _ minus plusminus
+
+0.23	2017-05-09
+	+ Eth eth Dcroat dcroat -
+
+0.22	2017-04-25
+	+ CST+cedilla cst+cedilla
+	* a.345 e.345 s.345
+
+0.21	2017-03-08
+	+ AEIOUY+macron aeiouy+macron
+	+ Ohungarumlaut ohungarumlaut
+	* '
+	* margins: ccaron n
+
+0.20	2017-03-07
+	+ EGL+dot egl+dot Lslash lslash &
+	* thorn
+	* margins: tcaron
+
+0.19	2017-03-06
+	+ AEIOU+ogonek aeiou+ogonek Idot
+
+0.18	2017-03-03
+	+ cghjsw+circumflex dotlessj
+
+0.17	2017-02-27
+	+ ANOIU+tilde anoiu+tilde
+	+ Thorn thorn
+
+0.16	2017-02-23
+	* cleanup
+	+ lacute dln+caron aeiouy+circ aeiouy+dieresis 4 questiondown
+	* margins: S s t
+
+0.15	2017-02-22
+	+ ? 5 6 7 8 4
+	* 2 3
+
+0.14	2017-02-21
+	+ eou+grave AUau+ring AE ae OE oe tcaron 
+	+ ! exclamdown Euro
+
+0.13	2017-02-19
+	+ AEIOU+grave agrave igrave
+
+0.12	2017-02-18
+	* updated tranformations (fixing u v w etc.)
+	+ cenorsy+acute rsz+caron cz+dotaccent
+
+0.11	2017-02-17
+	* unifying line widths a-z
+	* script: new class non-letter
+	* AEILNORSUYZ+acute CDENRSZ+caron
+	+ kerning: AT TA at ta At Fa FA
+
+0.10	2017-02-16
+	+ quotedbl oacute 0 1 2 3 . , ; :
+	* c g o p r w z 
+
+0.09	2017-02-16
+	+ iacute
+	+ alternative i
+
+0.08	2017-02-16
+	* updated tranformations
+	+ transformation 2->1
+	+ m x y v w
+	* a l p r s u z
+
+0.07	2017-02-15
+	* simplifying script
+	+ some small caps placeholders
+
+0.06	2017-02-13
+	* indyfication of all existing letters
+
+0.05	2017-02-12
+	+ d e f o p q r t
+
+0.04	2017-02-11
+	+ basic script handling 4 levels
+	+ transformations 2-3 2-4
+	+ J
+
+0.01	2017-02-10
+	+ first test
+	+ A D I N a d i n
+
+-eof-

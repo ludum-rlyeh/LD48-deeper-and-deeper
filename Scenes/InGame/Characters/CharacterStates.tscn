@@ -17,6 +17,8 @@ onready var platform_detector_corner_left : RayCast2D = get_parent().get_parent(
 onready var platform_detector_corner_right : RayCast2D = get_parent().get_parent().find_node(\"PlatformDetectorCornerRight\")
 onready var _player : KinematicBody2D = get_parent().get_parent()
 
+onready var camera : Camera2D = _player.find_node(\"Camera2D\", false)
+
 func is_colliding_to_platform():
 	return platform_detector.is_colliding()              or \\
 		   platform_detector_corner_left.is_colliding()  or \\
@@ -39,6 +41,15 @@ func physics_process(delta):
 			velocity.x= -_player.speed.x
 		else:
 			velocity.x=0
+		
+		if Input.is_action_pressed(\"ui_down\"):
+			if camera.position.y < 150:
+				camera.position.y += delta * _player.camera_speed.y
+		elif Input.is_action_pressed(\"ui_up\") :
+			if camera.position.y > -150:
+				camera.position.y -= delta * _player.camera_speed.y
+		else:
+			camera.position.y = 0
 			
 	if Input.is_action_just_pressed(\"ui_select\") and is_colliding_to_platform():
 		snap = Vector2.ZERO
