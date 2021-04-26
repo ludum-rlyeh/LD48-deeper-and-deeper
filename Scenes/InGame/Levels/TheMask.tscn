@@ -5,6 +5,7 @@
 [ext_resource path="res://Scenes/InGame/Elements/RopeSpot.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Assets/Fonts/indiana_jonas/Indiana-Jonas-48p.otf" type="DynamicFontData" id=4]
 [ext_resource path="res://Assets/Sprites/panneau.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Musics/J.L.T_-_Universe.mp3" type="AudioStream" id=6]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends \"res://Scripts/AbstractLevel.gd\"
@@ -502,6 +503,11 @@ __meta__ = {
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Control/Label9/AreaLabel9"]
 position = Vector2( 80.1464, 233.873 )
 shape = SubResource( 13 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+volume_db = -14.253
+autoplay = true
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 816.722, 596.474 )
