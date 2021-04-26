@@ -22,7 +22,7 @@ var start_inventory = {
 
 
 func _ready():
-	.init_level(player_start_pos, start_inventory, objective_position, player_start_pos, Vector2(958, 1078))
+	.init_level(player_start_pos, start_inventory, objective_position, player_start_pos, Vector2(958, 1078), GlobalData.TREASURE_TYPE.SLIP)
 	Events.connect(\"rope_thrown_signal\", self, \"_on_rope_thrown\")
 
 func _on_rope_thrown(args):
