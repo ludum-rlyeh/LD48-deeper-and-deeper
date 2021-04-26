@@ -145,13 +145,13 @@ func _resolve_collisions(velocity : Vector2):
 	for area in ground_area.get_overlapping_areas():
 		if (area.is_in_group(\"TopRopes\") and Input.is_action_just_pressed(\"ui_down\")) :
 			_reset()
-			fsm.change_to(\"ClimbingRope\", [area.get_root_scene()])
+			fsm.change_to(\"ClimbingRope\", [area.get_root_scene(), true])
 			
 	for area in center.get_overlapping_areas():
 		if area.is_in_group(\"Ropes\") and Input.is_action_pressed(\"ui_up\"):
 #			Events.emit_signal(\"rope_handled\", fsm.velocity)
 			_reset()
-			fsm.change_to(\"ClimbingRope\", [area.get_root_scene()])
+			fsm.change_to(\"ClimbingRope\", [area.get_root_scene(), false])
 			
 func _reset():
 	_back_timer = 0
@@ -173,7 +173,7 @@ func _on_Area2D_area_entered(area):
 	if area.is_in_group(\"Ropes\"):
 		Events.emit_signal(\"rope_handled_signal\", fsm.player.velocity)
 		_reset()
-		fsm.change_to(\"ClimbingRope\", [])
+		fsm.change_to(\"ClimbingRope\", [area.get_root_scene(), false])
 		
 func _on_object_placed():
 	_audio_action.play()
@@ -189,13 +189,28 @@ var _rope : Node2D
 onready var _player : KinematicBody2D = get_parent().get_parent()
 onready var center: Area2D = get_parent().get_parent().find_node(\"Area2D\", false)
 onready var ground_area: Area2D = get_parent().get_parent().find_node(\"GroundArea\", false)
+onready var tween: Tween = get_parent().get_parent().find_node(\"Tween\", false)
 
 var _old_position_animation_x : float
 var _lateral_direction = 0
 
 func enter(args : Array):
 	_rope = args[0]
-	_player.global_position.x = _rope.find_node(\"Line2D\").global_position.x
+	var is_from_up = args[1]
+	var line2D = _rope.find_node(\"Line2D\")
+	if is_from_up:
+		var animated_sprite = fsm.animated_sprite
+		var animated_player : AnimationPlayer = _player.find_node(\"AnimationPlayer\")
+		get_parent().set_physics_process(false)
+		animated_player.play(\"teleport\")
+		yield(animated_player, \"animation_finished\")
+		var tp_position = line2D.global_position + Vector2.DOWN * 20
+		_player.global_position = tp_position
+		animated_player.play_backwards(\"teleport\")
+		yield(animated_player, \"animation_finished\")
+		get_parent().set_physics_process(true)
+	else:
+		_player.global_position.x = line2D.global_position.x
 	_player.find_node(\"CollisionShape2D\").disabled = true
 	_old_position_animation_x = fsm.animated_sprite.position.x
 
@@ -260,7 +275,16 @@ func _resolve_collision():
 		
 	for area in center.get_overlapping_areas():
 		if area.is_in_group(\"TopRopes\") and Input.is_action_pressed(\"ui_up\"):
-			_player.position = _rope.get_tp_position() - Vector2(0, _player.get_tall() * 0.5)
+			var animated_sprite = fsm.animated_sprite
+			var animated_player : AnimationPlayer = _player.find_node(\"AnimationPlayer\")
+			get_parent().set_physics_process(false)
+			animated_player.play(\"teleport\")
+			yield(animated_player, \"animation_finished\")
+			var tp_position = _rope.get_tp_position() - Vector2(0, _player.get_tall() * 0.5)
+			_player.position = tp_position
+			animated_player.play_backwards(\"teleport\")
+			yield(animated_player, \"animation_finished\")
+			get_parent().set_physics_process(true)
 			_player.find_node(\"CollisionShape2D\").disabled = false
 			fsm.animated_sprite.position.x = _old_position_animation_x
 			fsm.change_to(\"Normal\", [])
@@ -374,6 +398,7 @@ onready var CrateDetectorLeft : RayCast2D = get_parent().get_parent().find_node(
 onready var platform_detector : RayCast2D = get_parent().get_parent().find_node(\"PlatformDetector\")
 onready var center: Area2D = get_parent().get_parent().find_node(\"Area2D\", false)
 onready var _player : KinematicBody2D = get_parent().get_parent()
+var _old_velocity = Vector2.ZERO
 
 func enter(args : Array):
 	pass
@@ -402,11 +427,12 @@ func physics_process(delta):
 			if object.is_in_group(\"Boxes\")  and velocity.x < 0:
 				object.push(velocity / 6.0)
 	
+	_player.velocity = _player.integrate_with_snap(delta, velocity, snap)
+	
 	_resolve_collision(velocity)
 
 	_update_animation(velocity)
 
-	_player.velocity = _player.integrate_with_snap(delta, velocity, snap)
 
 	
 func _update_animation(velocity : Vector2):
@@ -428,6 +454,7 @@ func _resolve_collision(velocity : Vector2):
 	
 	if (velocity.x < 0 and CrateDetectorRight.is_colliding()) \\
 	or (velocity.x > 0 and CrateDetectorLeft.is_colliding()) \\
+	or not CrateDetectorRight.is_colliding() and not CrateDetectorLeft.is_colliding() \\
 	or velocity.x == 0:
 		_player.velocity.x=0
 		fsm.change_to(\"Normal\", [])
@@ -497,7 +524,7 @@ func _resolve_collisions(velocity : Vector2):
 	for area in center.get_overlapping_areas():
 		if area.is_in_group(\"Ropes\") and Input.is_action_pressed(\"ui_up\"):
 #			Events.emit_signal(\"rope_handled\", fsm.velocity)
-			fsm.change_to(\"ClimbingRope\", [area.get_root_scene()])
+			fsm.change_to(\"ClimbingRope\", [area.get_root_scene(), false])
 	if is_colliding_to_platform() and velocity.y >= 0:
 		fsm.change_to(\"Normal\", [])
 "
