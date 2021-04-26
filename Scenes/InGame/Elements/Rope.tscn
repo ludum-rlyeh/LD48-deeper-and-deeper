@@ -243,6 +243,11 @@ tracks/3/keys = {
 [node name="Rope" type="Node2D"]
 script = SubResource( 1 )
 
+[node name="Support" type="Sprite" parent="."]
+position = Vector2( 17.4109, -7.75876 )
+scale = Vector2( 0.3, 0.3 )
+texture = ExtResource( 4 )
+
 [node name="Down" type="Area2D" parent="." groups=[
 "BottomRopes",
 ]]
@@ -270,9 +275,9 @@ position = Vector2( -245.407, -173.437 )
 shape = SubResource( 5 )
 
 [node name="Line2D" type="Line2D" parent="."]
-position = Vector2( 17.875, -8.8125 )
+position = Vector2( 17.875, -10.1103 )
 points = PoolVector2Array( 0, 196.319, 0, 0 )
-width = 3.0
+width = 3.5
 default_color = Color( 0.411765, 0.47451, 0.529412, 1 )
 script = SubResource( 6 )
 
@@ -300,11 +305,6 @@ anims/ThrowRope = SubResource( 8 )
 position = Vector2( 18.0409, -7.75876 )
 enabled = true
 cast_to = Vector2( 0, 500 )
-
-[node name="Support" type="Sprite" parent="."]
-position = Vector2( 17.4109, -7.75876 )
-scale = Vector2( 0.3, 0.3 )
-texture = ExtResource( 4 )
 
 [node name="DownRope" type="Position2D" parent="."]
 visible = false

@@ -102,7 +102,7 @@ shape = SubResource( 3 )
 scale = Vector2( 0.119999, 0.119999 )
 frames = ExtResource( 3 )
 animation = "Idle"
-frame = 1
+frame = 51
 playing = true
 __meta__ = {
 "_edit_lock_": true

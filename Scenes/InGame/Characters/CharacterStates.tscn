@@ -136,7 +136,7 @@ var _lateral_direction = 0
 
 func enter(args : Array):
 	_rope = args[0]
-	_player.position.x = _rope.position.x 
+	_player.position.x = _rope.find_node(\"Line2D\").global_position.x
 	_player.find_node(\"CollisionShape2D\").disabled = true
 	_old_position_animation_x = fsm.animated_sprite.position.x
 
@@ -186,12 +186,11 @@ func _get_offset_animation():
 	var animated_sprite = fsm.animated_sprite
 	var flip = animated_sprite.flip_h
 	if animated_sprite.animation == \"ClimbingRopeIdle\":
-		return 35 if flip else 1
+		return 17 if flip else -17
 	if animated_sprite.animation == \"ClimbingRopeUp\":
-		return 29 if flip else 7
+		return 11 if flip else -11
 	if animated_sprite.animation == \"ClimbingRopeDown\":
-		return 35 if flip else 1
-		
+		return 17 if flip else -17
 	return 0
 		
 func _resolve_collision():
