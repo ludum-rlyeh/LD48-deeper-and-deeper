@@ -1,22 +1,23 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Assets/atlas_collision.svg" type="Texture" id=1]
 [ext_resource path="res://Scenes/InGame/Elements/Box.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/InGame/Elements/RopeSpot.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Assets/Levels/lvl2.png" type="Texture" id=4]
+[ext_resource path="res://Assets/bg/BgLvl2.png" type="Texture" id=5]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends \"res://Scripts/AbstractLevel.gd\"
 
-var objective_position = Vector2(13 * 64, 22 * 64)
+var objective_position = Vector2(0, 0)
 var player_start_pos = Vector2(960, 120)
 var start_inventory = {
-	GlobalData.OBJECT_TYPE.ROPE: 3,
+	GlobalData.OBJECT_TYPE.ROPE: 2,
 	GlobalData.OBJECT_TYPE.LADDER: 1
 }
 
 func _ready():
-	.init_level(player_start_pos, start_inventory, objective_position, player_start_pos, Vector2(1025, 1660), GlobalData.TREASURE_TYPE.BROSS)
+	.init_level(player_start_pos, start_inventory, objective_position, player_start_pos, Vector2(1025, 1660))
 "
 
 [sub_resource type="ConvexPolygonShape2D" id=2]
@@ -148,3 +149,10 @@ scale = Vector2( 1.568, 1.582 )
 z_index = 2
 texture = ExtResource( 4 )
 centered = false
+
+[node name="Bg" type="Node2D" parent="."]
+
+[node name="Bglvl2" type="Sprite" parent="Bg"]
+position = Vector2( 702.174, 832.557 )
+scale = Vector2( 1.55664, 1.58264 )
+texture = ExtResource( 5 )
