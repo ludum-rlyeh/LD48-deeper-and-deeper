@@ -182,11 +182,12 @@ position = Vector2( 463.489, 566.109 )
 scale = Vector2( 1.97311, 1.28388 )
 
 [node name="jungle_flou" type="Sprite" parent="BG"]
-position = Vector2( 15.9956, -201.083 )
+position = Vector2( 15.9956, -195.885 )
 scale = Vector2( 0.506814, 0.778889 )
 texture = ExtResource( 8 )
 
 [node name="grotte_flou" type="Sprite" parent="BG"]
+position = Vector2( -4.89136, -10.7388 )
 texture = ExtResource( 6 )
 region_enabled = true
 region_rect = Rect2( 8, 45, 500, 300 )
@@ -198,15 +199,15 @@ region_enabled = true
 region_rect = Rect2( 0, 20, 100, 100 )
 
 [node name="gold" type="Sprite" parent="BG"]
-position = Vector2( 36.6644, 281.109 )
+position = Vector2( 34.3719, 269.091 )
 scale = Vector2( 0.506814, 0.778889 )
 texture = ExtResource( 7 )
 region_enabled = true
 region_rect = Rect2( 0, 250, 1000, 340 )
 
 [node name="gold2" type="Sprite" parent="BG"]
-position = Vector2( 90.3533, 106.004 )
-scale = Vector2( 0.506814, 0.778889 )
+position = Vector2( 88.8385, 100.504 )
+scale = Vector2( 0.506814, 0.601356 )
 texture = ExtResource( 7 )
 region_enabled = true
 region_rect = Rect2( 286, 139, 639, 120 )
@@ -256,7 +257,8 @@ right = false
 position = Vector2( 320.003, 190.286 )
 
 [node name="BackGround" type="Sprite" parent="."]
-position = Vector2( -0.405688, -6.55933 )
+position = Vector2( -1.38814, -5.34941 )
+scale = Vector2( 1, 1.00918 )
 z_index = 2
 texture = ExtResource( 4 )
 centered = false

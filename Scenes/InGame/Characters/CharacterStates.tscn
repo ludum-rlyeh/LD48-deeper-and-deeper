@@ -16,6 +16,7 @@ onready var platform_detector : RayCast2D = get_parent().get_parent().find_node(
 onready var platform_detector_corner_left : RayCast2D = get_parent().get_parent().find_node(\"PlatformDetectorCornerLeft\")
 onready var platform_detector_corner_right : RayCast2D = get_parent().get_parent().find_node(\"PlatformDetectorCornerRight\")
 onready var _player : KinematicBody2D = get_parent().get_parent()
+onready var _audioWalk : AudioStreamPlayer2D = _player.find_node(\"AudioWalk\")
 
 onready var camera : Camera2D = _player.find_node(\"Camera2D\", false)
 
@@ -39,8 +40,12 @@ func physics_process(delta):
 	if is_colliding_to_platform():
 		if Input.is_action_pressed(\"ui_right\"):
 			velocity.x = _player.speed.x
+			if !_audioWalk.is_playing():
+				_audioWalk.play()
 		elif Input.is_action_pressed(\"ui_left\"):
 			velocity.x= -_player.speed.x
+			if !_audioWalk.is_playing():
+				_audioWalk.play()
 		else:
 			velocity.x=0
 		

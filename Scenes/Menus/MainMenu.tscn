@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://Assets/Fonts/indiana_jonas/Indiana-Jonas-48p.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://Assets/Sounds/Click.wav" type="AudioStream" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://Scenes/InGame/Elements/Rope.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Scenes/InGame/Elements/Ladder.tscn" type="PackedScene" id=15]
 [ext_resource path="res://Assets/Levels/mainmenulayout.png" type="Texture" id=16]
+[ext_resource path="res://Assets/Sounds/500190__quetzalcontla__robot-voice.mp3" type="AudioStream" id=17]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -90,6 +91,10 @@ outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 1 )
 
+[sub_resource type="AudioStreamRandomPitch" id=6]
+audio_stream = ExtResource( 2 )
+random_pitch = 1.0
+
 [node name="MainMenu" type="Control"]
 pause_mode = 2
 anchor_right = 1.0
@@ -104,7 +109,7 @@ position = Vector2( 121.894, 394.222 )
 scale = Vector2( 0.341514, 0.328636 )
 frames = ExtResource( 10 )
 animation = "Idle"
-frame = 58
+frame = 72
 playing = true
 
 [node name="Background" type="TextureRect" parent="."]
@@ -349,7 +354,7 @@ position = Vector2( 147.628, -126.198 )
 scale = Vector2( 0.555281, 0.529765 )
 frames = ExtResource( 10 )
 animation = "Walking"
-frame = 9
+frame = 21
 playing = true
 
 [node name="Jump" type="Control" parent="Controls"]
@@ -391,7 +396,7 @@ position = Vector2( 23.5451, -173.009 )
 scale = Vector2( 0.383806, 0.331007 )
 frames = ExtResource( 10 )
 animation = "JumpingUp"
-frame = 14
+frame = 11
 playing = true
 
 [node name="Items" type="Control" parent="Controls"]
@@ -479,7 +484,7 @@ position = Vector2( 438.161, -180.871 )
 scale = Vector2( 0.277422, 0.261851 )
 frames = ExtResource( 10 )
 animation = "Idle"
-frame = 47
+frame = 61
 playing = true
 
 [node name="TextureRect" type="TextureRect" parent="Controls/Items/PlaceRope"]
@@ -510,7 +515,7 @@ position = Vector2( 579.474, -145.664 )
 scale = Vector2( 0.250038, 0.242483 )
 frames = ExtResource( 10 )
 animation = "Idle"
-frame = 5
+frame = 19
 playing = true
 
 [node name="TextureRect" type="TextureRect" parent="Controls/Items/PlaceLadder"]
@@ -536,10 +541,13 @@ __meta__ = {
 }
 
 [node name="MouseEnteredAudio" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 2 )
+stream = SubResource( 6 )
 
 [node name="ButtonPressedAudio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 17 )
 
 [connection signal="mouse_entered" from="Menu/StartButton" to="." method="_on_button_mouse_entered"]
 [connection signal="pressed" from="Menu/StartButton" to="." method="_on_StartButton_pressed"]
