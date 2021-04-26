@@ -19,6 +19,9 @@ onready var _player : KinematicBody2D = get_parent().get_parent()
 
 onready var camera : Camera2D = _player.find_node(\"Camera2D\", false)
 
+func _ready():
+	Events.connect(\"rope_thrown_signal\", self, \"_on_rope_thrown_signal\")
+
 func is_colliding_to_platform():
 	return platform_detector.is_colliding()              or \\
 		   platform_detector_corner_left.is_colliding()  or \\
@@ -28,7 +31,6 @@ func enter(args : Array):
 	platform_detector = fsm.player.find_node(\"PlatformDetector\")
 	platform_detector_corner_left = fsm.player.find_node(\"PlatformDetectorCornerLeft\")
 	platform_detector_corner_right = fsm.player.find_node(\"PlatformDetectorCornerRight\")
-	Events.connect(\"rope_thrown_signal\", self, \"_on_rope_thrown_signal\")
 
 func physics_process(delta):
 	var velocity = _player.velocity

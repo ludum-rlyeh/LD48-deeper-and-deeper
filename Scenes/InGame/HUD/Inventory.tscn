@@ -43,8 +43,10 @@ func _input(event : InputEvent):
 
 func set_inventory(inventory):
 	_inventory = inventory
-	$Background/Rope/RopeNb.text = String(_inventory[GlobalData.OBJECT_TYPE.ROPE])
-	$Background/Ladder/LadderNb.text = String(_inventory[GlobalData.OBJECT_TYPE.LADDER])
+	if _inventory[GlobalData.OBJECT_TYPE.ROPE] > 0:
+		$Background/Rope/RopeNb.text = String(_inventory[GlobalData.OBJECT_TYPE.ROPE])
+	if _inventory[GlobalData.OBJECT_TYPE.LADDER] > 0:
+		$Background/Ladder/LadderNb.text = String(_inventory[GlobalData.OBJECT_TYPE.LADDER])
 	current_item = GlobalData.OBJECT_TYPE.ROPE
 	_maj_selector()
 
@@ -94,7 +96,7 @@ func _on_ladder_placed_signal():
 	else:
 		$Background/Ladder/LadderNb.text = \"o\"
 
-func _on_rope_thrown_signal():
+func _on_rope_thrown_signal(var area):
 	_inventory[GlobalData.OBJECT_TYPE.ROPE] -= 1
 	if _inventory[GlobalData.OBJECT_TYPE.ROPE] > 0:
 		$Background/Rope/RopeNb.text = String(_inventory[GlobalData.OBJECT_TYPE.ROPE])

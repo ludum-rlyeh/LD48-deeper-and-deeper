@@ -1,18 +1,25 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Assets/Animations/CharacterAnimation.res" type="SpriteFrames" id=1]
 [ext_resource path="res://Assets/Fonts/indiana_jonas/Indiana-Jonas-48p.otf" type="DynamicFontData" id=2]
 [ext_resource path="res://Assets/Sprites/slip.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Sounds/menu_select.wav" type="AudioStream" id=4]
+[ext_resource path="res://Assets/Sounds/Click.wav" type="AudioStream" id=5]
 
-[sub_resource type="GDScript" id=3]
+[sub_resource type="GDScript" id=1]
 script/source = "extends CanvasLayer
 
+var TreasuresImg = {
+	GlobalData.TREASURE_TYPE.SLIP: \"res://Assets/Sprites/slip.png\",
+	GlobalData.TREASURE_TYPE.SOCK: \"res://Assets/Sprites/Sock.png\",
+	GlobalData.TREASURE_TYPE.BROSS: \"res://Assets/Sprites/Brosse.png\"
+}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Events.connect(\"exit_reached_signal\",self,\"_on_exit_reached_signal\")
 	$Elements.visible = false
-	end_game(\"slip\")
+	end_game(GlobalData.TREASURE_TYPE.SLIP)
 
 func end_game(var item):
 	get_tree().paused = true
@@ -23,22 +30,29 @@ func end_game(var item):
 	$Elements/AnimatedSprite.play()
 	yield($Elements/AnimatedSprite, \"animation_finished\")
 	
+	# Setup treasure
+	if TreasuresImg.has(item):
+		$Elements/Reward/Treasure.texture = load(TreasuresImg[item])
+	
 	# Play victory animation
 	$AnimationPlayer.play(\"gameover\")
 
 func _on_exit_reached_signal(var item):
 	Events.emit_signal(\"set_game_over_signal\",true)
 	call_deferred(\"end_game\", item)
+
+
+func _on_button_mouse_entered():
+	$MouseEnteredAudio.play()
 "
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="DynamicFont" id=2]
 size = 24
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
 
-[sub_resource type="Animation" id=2]
-resource_name = "gameover"
+[sub_resource type="Animation" id=3]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Elements/Reward/Treasure:visible")
 tracks/0/interp = 1
@@ -115,7 +129,7 @@ tracks/5/keys = {
 [node name="GameOverMenu" type="CanvasLayer"]
 pause_mode = 2
 layer = 2
-script = SubResource( 3 )
+script = SubResource( 1 )
 
 [node name="Elements" type="Control" parent="."]
 margin_right = 40.0
@@ -177,7 +191,7 @@ margin_left = 425.388
 margin_top = 406.0
 margin_right = 548.388
 margin_bottom = 439.0
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Next Level"
 __meta__ = {
@@ -190,7 +204,7 @@ margin_left = 425.388
 margin_top = 462.0
 margin_right = 548.388
 margin_bottom = 495.0
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Restart"
 __meta__ = {
@@ -203,7 +217,7 @@ margin_left = 425.388
 margin_top = 517.0
 margin_right = 548.388
 margin_bottom = 550.0
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Quit"
 __meta__ = {
@@ -211,4 +225,14 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/gameover = SubResource( 2 )
+anims/gameover = SubResource( 3 )
+
+[node name="MouseEnteredAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+
+[node name="ButtonPressedAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+
+[connection signal="mouse_entered" from="Elements/NextButton" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_entered" from="Elements/RestartButton" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_entered" from="Elements/QuitButton" to="." method="_on_button_mouse_entered"]
