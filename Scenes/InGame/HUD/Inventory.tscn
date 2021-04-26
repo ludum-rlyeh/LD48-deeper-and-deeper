@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Assets/Controls/360_LB.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Controls/360_RB.png" type="Texture" id=2]
@@ -6,6 +6,9 @@
 [ext_resource path="res://Assets/Controls/E_Key_Light.png" type="Texture" id=4]
 [ext_resource path="res://Assets/Icons/rope_icon.png" type="Texture" id=5]
 [ext_resource path="res://Assets/Icons/ladder_icon.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Controls/F_Key_Light.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Controls/360_X.png" type="Texture" id=8]
+[ext_resource path="res://Assets/Fonts/indiana_jonas/Indiana-Jonas-48p.otf" type="DynamicFontData" id=9]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -25,8 +28,10 @@ func _ready():
 	if Input.get_connected_joypads().size() > 0:
 		$Prev/LB.visible = true
 		$Next/RB.visible = true
+		$UseItem/X.visible = true
 		$Prev/Q.visible = false
 		$Next/E.visible = false
+		$UseItem/F.visible = false
 
 func _input(event : InputEvent):
 	if event.is_action_pressed(\"ui_focus_next\"):
@@ -54,11 +59,6 @@ func get_item_number(item):
 	if _inventory.has(item):
 		return _inventory[item]
 	return 0
-
-func current_item_used():
-	_inventory[current_item] -= 1
-	if _inventory[current_item] == 0:
-		current_item = GlobalData.OBJECT_TYPE.NONE
 
 func _next_item():
 	current_item += 1
@@ -96,34 +96,61 @@ func _select_ladder():
 
 func _on_ladder_placed_signal():
 	_inventory[GlobalData.OBJECT_TYPE.LADDER] -= 1
-	$Ladder/LadderNb.text = String(_inventory[GlobalData.OBJECT_TYPE.LADDER])
+	if _inventory[GlobalData.OBJECT_TYPE.LADDER] > 0:
+		$Ladder/LadderNb.text = String(_inventory[GlobalData.OBJECT_TYPE.LADDER])
+	else:
+		$Ladder/LadderNb.text = \"o\"
 
 func _on_rope_thrown_signal():
 	_inventory[GlobalData.OBJECT_TYPE.ROPE] -= 1
-	$Rope/RopeNb.text = String(_inventory[GlobalData.OBJECT_TYPE.ROPE])
+	if _inventory[GlobalData.OBJECT_TYPE.ROPE] > 0:
+		$Rope/RopeNb.text = String(_inventory[GlobalData.OBJECT_TYPE.ROPE])
+	else:
+		$Rope/RopeNb.text = \"o\"
 
 func _on_joy_connection_changed(device_id, connected):
 	if connected:
 		$Prev/LB.visible = true
 		$Next/RB.visible = true
+		$UseItem/X.visible = true
 		$Prev/Q.visible = false
 		$Next/E.visible = false
+		$UseItem/F.visible = false
 	else:
 		$Prev/LB.visible = false
 		$Next/RB.visible = false
+		$UseItem/X.visible = false
 		$Prev/Q.visible = true
 		$Next/E.visible = true
+		$UseItem/F.visible = true
 "
+
+[sub_resource type="DynamicFont" id=2]
+size = 41
+font_data = ExtResource( 9 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 41
+font_data = ExtResource( 9 )
 
 [node name="Inventory" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -123.0
-margin_top = -134.0
-margin_right = -688.0
-margin_bottom = -567.0
-rect_scale = Vector2( 0.5, 0.5 )
+margin_left = -76.0
+margin_top = -151.0
+margin_right = -641.0
+margin_bottom = -584.0
+rect_scale = Vector2( 0.33, 0.33 )
 script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="ColorRect" parent="."]
+margin_left = 37.0
+margin_right = 421.0
+margin_bottom = 163.0
+color = Color( 0.52549, 0.403922, 0.305882, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -134,23 +161,26 @@ margin_bottom = 40.0
 
 [node name="LB" type="TextureRect" parent="Prev"]
 visible = false
-margin_left = 17.0
-margin_top = 16.0
-margin_right = 117.0
-margin_bottom = 116.0
-rect_scale = Vector2( 0.8, 0.8 )
+margin_left = 45.0
+margin_top = 32.0
+margin_right = 145.0
+margin_bottom = 132.0
+rect_scale = Vector2( 0.6, 0.6 )
 texture = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Q" type="TextureRect" parent="Prev"]
-margin_left = 18.0
-margin_top = 19.0
-margin_right = 118.0
-margin_bottom = 119.0
-rect_scale = Vector2( 0.8, 0.8 )
+margin_left = 44.4285
+margin_top = 35.0459
+margin_right = 144.429
+margin_bottom = 135.046
+rect_scale = Vector2( 0.6, 0.6 )
 texture = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Rope" type="Control" parent="."]
 margin_right = 40.0
@@ -183,13 +213,19 @@ __meta__ = {
 }
 
 [node name="RopeNb" type="Label" parent="Rope"]
-margin_left = 166.0
-margin_top = 134.0
-margin_right = 185.0
-margin_bottom = 151.0
-text = "0"
+margin_left = 162.847
+margin_top = 119.135
+margin_right = 181.847
+margin_bottom = 165.135
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "o"
 align = 1
 valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Ladder" type="Control" parent="."]
 margin_right = 40.0
@@ -214,14 +250,20 @@ margin_right = 359.0
 margin_bottom = 118.0
 rect_scale = Vector2( 0.8, 0.8 )
 texture = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="LadderNb" type="Label" parent="Ladder"]
 visible = false
-margin_left = 291.0
-margin_top = 134.0
-margin_right = 310.0
-margin_bottom = 151.0
-text = "0"
+margin_left = 289.562
+margin_top = 118.984
+margin_right = 308.562
+margin_bottom = 164.984
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "o"
 align = 1
 valign = 1
 __meta__ = {
@@ -235,23 +277,50 @@ margin_bottom = 40.0
 
 [node name="RB" type="TextureRect" parent="Next"]
 visible = false
-margin_left = 63.0
-margin_top = 16.0
-margin_right = 163.0
-margin_bottom = 116.0
-rect_scale = Vector2( 0.8, 0.8 )
+margin_left = 51.0
+margin_top = 32.0
+margin_right = 151.0
+margin_bottom = 132.0
+rect_scale = Vector2( 0.6, 0.6 )
 texture = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="E" type="TextureRect" parent="Next"]
-margin_left = 62.0
-margin_top = 19.0
-margin_right = 162.0
-margin_bottom = 119.0
-rect_scale = Vector2( 0.8, 0.8 )
+margin_left = 51.1949
+margin_top = 33.1581
+margin_right = 151.195
+margin_bottom = 133.158
+rect_scale = Vector2( 0.6, 0.6 )
 texture = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UseItem" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="F" type="TextureRect" parent="UseItem"]
+margin_left = 210.306
+margin_top = 140.765
+margin_right = 310.306
+margin_bottom = 240.765
+rect_scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="X" type="TextureRect" parent="UseItem"]
+visible = false
+margin_left = 210.708
+margin_top = 141.581
+margin_right = 310.708
+margin_bottom = 241.581
+rect_scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
