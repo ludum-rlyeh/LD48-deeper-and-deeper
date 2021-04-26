@@ -14,15 +14,19 @@ jobs:
       - run: sudo apt update && sudo apt upgrade --yes --force-yes
       - run: sudo apt install unzip curl git --yes --force-yes
       - run: sudo locale-gen en_US.UTF-8
+      - run: |
+              sudo cat > /etc/locale.conf <<EOF
+              LANG=en_US.UTF-8
+              EOF
       - run: locale
       - run: echo "Install godot dependencies"
       - run: sudo apt install xvfb libxcursor1 libxinerama1 libxrandr2 libxi6 libasound2 libpulse0 libgl1-mesa-glx --yes --force-yes
       - run: echo "Download godot version ${GODOT}"
       - run: curl https://downloads.tuxfamily.org/godotengine/3.3/${GODOT}.zip > /tmp/${GODOT}.zip
       - run: unzip -p /tmp/${GODOT}.zip > /tmp/${GODOT} && chmod +x /tmp/${GODOT}
+
       - name: Check out repository code
         uses: actions/checkout@v2
-      - run: echo "export the project"
       - run: echo "Create export_presets.cfg"
       - run: |
               cat > export_presets.cfg <<EOF
@@ -49,7 +53,9 @@ jobs:
               html/canvas_resize_policy=2
               html/experimental_virtual_keyboard=false
               EOF
+      - run: echo "export the project"
       - run: /tmp/${GODOT} --export HTML5 _build/LD48-$(git rev-parse --short "$GITHUB_SHA").html
+
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.1
         with:
