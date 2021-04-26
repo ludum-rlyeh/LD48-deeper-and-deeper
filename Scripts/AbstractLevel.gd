@@ -25,7 +25,11 @@ func init_level(player_start_pos: Vector2,
 	self.player = init_player(player_start_pos)
 
 	self.inventory = init_inventory(start_inventory)
-	self.player.find_node("Camera2D", false).add_child(inventory)
+#	self.player.find_node("Camera2D", false).add_child(inventory)
+	var hud_layer = CanvasLayer.new()
+	hud_layer.add_child(inventory)
+	hud_layer.layer = 1
+	add_child(hud_layer)
 	# Init the two objectives (the point to reach, and the exit)
 	self.objective = self.init_objective(objectif_position, "objective_reached_signal")
 	self.exit = self.init_objective(end_position, "exit_reached_signal")

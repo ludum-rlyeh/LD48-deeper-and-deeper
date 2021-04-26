@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Assets/Controls/360_LB.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Controls/360_RB.png" type="Texture" id=2]
@@ -50,8 +50,8 @@ func _input(event : InputEvent):
 
 func set_inventory(inventory):
 	_inventory = inventory
-	$Rope/RopeNb.text = String(_inventory[GlobalData.OBJECT_TYPE.ROPE])
-	$Ladder/LadderNb.text = String(_inventory[GlobalData.OBJECT_TYPE.LADDER])
+	$Background/Rope/RopeNb.text = String(_inventory[GlobalData.OBJECT_TYPE.ROPE])
+	$Background/Ladder/LadderNb.text = String(_inventory[GlobalData.OBJECT_TYPE.LADDER])
 	current_item = GlobalData.OBJECT_TYPE.ROPE
 	_maj_selector()
 
@@ -77,17 +77,17 @@ func _maj_selector():
 		_select_ladder()
 
 func _select_rope():
-	$Ladder/LadderNb.visible = false
-	$Ladder/LadderSelect.visible = false
-	$Ladder/LadderUnelect.visible = true
+	$Background/Ladder/LadderNb.visible = false
+	$Background/Ladder/LadderSelect.visible = false
+	$Background/Ladder/LadderUnelect.visible = true
 	
-	$Rope/RopeNb.visible = true
-	$Rope/RopeSelect.visible = true
-	$Rope/RopeUnselect.visible = false
+	$Background/Rope/RopeNb.visible = true
+	$Background/Rope/RopeSelect.visible = true
+	$Background/Rope/RopeUnselect.visible = false
 
 func _select_ladder():
-	$Ladder/LadderNb.visible = true
-	$Ladder/LadderSelect.visible = true
+	$Background/Ladder/LadderNb.visible = true
+	$Background/Ladder/LadderSelect.visible = true
 	$Ladder/LadderUnelect.visible = false
 	
 	$Rope/RopeNb.visible = false
@@ -125,116 +125,52 @@ func _on_joy_connection_changed(device_id, connected):
 		$UseItem/F.visible = true
 "
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.937255, 0.596078, 0.2, 0.513726 )
+border_blend = true
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="DynamicFont" id=3]
 size = 41
 font_data = ExtResource( 9 )
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=2]
 size = 41
 font_data = ExtResource( 9 )
 
 [node name="Inventory" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -76.0
-margin_top = -151.0
-margin_right = -641.0
-margin_bottom = -584.0
-rect_scale = Vector2( 0.33, 0.33 )
 script = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Background" type="ColorRect" parent="."]
-margin_left = 37.0
-margin_right = 421.0
-margin_bottom = 163.0
-color = Color( 0.52549, 0.403922, 0.305882, 1 )
+[node name="Background" type="Panel" parent="."]
+margin_left = 392.753
+margin_top = 0.0830917
+margin_right = 774.753
+margin_bottom = 201.083
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 382, 201 )
+rect_scale = Vector2( 0.5, 0.5 )
+size_flags_vertical = 0
+custom_styles/panel = SubResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Prev" type="Control" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
-
-[node name="LB" type="TextureRect" parent="Prev"]
-visible = false
-margin_left = 45.0
-margin_top = 32.0
-margin_right = 145.0
-margin_bottom = 132.0
-rect_scale = Vector2( 0.6, 0.6 )
-texture = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Q" type="TextureRect" parent="Prev"]
-margin_left = 44.4285
-margin_top = 35.0459
-margin_right = 144.429
-margin_bottom = 135.046
-rect_scale = Vector2( 0.6, 0.6 )
-texture = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Rope" type="Control" parent="."]
-margin_right = 40.0
+[node name="Ladder" type="Control" parent="Background"]
+margin_left = -36.9998
+margin_right = 3.00024
 margin_bottom = 40.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="RopeSelect" type="TextureRect" parent="Rope"]
-margin_left = 126.0
-margin_top = 12.0
-margin_right = 226.0
-margin_bottom = 112.0
-texture = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="RopeUnselect" type="TextureRect" parent="Rope"]
-visible = false
-modulate = Color( 0.419608, 0.419608, 0.419608, 1 )
-margin_left = 137.0
-margin_top = 22.0
-margin_right = 237.0
-margin_bottom = 122.0
-rect_scale = Vector2( 0.8, 0.8 )
-texture = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="RopeNb" type="Label" parent="Rope"]
-margin_left = 162.847
-margin_top = 119.135
-margin_right = 181.847
-margin_bottom = 165.135
-custom_fonts/font = SubResource( 2 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-text = "o"
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Ladder" type="Control" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="LadderSelect" type="TextureRect" parent="Ladder"]
+[node name="LadderSelect" type="TextureRect" parent="Background/Ladder"]
 visible = false
 margin_left = 249.0
 margin_top = 9.0
@@ -242,7 +178,7 @@ margin_right = 349.0
 margin_bottom = 109.0
 texture = ExtResource( 6 )
 
-[node name="LadderUnelect" type="TextureRect" parent="Ladder"]
+[node name="LadderUnelect" type="TextureRect" parent="Background/Ladder"]
 modulate = Color( 0.419608, 0.419608, 0.419608, 1 )
 margin_left = 259.0
 margin_top = 18.0
@@ -254,7 +190,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LadderNb" type="Label" parent="Ladder"]
+[node name="LadderNb" type="Label" parent="Background/Ladder"]
 visible = false
 margin_left = 289.562
 margin_top = 118.984
@@ -270,12 +206,92 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Next" type="Control" parent="."]
-margin_left = 305.0
-margin_right = 345.0
+[node name="Prev" type="Control" parent="Background"]
+margin_left = -36.9998
+margin_right = 3.00024
 margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="RB" type="TextureRect" parent="Next"]
+[node name="LB" type="TextureRect" parent="Background/Prev"]
+visible = false
+margin_left = 45.0
+margin_top = 32.0
+margin_right = 145.0
+margin_bottom = 132.0
+rect_scale = Vector2( 0.6, 0.6 )
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Q" type="TextureRect" parent="Background/Prev"]
+margin_left = 44.4285
+margin_top = 35.0459
+margin_right = 144.429
+margin_bottom = 135.046
+rect_scale = Vector2( 0.6, 0.6 )
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Rope" type="Control" parent="Background"]
+margin_left = -36.9998
+margin_right = 3.00024
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RopeSelect" type="TextureRect" parent="Background/Rope"]
+margin_left = 126.0
+margin_top = 12.0
+margin_right = 226.0
+margin_bottom = 112.0
+texture = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RopeUnselect" type="TextureRect" parent="Background/Rope"]
+visible = false
+modulate = Color( 0.419608, 0.419608, 0.419608, 1 )
+margin_left = 137.0
+margin_top = 22.0
+margin_right = 237.0
+margin_bottom = 122.0
+rect_scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RopeNb" type="Label" parent="Background/Rope"]
+margin_left = 162.847
+margin_top = 119.135
+margin_right = 181.847
+margin_bottom = 165.135
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "o"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Next" type="Control" parent="Background"]
+margin_left = 268.0
+margin_right = 308.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RB" type="TextureRect" parent="Background/Next"]
 visible = false
 margin_left = 51.0
 margin_top = 32.0
@@ -287,7 +303,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="E" type="TextureRect" parent="Next"]
+[node name="E" type="TextureRect" parent="Background/Next"]
 margin_left = 51.1949
 margin_top = 33.1581
 margin_right = 151.195
@@ -298,11 +314,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="UseItem" type="Control" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+[node name="UseItem" type="Control" parent="Background"]
+margin_left = -36.9998
+margin_right = -36.9998
+margin_bottom = 600.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="F" type="TextureRect" parent="UseItem"]
+[node name="F" type="TextureRect" parent="Background/UseItem"]
 margin_left = 210.306
 margin_top = 140.765
 margin_right = 310.306
@@ -313,7 +333,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="X" type="TextureRect" parent="UseItem"]
+[node name="X" type="TextureRect" parent="Background/UseItem"]
 visible = false
 margin_left = 210.708
 margin_top = 141.581
