@@ -277,7 +277,7 @@ default_color = Color( 0, 0, 0, 1 )
 script = SubResource( 6 )
 
 [node name="ThrowRope" type="Sprite" parent="."]
-position = Vector2( 67.5829, 27.3304 )
+position = Vector2( 49.542, 35.0892 )
 scale = Vector2( 0.2, 0.2 )
 texture = ExtResource( 1 )
 

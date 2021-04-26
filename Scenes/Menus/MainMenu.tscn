@@ -1,10 +1,22 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Assets/Fonts/indiana_jonas/Indiana-Jonas-48p.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://Assets/Sounds/Click.wav" type="AudioStream" id=2]
 [ext_resource path="res://Assets/Sounds/menu_select.wav" type="AudioStream" id=3]
+[ext_resource path="res://Assets/Controls/Q_Key_Light.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Controls/E_Key_Light.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Controls/A_Key_Light.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Controls/W_Key_Light.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Controls/S_Key_Light.png" type="Texture" id=8]
+[ext_resource path="res://Assets/Controls/D_Key_Light.png" type="Texture" id=9]
+[ext_resource path="res://Assets/Animations/CharacterAnimation.res" type="SpriteFrames" id=10]
+[ext_resource path="res://Assets/Controls/Space_Key_Light.png" type="Texture" id=11]
+[ext_resource path="res://Assets/Controls/F_Key_Light.png" type="Texture" id=12]
+[ext_resource path="res://Assets/Levels/platform.png" type="Texture" id=13]
+[ext_resource path="res://Scenes/InGame/Elements/Rope.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Scenes/InGame/Elements/Ladder.tscn" type="PackedScene" id=15]
 
-[sub_resource type="GDScript" id=4]
+[sub_resource type="GDScript" id=1]
 script/source = "extends Control
 
 func _on_StartButton_pressed():
@@ -25,6 +37,14 @@ func _on_LevelsButton_pressed():
 	$Menu.visible = false
 	$Levels.visible = true
 
+func _on_ControlsButton_pressed():
+	$ButtonPressedAudio.play()
+	$Menu.visible = false
+	$Controls.visible = true
+	
+	$Controls/Items/PlaceRope/Rope/AnimationPlayer.play(\"ThrowRope\")
+	# TODO: Ladder animation
+
 func _on_Level1Button_pressed():
 	level_selected(\"level-1\")
 
@@ -37,6 +57,7 @@ func _on_Level3Button_pressed():
 func _on_BackButton_pressed():
 	$ButtonPressedAudio.play()
 	$Levels.visible = false
+	$Controls.visible = false
 	$Menu.visible = true
 
 func level_selected(var level):
@@ -44,21 +65,26 @@ func level_selected(var level):
 	yield($ButtonPressedAudio, \"finished\")
 	Events.emit_signal(\"level_selected_signal\", level)
 
-
 "
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="DynamicFont" id=2]
 size = 136
 outline_size = 4
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=3]
 size = 39
 outline_size = 2
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=4]
 size = 24
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 31
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 1 )
@@ -68,7 +94,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = -1024.0
 margin_bottom = -600.0
-script = SubResource( 4 )
+script = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -86,7 +112,7 @@ margin_top = 66.244
 margin_right = 711.48
 margin_bottom = 214.244
 rect_rotation = -5.8407
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0.956863, 0.788235, 0.0235294, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -103,7 +129,7 @@ margin_top = 170.705
 margin_right = 663.573
 margin_bottom = 259.705
 rect_rotation = -0.00846303
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -127,7 +153,7 @@ margin_left = 425.388
 margin_top = 304.0
 margin_right = 548.388
 margin_bottom = 337.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Start"
 __meta__ = {
@@ -139,7 +165,7 @@ margin_left = 425.388
 margin_top = 355.0
 margin_right = 548.388
 margin_bottom = 388.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Levels"
 __meta__ = {
@@ -151,7 +177,7 @@ margin_left = 425.388
 margin_top = 409.0
 margin_right = 548.388
 margin_bottom = 442.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Controls"
 __meta__ = {
@@ -163,7 +189,7 @@ margin_left = 425.388
 margin_top = 461.0
 margin_right = 548.388
 margin_bottom = 494.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Quit"
 __meta__ = {
@@ -183,7 +209,7 @@ margin_left = 425.388
 margin_top = 305.0
 margin_right = 548.388
 margin_bottom = 338.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Level -1"
 __meta__ = {
@@ -195,7 +221,7 @@ margin_left = 425.388
 margin_top = 356.0
 margin_right = 548.388
 margin_bottom = 389.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Level -2"
 __meta__ = {
@@ -207,7 +233,7 @@ margin_left = 425.388
 margin_top = 411.0
 margin_right = 548.388
 margin_bottom = 444.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Level -3"
 __meta__ = {
@@ -219,7 +245,274 @@ margin_left = 425.388
 margin_top = 460.0
 margin_right = 548.388
 margin_bottom = 493.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "Back"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Controls" type="Control" parent="."]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Movements" type="Control" parent="Controls"]
+margin_left = 190.0
+margin_top = 416.0
+margin_right = 230.0
+margin_bottom = 456.0
+rect_scale = Vector2( 0.5, 0.5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Keyboard" type="Control" parent="Controls/Movements"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="W" type="TextureRect" parent="Controls/Movements/Keyboard"]
+margin_left = 94.4352
+margin_right = 194.435
+margin_bottom = 100.0
+texture = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="A" type="TextureRect" parent="Controls/Movements/Keyboard"]
+margin_top = 82.0
+margin_right = 100.0
+margin_bottom = 182.0
+texture = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="S" type="TextureRect" parent="Controls/Movements/Keyboard"]
+margin_left = 95.0
+margin_top = 82.0
+margin_right = 195.0
+margin_bottom = 182.0
+texture = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="D" type="TextureRect" parent="Controls/Movements/Keyboard"]
+margin_left = 187.0
+margin_top = 81.0
+margin_right = 287.0
+margin_bottom = 181.0
+texture = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Controls/Movements"]
+margin_left = 88.8944
+margin_top = 182.022
+margin_right = 198.894
+margin_bottom = 217.022
+custom_fonts/font = SubResource( 5 )
+text = "Movements"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Controls/Movements"]
+position = Vector2( 147.628, -126.198 )
+scale = Vector2( 0.555281, 0.529765 )
+frames = ExtResource( 10 )
+animation = "Walking"
+frame = 20
+playing = true
+
+[node name="Jump" type="Control" parent="Controls"]
+margin_left = 420.0
+margin_top = 505.0
+margin_right = 460.0
+margin_bottom = 545.0
+rect_scale = Vector2( 0.8, 0.8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Space" type="TextureRect" parent="Controls/Jump"]
+margin_left = -21.0
+margin_top = -80.0
+margin_right = 79.0
+margin_bottom = 20.0
+texture = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Controls/Jump"]
+margin_left = -12.7656
+margin_top = -1.42346
+margin_right = 97.2344
+margin_bottom = 33.5765
+rect_scale = Vector2( 0.75, 0.75 )
+custom_fonts/font = SubResource( 5 )
+text = "Jump"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Controls/Jump"]
+position = Vector2( 23.5451, -173.009 )
+scale = Vector2( 0.383806, 0.331007 )
+frames = ExtResource( 10 )
+animation = "JumpingUp"
+frame = 12
+playing = true
+
+[node name="Items" type="Control" parent="Controls"]
+margin_left = 235.263
+margin_top = 502.879
+margin_right = 275.263
+margin_bottom = 542.879
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Q" type="TextureRect" parent="Controls/Items"]
+margin_left = 342.483
+margin_top = -46.528
+margin_right = 442.483
+margin_bottom = 53.472
+rect_scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="E" type="TextureRect" parent="Controls/Items"]
+margin_left = 387.071
+margin_top = -46.707
+margin_right = 487.071
+margin_bottom = 53.293
+rect_scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="F" type="TextureRect" parent="Controls/Items"]
+margin_left = 485.633
+margin_top = -46.369
+margin_right = 585.633
+margin_bottom = 53.631
+rect_scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Controls/Items"]
+margin_left = 341.159
+margin_top = -1.79657
+margin_right = 469.159
+margin_bottom = 33.2034
+rect_scale = Vector2( 0.7, 0.7 )
+custom_fonts/font = SubResource( 5 )
+text = "Select Item"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="Controls/Items"]
+margin_left = 466.729
+margin_top = -2.25601
+margin_right = 594.729
+margin_bottom = 32.744
+rect_scale = Vector2( 0.7, 0.7 )
+custom_fonts/font = SubResource( 5 )
+text = "Use Item"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlaceRope" type="Control" parent="Controls/Items"]
+margin_left = 143.0
+margin_top = -96.0
+margin_right = 183.0
+margin_bottom = -56.0
+rect_scale = Vector2( 0.5, 0.5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Controls/Items/PlaceRope"]
+position = Vector2( 438.161, -180.871 )
+scale = Vector2( 0.277422, 0.261851 )
+frames = ExtResource( 10 )
+animation = "Idle"
+frame = 62
+playing = true
+
+[node name="TextureRect" type="TextureRect" parent="Controls/Items/PlaceRope"]
+margin_left = 301.942
+margin_top = -162.757
+margin_right = 501.942
+margin_bottom = -62.757
+texture = ExtResource( 13 )
+
+[node name="Rope" parent="Controls/Items/PlaceRope" instance=ExtResource( 14 )]
+position = Vector2( 488.21, -112.794 )
+
+[node name="PlaceLadder" type="Control" parent="Controls/Items"]
+margin_left = 253.0
+margin_top = -25.0
+margin_right = 293.0
+margin_bottom = 15.0
+rect_scale = Vector2( 0.5, 0.5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Ladder" parent="Controls/Items/PlaceLadder" instance=ExtResource( 15 )]
+position = Vector2( 583, -182 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Controls/Items/PlaceLadder"]
+position = Vector2( 579.474, -145.664 )
+scale = Vector2( 0.250038, 0.242483 )
+frames = ExtResource( 10 )
+animation = "Idle"
+frame = 20
+playing = true
+
+[node name="TextureRect" type="TextureRect" parent="Controls/Items/PlaceLadder"]
+margin_left = 489.971
+margin_top = -132.378
+margin_right = 689.971
+margin_bottom = -32.3785
+texture = ExtResource( 13 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BackButton" type="Button" parent="Controls"]
+margin_left = 425.388
+margin_top = 539.0
+margin_right = 548.388
+margin_bottom = 572.0
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Back"
 __meta__ = {
@@ -239,6 +532,7 @@ stream = ExtResource( 3 )
 [connection signal="mouse_entered" from="Menu/LevelsButton" to="." method="_on_button_mouse_entered"]
 [connection signal="pressed" from="Menu/LevelsButton" to="." method="_on_LevelsButton_pressed"]
 [connection signal="mouse_entered" from="Menu/ControlsButton" to="." method="_on_button_mouse_entered"]
+[connection signal="pressed" from="Menu/ControlsButton" to="." method="_on_ControlsButton_pressed"]
 [connection signal="mouse_entered" from="Menu/QuitButton" to="." method="_on_button_mouse_entered"]
 [connection signal="pressed" from="Menu/QuitButton" to="." method="_on_QuitButton_pressed"]
 [connection signal="mouse_entered" from="Levels/Level-1Button" to="." method="_on_button_mouse_entered"]
@@ -249,3 +543,5 @@ stream = ExtResource( 3 )
 [connection signal="pressed" from="Levels/Level-3Button" to="." method="_on_Level3Button_pressed"]
 [connection signal="mouse_entered" from="Levels/BackButton" to="." method="_on_button_mouse_entered"]
 [connection signal="pressed" from="Levels/BackButton" to="." method="_on_BackButton_pressed"]
+[connection signal="mouse_entered" from="Controls/BackButton" to="." method="_on_button_mouse_entered"]
+[connection signal="pressed" from="Controls/BackButton" to="." method="_on_BackButton_pressed"]
