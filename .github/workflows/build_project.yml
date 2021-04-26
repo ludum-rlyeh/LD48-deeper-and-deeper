@@ -14,10 +14,7 @@ jobs:
       - run: sudo apt update && sudo apt upgrade --yes --force-yes
       - run: sudo apt install unzip curl git --yes --force-yes
       - run: sudo locale-gen en_US.UTF-8
-      - run: |
-              sudo cat > /etc/locale.conf <<EOF
-              LANG=en_US.UTF-8
-              EOF
+      - run: echo "LANG=en_US.UTF-8" | sudo tee /etc/locale.conf
       - run: locale
       - run: echo "Install godot dependencies"
       - run: sudo apt install xvfb libxcursor1 libxinerama1 libxrandr2 libxi6 libasound2 libpulse0 libgl1-mesa-glx --yes --force-yes
