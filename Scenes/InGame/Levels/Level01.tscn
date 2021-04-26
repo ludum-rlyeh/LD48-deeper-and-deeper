@@ -111,8 +111,7 @@ position = Vector2( 184.891, 693.718 )
 right = false
 
 [node name="RopeSpot3" parent="." instance=ExtResource( 3 )]
-position = Vector2( 330.389, 185.144 )
-right = false
+position = Vector2( 320.003, 190.286 )
 
 [node name="BackGround" type="Sprite" parent="."]
 position = Vector2( 2.99658, 1.49829 )

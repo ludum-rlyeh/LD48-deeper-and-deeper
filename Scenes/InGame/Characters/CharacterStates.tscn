@@ -131,11 +131,14 @@ onready var _player : KinematicBody2D = get_parent().get_parent()
 onready var center: Area2D = get_parent().get_parent().find_node(\"Area2D\", false)
 onready var ground_area: Area2D = get_parent().get_parent().find_node(\"GroundArea\", false)
 
+var _old_position_animation_x : float
+var _lateral_direction = 0
+
 func enter(args : Array):
 	_rope = args[0]
-	
-	fsm.player.position.x = _rope.position.x 
-	fsm.player.find_node(\"CollisionShape2D\").disabled = true
+	_player.position.x = _rope.position.x 
+	_player.find_node(\"CollisionShape2D\").disabled = true
+	_old_position_animation_x = fsm.animated_sprite.position.x
 
 func physics_process(delta):
 	var velocity = _player.velocity
@@ -145,41 +148,68 @@ func physics_process(delta):
 	if Input.is_action_pressed(\"ui_down\"):
 		velocity += _player.climbing_speed
 		
-	_resolve_collision()
 	
-	_update_animation(velocity)
+	var lateral_direction = 0
+	if Input.is_action_pressed(\"ui_left\"):
+		lateral_direction = -1
+	if Input.is_action_pressed(\"ui_right\"):
+		lateral_direction = 1
 		
-	_player.velocity = _player.integrate(delta, velocity)
+	_update_animation(velocity, lateral_direction)
+	
+	_resolve_collision()
+		
+	_player.velocity = _player.integrate_without_gravity(velocity)
 
 	_player.velocity.y = 0
+	_lateral_direction = 0
 	
-func _update_animation(velocity : Vector2):
+func _update_animation(velocity : Vector2, lateral_direction : float):
 	var animated_sprite = fsm.animated_sprite
-	if velocity.x > 0:
-		animated_sprite.flip_h=false
-	elif velocity.x < 0:
-		animated_sprite.flip_h=true
-		
+	
 	if velocity.y < 0 and animated_sprite.animation != \"ClimbingRopeUp\":
 		animated_sprite.play(\"ClimbingRopeUp\")
 	elif velocity.y > 0 and animated_sprite.animation != \"ClimbingRopeDown\":
 		animated_sprite.play(\"ClimbingRopeDown\")
 	elif velocity.y == 0 and animated_sprite.animation != \"ClimbingRopeIdle\":
 		animated_sprite.play(\"ClimbingRopeIdle\")
-
+		
+	if lateral_direction < 0:
+		animated_sprite.flip_h=false
+		
+	elif lateral_direction > 0:
+		animated_sprite.flip_h=true
+	
+	animated_sprite.position.x = _old_position_animation_x + _get_offset_animation()
+	
+func _get_offset_animation():
+	var animated_sprite = fsm.animated_sprite
+	var flip = animated_sprite.flip_h
+	if animated_sprite.animation == \"ClimbingRopeIdle\":
+		return 35 if flip else 1
+	if animated_sprite.animation == \"ClimbingRopeUp\":
+		return 29 if flip else 7
+	if animated_sprite.animation == \"ClimbingRopeDown\":
+		return 35 if flip else 1
+		
+	return 0
+		
 func _resolve_collision():
 	if Input.is_action_just_pressed(\"ui_select\"):
 		_player.find_node(\"CollisionShape2D\").disabled = false
+		fsm.animated_sprite.position.x = _old_position_animation_x
 		fsm.change_to(\"Normal\", [])
 		
 	for area in center.get_overlapping_areas():
 		if area.is_in_group(\"TopRopes\") and Input.is_action_pressed(\"ui_up\"):
 			_player.position = _rope.get_tp_position() - Vector2(0, _player.get_tall() * 0.5)
 			_player.find_node(\"CollisionShape2D\").disabled = false
+			fsm.animated_sprite.position.x = _old_position_animation_x
 			fsm.change_to(\"Normal\", [])
 	for area in ground_area.get_overlapping_areas():
 		if area.is_in_group(\"BottomRopes\") and !Input.is_action_pressed(\"ui_up\"):
 			_player.find_node(\"CollisionShape2D\").disabled = false
+			fsm.animated_sprite.position.x = _old_position_animation_x
 			fsm.change_to(\"Normal\", [])
 "
 
