@@ -521,7 +521,7 @@ func _resolve_collisions(velocity : Vector2):
 	for area in center.get_overlapping_areas():
 		if area.is_in_group(\"Ropes\") and Input.is_action_pressed(\"ui_up\"):
 #			Events.emit_signal(\"rope_handled\", fsm.velocity)
-			fsm.change_to(\"ClimbingRope\", [area.get_root_scene()])
+			fsm.change_to(\"ClimbingRope\", [area.get_root_scene(), false])
 	if is_colliding_to_platform() and velocity.y >= 0:
 		fsm.change_to(\"Normal\", [])
 "
