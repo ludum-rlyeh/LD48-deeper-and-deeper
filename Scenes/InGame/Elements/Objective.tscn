@@ -5,16 +5,26 @@ script/source = "extends Node2D
 
 onready var objective_area : Area2D = find_node(\"Area2D\", true)
 
-# Called when the node enters the scene tree for the first time.
+var enable = true
+export var signal_to_emit : String = \"\"
+
+
 func _ready():
 	pass
-	
-func _physics_process(delta):
-	for area in objective_area.get_overlapping_bodies():
-		# The player should be the only one on the layer1
-		# So if we check only the layer1 we are sure to get only the player
-		pass
 
+func _physics_process(delta):
+	# We disable the check if the player reached the objective
+	if self.enable:
+		for area in objective_area.get_overlapping_bodies():
+			# The player should be the only one on the layer1
+			# So if we check only the layer1 we are sure to get only the player
+			Events.emit_signal(self.signal_to_emit)
+
+func set_signal_to_emit(signal_name: String):
+	self.signal_to_emit = signal_name
+
+func toggle():
+	self.enable = not self.enable
 "
 
 [sub_resource type="CircleShape2D" id=2]
