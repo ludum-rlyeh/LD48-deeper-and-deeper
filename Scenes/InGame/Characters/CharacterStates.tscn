@@ -51,6 +51,10 @@ func physics_process(delta):
 		else:
 			camera.position.y = 0
 			
+	_resolve_collisions(velocity)
+	
+	_update_animation(velocity)
+	
 	if Input.is_action_just_pressed(\"ui_select\") and is_colliding_to_platform():
 		snap = Vector2.ZERO
 		velocity.y = _player.jump_impulse.y
@@ -60,9 +64,6 @@ func physics_process(delta):
 	if !is_colliding_to_platform() && velocity.y > 0:
 		fsm.change_to(\"Jumping\", [])
 
-	_resolve_collisions(velocity)
-	
-	_update_animation(velocity)
 
 	_player.velocity = _player.integrate_with_snap(delta, velocity, snap)
 	
