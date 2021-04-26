@@ -16,7 +16,7 @@
 [ext_resource path="res://Scenes/InGame/Elements/Rope.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Scenes/InGame/Elements/Ladder.tscn" type="PackedScene" id=15]
 [ext_resource path="res://Assets/Levels/mainmenulayout.png" type="Texture" id=16]
-[ext_resource path="res://Assets/Sounds/500190__quetzalcontla__robot-voice.mp3" type="AudioStream" id=17]
+[ext_resource path="res://Assets/Musics/Ken_Elkinson_-_Amber.mp3" type="AudioStream" id=17]
 [ext_resource path="res://Assets/bg/jungle_flou.jpg" type="Texture" id=18]
 
 [sub_resource type="GDScript" id=1]
@@ -122,7 +122,7 @@ position = Vector2( 121.894, 394.222 )
 scale = Vector2( 0.341514, 0.328636 )
 frames = ExtResource( 10 )
 animation = "Idle"
-frame = 65
+frame = 14
 playing = true
 
 [node name="Background" type="TextureRect" parent="."]
@@ -367,7 +367,7 @@ position = Vector2( 147.628, -126.198 )
 scale = Vector2( 0.555281, 0.529765 )
 frames = ExtResource( 10 )
 animation = "Walking"
-frame = 4
+frame = 1
 playing = true
 
 [node name="Jump" type="Control" parent="Controls"]
@@ -409,7 +409,6 @@ position = Vector2( 23.5451, -173.009 )
 scale = Vector2( 0.383806, 0.331007 )
 frames = ExtResource( 10 )
 animation = "JumpingUp"
-frame = 24
 playing = true
 
 [node name="Items" type="Control" parent="Controls"]
@@ -497,7 +496,7 @@ position = Vector2( 438.161, -180.871 )
 scale = Vector2( 0.277422, 0.261851 )
 frames = ExtResource( 10 )
 animation = "Idle"
-frame = 54
+frame = 3
 playing = true
 
 [node name="TextureRect" type="TextureRect" parent="Controls/Items/PlaceRope"]
@@ -528,7 +527,7 @@ position = Vector2( 579.474, -145.664 )
 scale = Vector2( 0.250038, 0.242483 )
 frames = ExtResource( 10 )
 animation = "Idle"
-frame = 12
+frame = 41
 playing = true
 
 [node name="TextureRect" type="TextureRect" parent="Controls/Items/PlaceLadder"]
@@ -563,6 +562,7 @@ bus = "Menus"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 17 )
+autoplay = true
 bus = "Background"
 
 [connection signal="mouse_entered" from="Menu/StartButton" to="." method="_on_button_mouse_entered"]
