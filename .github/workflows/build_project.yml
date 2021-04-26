@@ -47,7 +47,7 @@ jobs:
               vram_texture_compression/for_mobile=false
               html/custom_html_shell=""
               html/head_include=""
-              html/canvas_resize_policy=2
+              html/canvas_resize_policy=1
               html/experimental_virtual_keyboard=false
               EOF
 
