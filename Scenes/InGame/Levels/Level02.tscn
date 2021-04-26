@@ -146,7 +146,7 @@ position = Vector2( 408.508, 1439.08 )
 [node name="LevelBackground" type="Sprite" parent="."]
 position = Vector2( 190.611, -3.37061 )
 scale = Vector2( 1.568, 1.582 )
-z_index = 2
+z_index = 3
 texture = ExtResource( 4 )
 centered = false
 
