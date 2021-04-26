@@ -8,11 +8,11 @@ jobs:
 
     steps:
       - run: echo "Configure ubuntu"
-      - run: apt update && apt upgrade --yes --force-yes
-      - run: apt install unzip curl git --yes --force-yes
+      - run: sudo apt update && apt upgrade --yes --force-yes
+      - run: sudo apt install unzip curl git --yes --force-yes
 
       - run: echo "Install godot dependencies"
-      - run: echo apt install xvfb libxcursor1 libxinerama1 libxrandr2 libxi6 libasound2 libpulse0 libgl1-mesa-glx --yes --force-yes
+      - run: sudo apt install xvfb libxcursor1 libxinerama1 libxrandr2 libxi6 libasound2 libpulse0 libgl1-mesa-glx --yes --force-yes
       - run: echo "Download godot version ${GODOT}"
       - run: curl https://downloads.tuxfamily.org/godotengine/3.3/${GODOT}.zip > /tmp/${GODOT}.zip
 
