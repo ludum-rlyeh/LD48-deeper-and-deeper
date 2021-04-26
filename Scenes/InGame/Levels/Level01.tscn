@@ -122,7 +122,7 @@ func _physics_process(delta):
 		for body in readable_area.get_overlapping_bodies():
 			if not is_rope_set:
 				self.text = \"Ho, you forget to put a rope...\" + \\
-				\"\\n You can still reset the level in the echap menu.\" 
+				\"\\n You can still reset the level in the pause menu\\n (escape).\" 
 			self.disable_check = true
 "
 
@@ -157,12 +157,12 @@ func _physics_process(delta):
 	if self.objective_reached and not is_rope_set:
 		for body in readable_area.get_overlapping_bodies():
 			self.text = \"Ho, you forget to put a rope...\" + \\
-				\"\\n You can still reset the level in the echap menu.\" 
+				\"\\n You can still reset the level in the pause menu\\n (escape).\" 
 			self.show()
 "
 
 [sub_resource type="RectangleShape2D" id=9]
-extents = Vector2( 247.247, 75.8682 )
+extents = Vector2( 153.453, 77.7915 )
 
 [sub_resource type="GDScript" id=10]
 script/source = "extends Label
@@ -349,7 +349,7 @@ __meta__ = {
 [node name="AreaDetection" type="Area2D" parent="Node2D/Subtitle6"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Subtitle6/AreaDetection"]
-position = Vector2( 187.26, 187.692 )
+position = Vector2( 169.019, 196.108 )
 shape = SubResource( 9 )
 
 [node name="Subtitle4" type="Label" parent="Node2D"]
