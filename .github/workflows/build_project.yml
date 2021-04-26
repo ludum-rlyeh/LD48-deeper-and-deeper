@@ -1,7 +1,7 @@
 name: Build godot project
 on: [push]
 jobs:
-  Install-dependencies:
+  Build-HTML5:
     runs-on: ubuntu-latest
     env:
       GODOT: Godot_v3.3-stable_linux_headless.64
