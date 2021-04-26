@@ -1,0 +1,214 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Assets/Animations/CharacterAnimation.res" type="SpriteFrames" id=1]
+[ext_resource path="res://Assets/Fonts/indiana_jonas/Indiana-Jonas-48p.otf" type="DynamicFontData" id=2]
+[ext_resource path="res://Assets/Sprites/slip.png" type="Texture" id=3]
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends CanvasLayer
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	Events.connect(\"exit_reached_signal\",self,\"_on_exit_reached_signal\")
+	$Elements.visible = false
+	end_game(\"slip\")
+
+func end_game(var item):
+	get_tree().paused = true
+	
+	$Elements.visible = true
+	
+	# Play robot animation
+	$Elements/AnimatedSprite.play()
+	yield($Elements/AnimatedSprite, \"animation_finished\")
+	
+	# Play victory animation
+	$AnimationPlayer.play(\"gameover\")
+
+func _on_exit_reached_signal(var item):
+	Events.emit_signal(\"set_game_over_signal\",true)
+	call_deferred(\"end_game\", item)
+"
+
+[sub_resource type="DynamicFont" id=1]
+size = 24
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "gameover"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Elements/Reward/Treasure:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Elements/Reward/Polygon2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Elements/Reward/Polygon2D2:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Elements/NextButton:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Elements/RestartButton:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Elements/QuitButton:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+
+[node name="GameOverMenu" type="CanvasLayer"]
+pause_mode = 2
+layer = 2
+script = SubResource( 3 )
+
+[node name="Elements" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="Elements"]
+margin_right = 1024.0
+margin_bottom = 600.0
+color = Color( 0.486275, 0.486275, 0.486275, 0.498039 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Elements"]
+position = Vector2( 530.402, 271.242 )
+scale = Vector2( 0.382807, 0.347313 )
+frames = ExtResource( 1 )
+animation = "Dance"
+frame = 1
+
+[node name="Reward" type="Control" parent="Elements"]
+margin_left = 133.0
+margin_top = 105.0
+margin_right = 173.0
+margin_bottom = 145.0
+rect_scale = Vector2( 0.66, 0.66 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Polygon2D2" type="Polygon2D" parent="Elements/Reward"]
+visible = false
+color = Color( 0.831373, 0.623529, 0, 1 )
+polygon = PoolVector2Array( 161.9, 134.087, 232.456, 82.4306, 193.398, -3.24403, 282.852, 5.57541, 301.751, -95.2183, 364.747, -48.6012, 413.884, -146.875, 455.462, -49.8611, 528.537, -81.3591, 510.898, 1.79565, 624.291, 1.79565, 526.017, 95.0298, 570.114, 155.506, 469.321, 179.445, 473.1, 287.798, 406.325, 214.722, 369.787, 272.679, 348.368, 207.163, 270.253, 236.141, 277.813, 199.603, 214.817, 203.383, 247.575, 158.026 )
+
+[node name="Polygon2D" type="Polygon2D" parent="Elements/Reward"]
+visible = false
+position = Vector2( 288.522, 16.379 )
+color = Color( 0.823529, 0, 0, 1 )
+polygon = PoolVector2Array( 8.18964, 187.004, 62.3662, 164.325, 88.8246, 219.762, 115.283, 164.325, 166.94, 207.163, 163.16, 150.466, 242.535, 117.708, 197.178, 82.4306, 258.914, 13.1349, 188.358, 23.2143, 197.178, -37.2619, 163.16, -27.1825, 107.723, -104.038, 98.9039, -37.2619, 27.0884, -44.8214, 43.4674, 1.79565, -57.3263, 21.9544, -13.2291, 66.0516, -66.1457, 106.369, 0.630127, 135.347, -34.6477, 168.105, 25.8285, 144.167 )
+
+[node name="Treasure" type="TextureRect" parent="Elements/Reward"]
+visible = false
+margin_left = 287.262
+margin_top = 2.51982
+margin_right = 464.262
+margin_bottom = 151.52
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NextButton" type="Button" parent="Elements"]
+visible = false
+margin_left = 425.388
+margin_top = 406.0
+margin_right = 548.388
+margin_bottom = 439.0
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "Next Level"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RestartButton" type="Button" parent="Elements"]
+visible = false
+margin_left = 425.388
+margin_top = 462.0
+margin_right = 548.388
+margin_bottom = 495.0
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "Restart"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="QuitButton" type="Button" parent="Elements"]
+visible = false
+margin_left = 425.388
+margin_top = 517.0
+margin_right = 548.388
+margin_bottom = 550.0
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "Quit"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/gameover = SubResource( 2 )
