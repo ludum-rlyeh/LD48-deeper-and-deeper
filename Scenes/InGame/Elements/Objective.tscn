@@ -18,7 +18,7 @@ func _physics_process(delta):
 		for area in objective_area.get_overlapping_bodies():
 			# The player should be the only one on the layer1
 			# So if we check only the layer1 we are sure to get only the player
-			#Events.emit_signal(self.signal_to_emit)
+			Events.emit_signal(self.signal_to_emit)
 			pass
 
 func set_signal_to_emit(signal_name: String):

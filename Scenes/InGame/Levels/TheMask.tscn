@@ -16,7 +16,7 @@ var start_inventory = {
 
 
 func _ready():
-	.init_level(player_start_pos, start_inventory, objective_position, player_start_pos)
+	.init_level(player_start_pos, start_inventory, objective_position, player_start_pos, Vector2(2000, 2000))
 "
 
 [sub_resource type="ConvexPolygonShape2D" id=2]
