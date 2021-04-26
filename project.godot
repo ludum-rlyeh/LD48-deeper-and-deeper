@@ -30,6 +30,10 @@ GlobalData="*res://Scripts/GlobalData.gd"
 Tools="*res://Scripts/Tools.gd"
 Events="*res://Scripts/Events.gd"
 
+[display]
+
+window/size/resizable=false
+
 [input]
 
 ui_accept={

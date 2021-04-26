@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Assets/Fonts/indiana_jonas/Indiana-Jonas-48p.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://Assets/Sounds/Click.wav" type="AudioStream" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://Assets/Levels/platform.png" type="Texture" id=13]
 [ext_resource path="res://Scenes/InGame/Elements/Rope.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Scenes/InGame/Elements/Ladder.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Assets/Levels/mainmenulayout.png" type="Texture" id=16]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -95,6 +96,22 @@ anchor_bottom = 1.0
 margin_right = -1024.0
 margin_bottom = -600.0
 script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 121.894, 394.222 )
+scale = Vector2( 0.341514, 0.328636 )
+frames = ExtResource( 10 )
+animation = "Idle"
+frame = 9
+playing = true
+
+[node name="Background" type="TextureRect" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+texture = ExtResource( 16 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -333,7 +350,7 @@ position = Vector2( 147.628, -126.198 )
 scale = Vector2( 0.555281, 0.529765 )
 frames = ExtResource( 10 )
 animation = "Walking"
-frame = 20
+frame = 8
 playing = true
 
 [node name="Jump" type="Control" parent="Controls"]
@@ -463,7 +480,7 @@ position = Vector2( 438.161, -180.871 )
 scale = Vector2( 0.277422, 0.261851 )
 frames = ExtResource( 10 )
 animation = "Idle"
-frame = 62
+frame = 78
 playing = true
 
 [node name="TextureRect" type="TextureRect" parent="Controls/Items/PlaceRope"]
@@ -494,7 +511,7 @@ position = Vector2( 579.474, -145.664 )
 scale = Vector2( 0.250038, 0.242483 )
 frames = ExtResource( 10 )
 animation = "Idle"
-frame = 20
+frame = 36
 playing = true
 
 [node name="TextureRect" type="TextureRect" parent="Controls/Items/PlaceLadder"]
@@ -524,8 +541,6 @@ stream = ExtResource( 2 )
 
 [node name="ButtonPressedAudio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
-
-[node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
 
 [connection signal="mouse_entered" from="Menu/StartButton" to="." method="_on_button_mouse_entered"]
 [connection signal="pressed" from="Menu/StartButton" to="." method="_on_StartButton_pressed"]
