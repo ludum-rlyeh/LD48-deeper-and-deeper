@@ -103,7 +103,7 @@ modulate = Color( 0.909804, 0.909804, 0.909804, 1 )
 scale = Vector2( 0.119999, 0.119999 )
 frames = ExtResource( 3 )
 animation = "Back"
-frame = 2
+frame = 12
 playing = true
 __meta__ = {
 "_edit_lock_": true
