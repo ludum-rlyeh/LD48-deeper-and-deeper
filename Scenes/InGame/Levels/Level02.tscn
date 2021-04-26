@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Assets/atlas_collision.svg" type="Texture" id=1]
 [ext_resource path="res://Scenes/InGame/Elements/Box.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/InGame/Elements/RopeSpot.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Assets/Levels/lvl2.png" type="Texture" id=4]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends \"res://Scripts/AbstractLevel.gd\"
@@ -139,3 +140,9 @@ position = Vector2( 873.223, 221.733 )
 
 [node name="Box4" parent="Boxes" instance=ExtResource( 2 )]
 position = Vector2( 408.508, 1439.08 )
+
+[node name="LevelBackground" type="Sprite" parent="."]
+position = Vector2( 190.611, -3.37061 )
+scale = Vector2( 1.568, 1.582 )
+texture = ExtResource( 4 )
+centered = false
