@@ -195,7 +195,7 @@ var _lateral_direction = 0
 
 func enter(args : Array):
 	_rope = args[0]
-	_player.position.x = _rope.find_node(\"Line2D\").global_position.x
+	_player.global_position.x = _rope.find_node(\"Line2D\").global_position.x
 	_player.find_node(\"CollisionShape2D\").disabled = true
 	_old_position_animation_x = fsm.animated_sprite.position.x
 

@@ -247,12 +247,12 @@ __meta__ = {
 [node name="RopeSpot" parent="." groups=[
 "RopeSpotTuto",
 ] instance=ExtResource( 3 )]
-position = Vector2( 709.715, 313.876 )
+position = Vector2( 702.877, 319.673 )
 
 [node name="RopeSpot2" parent="." groups=[
 "RopeSpotTuto2",
 ] instance=ExtResource( 3 )]
-position = Vector2( 184.891, 693.123 )
+position = Vector2( 193.364, 701.002 )
 right = false
 
 [node name="RopeSpot3" parent="." instance=ExtResource( 3 )]
