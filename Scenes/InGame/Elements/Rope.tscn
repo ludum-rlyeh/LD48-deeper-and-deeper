@@ -307,6 +307,7 @@ enabled = true
 cast_to = Vector2( 0, 500 )
 
 [node name="DownRope" type="Position2D" parent="."]
+visible = false
 position = Vector2( 169.8, 137.846 )
 
 [node name="Cordeb" type="Sprite" parent="DownRope"]
