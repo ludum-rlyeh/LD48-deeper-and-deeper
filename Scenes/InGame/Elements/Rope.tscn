@@ -305,6 +305,7 @@ anims/ThrowRope = SubResource( 8 )
 position = Vector2( 18.0409, -7.75876 )
 enabled = true
 cast_to = Vector2( 0, 500 )
+collision_mask = 32
 
 [node name="DownRope" type="Position2D" parent="."]
 visible = false
