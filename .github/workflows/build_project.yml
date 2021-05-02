@@ -10,7 +10,8 @@ jobs:
       GODOT: Godot_v3.3-stable_linux_headless.64
       BRANCH: ${{GITHUB_REF#refs/*/}}
     steps:
-      - run: echo "Configure ubuntu branch: ${BRANCH} "
+      - run: echo "Configure ubuntu"
+      - run: echo "current branch ${BRANCH}"
       - run: sudo apt update && sudo apt upgrade --yes --force-yes
       - run: sudo apt install unzip curl git --yes --force-yes
       - run: sudo locale-gen en_US.UTF-8
