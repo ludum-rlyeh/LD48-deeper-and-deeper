@@ -10,6 +10,7 @@ export (bool) var right = true
 func _ready():
 	if not right:
 		$RopeGhost.scale.x = -1
+		$RopeGhost/Sprite.flip_h = true
 
 func get_root_scene():
 	return self
