@@ -1,12 +1,32 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scenes/InGame/Elements/RopeGhost.tscn" type="PackedScene" id=1]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Area2D
 
 export (bool) var right = true
 
+func _ready():
+	if not right:
+		$RopeGhost.scale.x = -1
+
 func get_root_scene():
 	return self
+	
+func disable():
+	monitorable = false
+	set_block_signals(true)
+	$RopeGhost.disable()
+	$RopeGhost.hide()
+
+
+func _on_RopeSpot_body_entered(body):
+	$RopeGhost.show()
+
+
+func _on_RopeSpot_body_exited(body):
+	$RopeGhost.hide()
 "
 
 [sub_resource type="CircleShape2D" id=2]
@@ -14,9 +34,8 @@ func get_root_scene():
 [node name="RopeSpot" type="Area2D" groups=[
 "RopeSpots",
 ]]
-monitoring = false
 collision_layer = 16
-collision_mask = 0
+collision_mask = 64
 script = SubResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -24,3 +43,9 @@ shape = SubResource( 2 )
 
 [node name="Offset" type="Position2D" parent="."]
 position = Vector2( -32.3573, -3.66812 )
+
+[node name="RopeGhost" parent="." instance=ExtResource( 1 )]
+visible = false
+
+[connection signal="body_entered" from="." to="." method="_on_RopeSpot_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_RopeSpot_body_exited"]

@@ -306,8 +306,8 @@ onready var _audioAction : AudioStreamPlayer2D = _player.find_node(\"AudioAction
 
 #expects rope node
 func enter(args : Array):
+	args[0].disable()
 	yield(get_tree().create_timer(0.6), \"timeout\")
-	args[0].monitorable = false
 	_audioAction.play()
 	fsm.change_to(\"Normal\", [])
 	

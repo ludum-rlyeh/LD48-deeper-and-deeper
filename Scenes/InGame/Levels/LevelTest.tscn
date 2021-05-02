@@ -7,14 +7,13 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends \"res://Scripts/AbstractLevel.gd\"
 
-var objective = Vector2(0, 0)
 var start_inventory = {
 	GlobalData.OBJECT_TYPE.ROPE: 2,
 	GlobalData.OBJECT_TYPE.LADDER: 1
 }
 
 func _ready():
-	.init_level($Start.position, start_inventory, objective)
+	.init_level($Start.position, start_inventory, Vector2(500, 500), $Start.position, Vector2(10000, 10000), null)
 "
 
 [sub_resource type="ConvexPolygonShape2D" id=2]
@@ -84,6 +83,9 @@ tile_data = PoolIntArray( 0, 1, 0, 1, 1, 0, 2, 1, 0, 3, 1, 0, 4, 1, 0, 5, 1, 0, 
 
 [node name="Box" parent="." instance=ExtResource( 2 )]
 position = Vector2( 446.364, 270.592 )
+
+[node name="Box2" parent="." instance=ExtResource( 2 )]
+position = Vector2( 470.406, 187.861 )
 
 [node name="RopeSpot" parent="." instance=ExtResource( 3 )]
 position = Vector2( 703.649, 320.048 )

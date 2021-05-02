@@ -77,6 +77,7 @@ tracks/1/keys = {
 [node name="Character" type="KinematicBody2D"]
 modulate = Color( 0.909804, 0.909804, 0.909804, 1 )
 z_index = 2
+collision_layer = 65
 collision_mask = 3
 script = SubResource( 1 )
 
