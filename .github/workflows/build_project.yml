@@ -60,6 +60,7 @@ jobs:
               [ -d site/content/games/${GIT_BRANCH}/ ] || mkdir -p site/content/games/${GIT_BRANCH}/
               mv _build/* site/content/games/${GIT_BRANCH}/
               pip install -r requirements.txt
+              tree site
               cd site && make html
 
       - name: Deploy 🚀
