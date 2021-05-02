@@ -9,11 +9,10 @@ jobs:
     env:
       GODOT: Godot_v3.3-stable_linux_headless.64
     steps:
-      - run: echo "Configure ubuntu"
       - run: |
           echo "GIT_SHA=${GITHUB_SHA}" >> $GITHUB_ENV
           echo "GIT_BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
-      - run: echo "Building branch: ${GIT_BRANCH}"
+      - run: echo "Building branch ${GIT_BRANCH}"
       - run: sudo apt update && sudo apt upgrade --yes --force-yes
       - run: sudo apt install unzip curl git --yes --force-yes
       - run: sudo locale-gen en_US.UTF-8
@@ -23,7 +22,6 @@ jobs:
       - run: echo "Download godot version ${GODOT}"
       - run: curl https://downloads.tuxfamily.org/godotengine/3.3/${GODOT}.zip > /tmp/${GODOT}.zip
       - run: unzip -p /tmp/${GODOT}.zip > /tmp/${GODOT} && chmod +x /tmp/${GODOT}
-
       - name: Check out repository code
         uses: actions/checkout@v2
       - name: Print current branch name
@@ -65,4 +63,3 @@ jobs:
         with:
           branch: gh-pages
           folder: _build
-
