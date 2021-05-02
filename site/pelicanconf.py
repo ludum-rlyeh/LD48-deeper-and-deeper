@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*- #
 
 AUTHOR = 'Adrien Faure'
-SITENAME = 'Luk-2000 and the Fragments of the Past'
+SITENAME = 'LuK-2000 and the Fragments of the Past'
 SITEURL = ''
 
 PATH = 'content'
