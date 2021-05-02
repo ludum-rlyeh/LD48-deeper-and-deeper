@@ -11,7 +11,7 @@ The game is playable in your browser [HERE]({static}/games/LD48-release/index.ht
 
 ### Updated version
 
-Based on all your feedback and reviews we improved the game. If you want a better experience of the game you can use this version [HERE]({static}/games/main/).
+Based on all your feedback and reviews we improved the game. If you want a better experience of the game you can use this version [HERE]({static}/games/main/index.html).
 
 ![Alt Text]({static}/images/main_menu.gif)
 
