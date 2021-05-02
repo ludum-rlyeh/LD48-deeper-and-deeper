@@ -334,15 +334,23 @@ var _ladder_area : Area2D
 
 onready var _player : KinematicBody2D = get_parent().get_parent()
 onready var _audio_ladder : AudioStreamPlayer2D = _player.find_node(\"AudioLadder\")
+onready var center: Area2D = get_parent().get_parent().find_node(\"Area2D\", false)
 
 func enter(args : Array):
 	_player.velocity.x = 0
 	_ladder_area = args[0]
 	_ladder_area.connect(\"area_exited\", self, \"_on_Area2D_area_exited\", [], CONNECT_ONESHOT)
-
+	
+func is_reaching_top():
+	for area in center.get_overlapping_areas():
+		if area.get_parent().is_in_group(\"Ladders\") \\
+			and area.name == \"Top\":
+			return true
+	return false
+	
 func physics_process(delta):
 	var velocity = _player.velocity
-	if Input.is_action_pressed(\"ui_up\"):
+	if Input.is_action_pressed(\"ui_up\") and not is_reaching_top():
 		velocity.y += _player.climbing_up_speed.y
 	elif Input.is_action_pressed(\"ui_down\"):
 		velocity.y += _player.climbing_down_speed.y
