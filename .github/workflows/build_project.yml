@@ -61,7 +61,7 @@ jobs:
               mv _build/* site/content/games/${GIT_BRANCH}/
               pip install -r requirements.txt
               tree site
-              cd site && make html
+              cd site && make publish
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.1
