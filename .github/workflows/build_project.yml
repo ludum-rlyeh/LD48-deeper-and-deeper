@@ -2,14 +2,17 @@ name: Build godot project
 on:
   push:
     branches:
-      - "LD48-release"
+      - "main"
 jobs:
   Build-HTML5:
     runs-on: ubuntu-latest
     env:
       GODOT: Godot_v3.3-stable_linux_headless.64
     steps:
-      - run: echo "Configure ubuntu"
+      - run: |
+          echo "GIT_SHA=${GITHUB_SHA}" >> $GITHUB_ENV
+          echo "GIT_BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
+      - run: echo "Building branch ${GIT_BRANCH}"
       - run: sudo apt update && sudo apt upgrade --yes --force-yes
       - run: sudo apt install unzip curl git --yes --force-yes
       - run: sudo locale-gen en_US.UTF-8
@@ -19,7 +22,6 @@ jobs:
       - run: echo "Download godot version ${GODOT}"
       - run: curl https://downloads.tuxfamily.org/godotengine/3.3/${GODOT}.zip > /tmp/${GODOT}.zip
       - run: unzip -p /tmp/${GODOT}.zip > /tmp/${GODOT} && chmod +x /tmp/${GODOT}
-
       - name: Check out repository code
         uses: actions/checkout@v2
       - run: mkdir _build
@@ -54,10 +56,15 @@ jobs:
       - run: echo "export the project"
       - run: /tmp/${GODOT} --export HTML5 _build/LD48-$(git rev-parse --short "$GITHUB_SHA").html
       - run: cd _build && ln -s LD48-$(git rev-parse --short "$GITHUB_SHA").html index.html
+      - run: |
+              [ -d site/content/games/${GIT_BRANCH}/ ] || mkdir -p site/content/games/${GIT_BRANCH}/
+              mv _build/* site/content/games/${GIT_BRANCH}/
+              pip install -r requirements.txt
+              tree site
+              cd site && make publish
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.1
         with:
           branch: gh-pages
-          folder: _build
-
+          folder: site/output
