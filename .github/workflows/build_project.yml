@@ -23,7 +23,9 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v2
       - name: Print current branch name
-        run: BRANCH=${{github.head_ref}} && echo ${BRANCH}
+        run: BRANCH=${GITHUB_REF#refs/*/} && echo ${BRANCH}
+      - name: Do we need to export ?
+        run: echo ${BRANCH}
       - run: mkdir _build
       - run: echo "Create export_presets.cfg"
       - run: |
