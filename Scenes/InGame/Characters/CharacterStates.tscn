@@ -31,11 +31,6 @@ func _ready():
 	Events.connect(\"rope_thrown_signal\", self, \"_on_rope_thrown_signal\")
 	Events.connect(\"ladder_placed_signal\", self, \"_on_object_placed\")
 
-func is_colliding_to_platform():
-	return platform_detector.is_colliding()              or \\
-		   platform_detector_corner_left.is_colliding()  or \\
-		   platform_detector_corner_right.is_colliding()
-
 func enter(args : Array):
 	platform_detector = fsm.player.find_node(\"PlatformDetector\")
 	platform_detector_corner_left = fsm.player.find_node(\"PlatformDetectorCornerLeft\")
@@ -52,7 +47,9 @@ func physics_process(delta):
 	elif Input.is_action_pressed(\"ui_left\"):
 		direction = Vector2.LEFT
 		
-	if is_colliding_to_platform():
+	var is_colliding_to_platform = _player.is_colliding_to_platform()
+		
+	if is_colliding_to_platform:
 		velocity = _compute_lateral_velocity(velocity, direction)
 
 		if Input.is_action_pressed(\"ui_down\"):
@@ -64,7 +61,7 @@ func physics_process(delta):
 		else:
 			camera.position.y = 0
 			
-	_resolve_collisions(velocity)
+	_resolve_collisions(velocity, is_colliding_to_platform)
 	
 	_update_animation(velocity)
 	
@@ -72,14 +69,14 @@ func physics_process(delta):
 		_audio_drifting.play()
 	_back_timer = max(_back_timer - delta, 0)
 	
-	if Input.is_action_just_pressed(\"ui_select\") and is_colliding_to_platform():
+	if Input.is_action_just_pressed(\"ui_select\") and is_colliding_to_platform:
 		snap = Vector2.ZERO
 		velocity.y = _player.jump_impulse.y
 		_player.velocity = _player.integrate(delta, velocity)
 		_back_timer = 0
 		fsm.change_to(\"Jumping\", [])
 		
-	if !is_colliding_to_platform() && velocity.y > 0:
+	if !is_colliding_to_platform && velocity.y > 0:
 		_back_timer = 0
 		fsm.change_to(\"Jumping\", [])
 
@@ -128,8 +125,8 @@ func _update_animation(velocity : Vector2):
 	if _back_timer > 0 or velocity.x != 0:
 		_audio_idle.stop()
 		
-func _resolve_collisions(velocity : Vector2):
-	if is_colliding_to_platform():
+func _resolve_collisions(velocity : Vector2, is_colliding_to_platform : bool):
+	if is_colliding_to_platform:
 		if (CrateDetectorRight.is_colliding() and velocity.x > 0) \\
 		or (CrateDetectorLeft.is_colliding() and velocity.x < 0):
 			_reset()
@@ -371,6 +368,9 @@ func physics_process(delta):
 		fsm.change_to(\"Jumping\", [])
 	else:
 		_player.velocity.y = 0
+		
+	if _player.is_colliding_to_platform() and Input.is_action_pressed(\"ui_down\"):
+		fsm.change_to(\"Normal\", [])
 
 func _update_animation(velocity : Vector2):
 	var animated_sprite = fsm.animated_sprite

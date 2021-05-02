@@ -18,12 +18,17 @@ export (Vector2) var jump_speed= Vector2(128, 0)
 export (Vector2) var jump_impulse= Vector2(0, -500)
 export (Vector2) var speed= Vector2(200,0)
 export (Vector2) var climbing_up_speed = Vector2(0, -50)
-export (Vector2) var climbing_down_speed = Vector2(0, 100)
+export (Vector2) var climbing_down_speed = Vector2(0, 200)
 export (Vector2) var gravity = Vector2(0,98)
 export (float) var interrupt_jump_factor = 0.7
 export (Vector2) var camera_speed = Vector2(0, 100)
 
 var velocity = Vector2.ZERO
+
+
+onready var platform_detector : RayCast2D = find_node(\"PlatformDetector\")
+onready var platform_detector_corner_left : RayCast2D = find_node(\"PlatformDetectorCornerLeft\")
+onready var platform_detector_corner_right : RayCast2D = find_node(\"PlatformDetectorCornerRight\")
 
 func integrate_with_snap(delta : float, velocity : Vector2, snap : Vector2):
 	velocity += gravity * delta * gravity_scale
@@ -38,6 +43,11 @@ func integrate_without_gravity(velocity : Vector2):
 	
 func get_tall():
 	return 25.503 * self.scale.y
+
+func is_colliding_to_platform():
+	return platform_detector.is_colliding()              or \\
+		   platform_detector_corner_left.is_colliding()  or \\
+		   platform_detector_corner_right.is_colliding()
 "
 
 [sub_resource type="RectangleShape2D" id=2]
