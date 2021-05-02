@@ -31,7 +31,7 @@ DEFAULT_PAGINATION = False
 #RELATIVE_URLS = True
 SHOW_SOCIAL_SHARE_BUTTON = False
 
-STATIC_PATHS = [ 'images', 'games/LD48-release' ]
+STATIC_PATHS = [ 'images', 'games' ]
 # Otherwise pelican try to render our game
 ARTICLE_EXCLUDES = [ 'games' ]
 # Otherwise pelican delete sources (.html)
