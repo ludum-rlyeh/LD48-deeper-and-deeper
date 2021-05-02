@@ -2,7 +2,7 @@ name: Build godot project
 on:
   push:
     branches:
-      - "main"
+      - "site"
 jobs:
   Build-HTML5:
     runs-on: ubuntu-latest
@@ -56,9 +56,15 @@ jobs:
       - run: echo "export the project"
       - run: /tmp/${GODOT} --export HTML5 _build/LD48-$(git rev-parse --short "$GITHUB_SHA").html
       - run: cd _build && ln -s LD48-$(git rev-parse --short "$GITHUB_SHA").html index.html
+      - run: |
+              [ -d site/content/games/${GIT_BRANCH}/ ] || mkdir -p site/content/games/${GIT_BRANCH}/
+              mv _build/* site/content/games/${GIT_BRANCH}/
+              pip install -r requirements.txt
+              tree site
+              cd site && make publish
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.1
         with:
           branch: gh-pages
-          folder: _build
+          folder: site/output
