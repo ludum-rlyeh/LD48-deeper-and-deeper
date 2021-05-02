@@ -42,7 +42,7 @@ script = SubResource( 1 )
 shape = SubResource( 2 )
 
 [node name="Offset" type="Position2D" parent="."]
-position = Vector2( -32.3573, -3.66812 )
+position = Vector2( -35, -40 )
 
 [node name="RopeGhost" parent="." instance=ExtResource( 1 )]
 visible = false

@@ -38,7 +38,7 @@ func start_animation():
 		$DownRope.show()
 		$DownRope.position = $Line2D.position + Vector2.DOWN * (length + 10)
 		
-	$Down.position = $Line2D.position + $Line2D.get_length() * Vector2.DOWN
+	$Down.position = $Line2D.position + ($Line2D.get_length()+15) * Vector2.DOWN
 	$Area2D.create_collision_shape($Line2D.get_length())
 	
 	$RayCast2D.enabled = false
