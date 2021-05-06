@@ -122,7 +122,7 @@ func _update_animation(velocity : Vector2):
 			_audio_walk.play()
 	elif _back_timer <= 0 :
 		animated_sprite.play(\"Idle\")
-		if _player.is_using_ladder():
+		if _player.is_using_ladder() and not is_above(\"Boxes\"):
 			_ghost_ladder.show()
 		_audio_skid.stop()
 		if not _audio_idle.is_playing() and randi() % 1000 < 5:
