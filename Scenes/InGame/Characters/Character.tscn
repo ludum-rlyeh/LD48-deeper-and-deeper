@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Assets/Sounds/Robot/run.wav" type="AudioStream" id=1]
 [ext_resource path="res://Scenes/InGame/Characters/CharacterStates.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Assets/Sounds/Robot/Action.wav" type="AudioStream" id=6]
 [ext_resource path="res://Assets/Sounds/Robot/Drifting.wav" type="AudioStream" id=7]
 [ext_resource path="res://Assets/Sounds/Robot/skid.ogg" type="AudioStream" id=8]
+[ext_resource path="res://Scenes/InGame/Elements/GhostLadder.tscn" type="PackedScene" id=9]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends KinematicBody2D
@@ -23,31 +24,46 @@ export (Vector2) var gravity = Vector2(0,98)
 export (float) var interrupt_jump_factor = 0.7
 export (Vector2) var camera_speed = Vector2(0, 100)
 
-var velocity = Vector2.ZERO
+var _current_item = {
+	\"item\" : GlobalData.OBJECT_TYPE.ROPE,
+	\"nb\" : 0
+}
 
+var velocity = Vector2.ZERO
 
 onready var platform_detector : RayCast2D = find_node(\"PlatformDetector\")
 onready var platform_detector_corner_left : RayCast2D = find_node(\"PlatformDetectorCornerLeft\")
 onready var platform_detector_corner_right : RayCast2D = find_node(\"PlatformDetectorCornerRight\")
 
-func integrate_with_snap(delta : float, velocity : Vector2, snap : Vector2):
+func integrate_with_snap(delta : float, velocity : Vector2, snap : Vector2) -> Vector2:
 	velocity += gravity * delta * gravity_scale
 	return move_and_slide_with_snap(velocity, snap, Vector2.ZERO,true,4,0.9)
 	
-func integrate(delta : float, velocity):
+func integrate(delta : float, velocity) -> Vector2:
 	velocity += gravity * delta * gravity_scale
 	return move_and_slide(velocity)
 	
-func integrate_without_gravity(velocity : Vector2):
+func integrate_without_gravity(velocity : Vector2) -> Vector2:
 	return move_and_slide(velocity)
 	
-func get_tall():
+func get_tall() -> float:
 	return 25.503 * self.scale.y
 
-func is_colliding_to_platform():
+func is_colliding_to_platform() -> bool:
 	return platform_detector.is_colliding()              or \\
 		   platform_detector_corner_left.is_colliding()  or \\
 		   platform_detector_corner_right.is_colliding()
+		
+func is_using_rope() -> bool:
+	return _current_item.item == GlobalData.OBJECT_TYPE.ROPE and _current_item.nb > 0
+	
+func is_using_ladder() -> bool:
+	return _current_item.item == GlobalData.OBJECT_TYPE.LADDER and _current_item.nb > 0
+	
+# item type => GlobalData.OBJECT_TYPE
+func _on_selected_item_changed(item, nb : int):
+	_current_item.item = item
+	_current_item.nb = nb
 "
 
 [sub_resource type="RectangleShape2D" id=2]
@@ -90,6 +106,8 @@ z_index = 2
 collision_layer = 65
 collision_mask = 3
 script = SubResource( 1 )
+
+[node name="GhostLadder" parent="." instance=ExtResource( 9 )]
 
 [node name="States" parent="." instance=ExtResource( 2 )]
 

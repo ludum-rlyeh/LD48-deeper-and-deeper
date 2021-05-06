@@ -25,6 +25,8 @@ func _ready():
 	Events.connect(\"ladder_placed_signal\", self, \"_on_ladder_placed_signal\")
 	Events.connect(\"rope_thrown_signal\", self, \"_on_rope_thrown_signal\")
 	Input.connect(\"joy_connection_changed\", self, \"_on_joy_connection_changed\")
+	
+	Events.emit_signal(\"selected_item_changed_signal\", current_item, _inventory[current_item])
 
 func _input(event : InputEvent):
 	if event.is_action_pressed(\"ui_focus_next\"):
@@ -59,12 +61,14 @@ func _next_item():
 	current_item += 1
 	if current_item >= GlobalData.OBJECT_TYPE.size():
 		current_item = 0
+	Events.emit_signal(\"selected_item_changed_signal\", current_item, _inventory[current_item])
 
 func _previous_item():
 	current_item -= 1
 	if current_item < 0:
 		current_item = GlobalData.OBJECT_TYPE.size()-1
-
+	Events.emit_signal(\"selected_item_changed_signal\", current_item, _inventory[current_item])
+	
 func _maj_selector():
 	if current_item == GlobalData.OBJECT_TYPE.ROPE:
 		_select_rope()
@@ -91,6 +95,7 @@ func _select_ladder():
 
 func _on_ladder_placed_signal():
 	_inventory[GlobalData.OBJECT_TYPE.LADDER] -= 1
+	Events.emit_signal(\"selected_item_changed_signal\", current_item, _inventory[current_item])
 	if _inventory[GlobalData.OBJECT_TYPE.LADDER] > 0:
 		$Background/Ladder/LadderNb.text = String(_inventory[GlobalData.OBJECT_TYPE.LADDER])
 	else:
@@ -98,6 +103,7 @@ func _on_ladder_placed_signal():
 
 func _on_rope_thrown_signal(var area):
 	_inventory[GlobalData.OBJECT_TYPE.ROPE] -= 1
+	Events.emit_signal(\"selected_item_changed_signal\", current_item, _inventory[current_item])
 	if _inventory[GlobalData.OBJECT_TYPE.ROPE] > 0:
 		$Background/Rope/RopeNb.text = String(_inventory[GlobalData.OBJECT_TYPE.ROPE])
 	else:

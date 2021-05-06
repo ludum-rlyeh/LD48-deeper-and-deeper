@@ -7,10 +7,14 @@ script/source = "extends Area2D
 
 export (bool) var right = true
 
+var _body : KinematicBody2D = null
+
 func _ready():
 	if not right:
 		$RopeGhost.scale.x = -1
 		$RopeGhost/Sprite.flip_h = true
+		
+	set_process(false)
 
 func get_root_scene():
 	return self
@@ -20,14 +24,21 @@ func disable():
 	set_block_signals(true)
 	$RopeGhost.disable()
 	$RopeGhost.hide()
-
+	
+func _process(delta):
+	if _body != null and _body.is_using_rope():
+		$RopeGhost.show()
+	else:
+		$RopeGhost.hide()
 
 func _on_RopeSpot_body_entered(body):
-	$RopeGhost.show()
+	_body = body
+	set_process(true)
 
 
 func _on_RopeSpot_body_exited(body):
 	$RopeGhost.hide()
+	set_process(false)
 "
 
 [sub_resource type="CircleShape2D" id=2]

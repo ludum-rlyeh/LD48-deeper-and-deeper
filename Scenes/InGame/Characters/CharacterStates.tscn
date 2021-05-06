@@ -21,6 +21,7 @@ onready var _audio_idle : AudioStreamPlayer2D = _player.find_node(\"AudioIdle\")
 onready var _audio_action : AudioStreamPlayer2D = _player.find_node(\"AudioAction\")
 onready var _audio_drifting : AudioStreamPlayer2D = _player.find_node(\"AudioDrifting\")
 onready var _audio_skid : AudioStreamPlayer2D = _player.find_node(\"AudioSkid\")
+onready var _ghost_ladder : Node2D = _player.find_node(\"GhostLadder\")
 var _old_velocity = Vector2.ZERO
 var _back_timer = 0
 var _back_timer_total = 0.4
@@ -74,10 +75,12 @@ func physics_process(delta):
 		velocity.y = _player.jump_impulse.y
 		_player.velocity = _player.integrate(delta, velocity)
 		_back_timer = 0
+		_reset()
 		fsm.change_to(\"Jumping\", [])
 		
 	if !is_colliding_to_platform && velocity.y > 0:
 		_back_timer = 0
+		_reset()
 		fsm.change_to(\"Jumping\", [])
 
 	_player.velocity = _player.integrate_with_snap(delta, velocity, snap)
@@ -98,6 +101,7 @@ func _compute_lateral_velocity(velocity : Vector2, direction : Vector2):
 	return velocity
 	
 func _update_animation(velocity : Vector2):
+	_ghost_ladder.hide()
 	var animated_sprite = fsm.animated_sprite
 	
 	if velocity.x > 0:
@@ -118,6 +122,8 @@ func _update_animation(velocity : Vector2):
 			_audio_walk.play()
 	elif _back_timer <= 0 :
 		animated_sprite.play(\"Idle\")
+		if _player.is_using_ladder():
+			_ghost_ladder.show()
 		_audio_skid.stop()
 		if not _audio_idle.is_playing() and randi() % 1000 < 5:
 			_audio_idle.play()
@@ -155,6 +161,7 @@ func _reset():
 	_audio_idle.stop()
 	_audio_walk.stop()
 	_audio_skid.stop()
+	_ghost_ladder.hide()
 
 func _on_rope_thrown_signal(area):
 	_back_timer = 0
