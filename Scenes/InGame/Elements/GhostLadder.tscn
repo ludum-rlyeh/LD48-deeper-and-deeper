@@ -7,8 +7,7 @@ script/source = "extends Node2D
 
 export (int) var nb_steps_total = 15
 var _step : float
-var _nb_steps = 1
-var _lateral_length = 13.135*2
+var _lateral_length = 11*2
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -19,16 +18,13 @@ func _process(delta):
 	update()
 
 func _draw():
-	for i in range(0, _nb_steps-1):
+	for i in range(0, nb_steps_total-1):
 		var step_i = i * _step
-		var x2 = -13.135 + _lateral_length
-		
-		if x2 > 13.135:
-			x2 = 13.135
-		draw_line(Vector2(-13.135, 88 - step_i), Vector2(x2, 88 - step_i), Color.darkgray, 3)
+		var x2 = -11 + _lateral_length
+		draw_line(Vector2(-11, 88 - step_i), Vector2(x2, 88 - step_i), Color.darkgray, 3)
 "
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=2]
 resource_name = "Ghost"
 loop = true
 tracks/0/type = "value"
@@ -103,7 +99,7 @@ script = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Ladder"]
 playback_speed = 0.5
-anims/Ghost = SubResource( 3 )
+anims/Ghost = SubResource( 2 )
 
 [node name="scale2" type="Sprite" parent="Ladder"]
 position = Vector2( 14.303, -1.117 )

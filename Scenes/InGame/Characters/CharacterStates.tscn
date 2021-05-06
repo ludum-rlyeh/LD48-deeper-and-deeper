@@ -75,10 +75,12 @@ func physics_process(delta):
 		velocity.y = _player.jump_impulse.y
 		_player.velocity = _player.integrate(delta, velocity)
 		_back_timer = 0
+		_reset()
 		fsm.change_to(\"Jumping\", [])
 		
 	if !is_colliding_to_platform && velocity.y > 0:
 		_back_timer = 0
+		_reset()
 		fsm.change_to(\"Jumping\", [])
 
 	_player.velocity = _player.integrate_with_snap(delta, velocity, snap)
