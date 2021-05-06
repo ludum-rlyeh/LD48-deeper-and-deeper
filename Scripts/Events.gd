@@ -17,6 +17,9 @@ signal player_enter_jump_state_signal
 signal player_exit_jump_state_signal
 signal victory_signal
 
+# Inventory signals
+signal selected_item_changed_signal
+
 # Menus Signals
 signal button_pressed_signal
 signal level_selected_signal

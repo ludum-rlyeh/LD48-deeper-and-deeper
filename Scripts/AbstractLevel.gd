@@ -46,6 +46,9 @@ func init_player(player_start_pos: Vector2, limits_right_corner : Vector2):
 	camera.limit_right = limits_right_corner.x
 	camera.limit_bottom = limits_right_corner.y
 	self.add_child(player)
+	
+	Events.connect("selected_item_changed_signal", player, "_on_selected_item_changed")
+	
 	return player
 
 
