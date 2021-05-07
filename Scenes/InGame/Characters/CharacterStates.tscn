@@ -421,18 +421,23 @@ onready var CrateDetectorLeft : RayCast2D = get_parent().get_parent().find_node(
 onready var platform_detector : RayCast2D = get_parent().get_parent().find_node(\"PlatformDetector\")
 onready var center: Area2D = get_parent().get_parent().find_node(\"Area2D\", false)
 onready var _player : KinematicBody2D = get_parent().get_parent()
+onready var _audio_push : AudioStreamPlayer = _player.find_node(\"AudioPush\")
 var _old_velocity = Vector2.ZERO
 
 func enter(args : Array):
 	pass
 	
 func physics_process(delta):
+	if not _audio_push.playing:
+		_audio_push.play()
+		
 	var snap = platform_detector.cast_to
 	var velocity = _player.velocity
 	if Input.is_action_just_pressed(\"ui_select\") and platform_detector.is_colliding():
 		snap = Vector2.ZERO
 		velocity.y = _player.jump_impulse.y
 		_player.velocity = _player.integrate(delta, velocity)
+		_exit()
 		fsm.change_to(\"Jumping\", [])
 	
 	if Input.is_action_pressed(\"ui_right\"):
@@ -444,7 +449,7 @@ func physics_process(delta):
 		if CrateDetectorRight.is_colliding():
 			var object = CrateDetectorRight.get_collider()
 			if object.is_in_group(\"Boxes\") and velocity.x > 0:
-					object.push(velocity / 3.0)
+				object.push(velocity / 3.0)
 		if CrateDetectorLeft.is_colliding():
 			var object = CrateDetectorLeft.get_collider()
 			if object.is_in_group(\"Boxes\")  and velocity.x < 0:
@@ -458,7 +463,7 @@ func physics_process(delta):
 
 
 	
-func _update_animation(velocity : Vector2):
+func _update_animation(velocity : Vector2):	
 	var animated_sprite = fsm.animated_sprite
 	if velocity.x > 0:
 		animated_sprite.flip_h=false
@@ -473,6 +478,7 @@ func _resolve_collision(velocity : Vector2):
 		if area.get_parent().is_in_group(\"Ladders\") \\
 			and (Input.is_action_just_pressed(\"ui_up\") \\
 			or Input.is_action_just_pressed(\"ui_down\")):
+			_exit()
 			fsm.change_to(\"ClimbingLadder\", [area])
 	
 	if (velocity.x < 0 and CrateDetectorRight.is_colliding()) \\
@@ -480,7 +486,12 @@ func _resolve_collision(velocity : Vector2):
 	or not CrateDetectorRight.is_colliding() and not CrateDetectorLeft.is_colliding() \\
 	or velocity.x == 0:
 		_player.velocity.x=0
+		_exit()
 		fsm.change_to(\"Normal\", [])
+
+func _exit():
+	_audio_push.stop()
+	
 "
 
 [sub_resource type="GDScript" id=6]
@@ -494,6 +505,7 @@ onready var center: Area2D = get_parent().get_parent().find_node(\"Area2D\", fal
 onready var platform_detector : RayCast2D = get_parent().get_parent().find_node(\"PlatformDetector\")
 onready var platform_detector_corner_left : RayCast2D = get_parent().get_parent().find_node(\"PlatformDetectorCornerLeft\")
 onready var platform_detector_corner_right : RayCast2D = get_parent().get_parent().find_node(\"PlatformDetectorCornerRight\")
+onready var _audio_jump : AudioStreamPlayer = _player.find_node(\"AudioJump\")
 
 func is_colliding_to_platform():
 	return platform_detector.is_colliding()              or \\
@@ -504,6 +516,9 @@ func enter(args : Array):
 	platform_detector = fsm.player.find_node(\"PlatformDetector\")
 	platform_detector_corner_left = fsm.player.find_node(\"PlatformDetectorCornerLeft\")
 	platform_detector_corner_right = fsm.player.find_node(\"PlatformDetectorCornerRight\")
+	
+	if _player.velocity.y < 0:
+		_audio_jump.play()
 
 func physics_process(delta):
 	var velocity = _player.velocity

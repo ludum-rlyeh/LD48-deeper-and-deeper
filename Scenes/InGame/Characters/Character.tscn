@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Assets/Sounds/Robot/run.wav" type="AudioStream" id=1]
 [ext_resource path="res://Scenes/InGame/Characters/CharacterStates.tscn" type="PackedScene" id=2]
@@ -9,6 +9,8 @@
 [ext_resource path="res://Assets/Sounds/Robot/Drifting.wav" type="AudioStream" id=7]
 [ext_resource path="res://Assets/Sounds/Robot/skid.ogg" type="AudioStream" id=8]
 [ext_resource path="res://Scenes/InGame/Elements/GhostLadder.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Assets/Sounds/Robot/jump.ogg" type="AudioStream" id=10]
+[ext_resource path="res://Assets/Sounds/Robot/push.ogg" type="AudioStream" id=11]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends KinematicBody2D
@@ -211,6 +213,16 @@ bus = "Character"
 [node name="AudioDrifting" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource( 7 )
 volume_db = -10.0
+bus = "Character"
+
+[node name="AudioJump" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 10 )
+volume_db = -8.0
+bus = "Character"
+
+[node name="AudioPush" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 11 )
+volume_db = -20.0
 bus = "Character"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
