@@ -194,6 +194,7 @@ onready var _player : KinematicBody2D = get_parent().get_parent()
 onready var center: Area2D = get_parent().get_parent().find_node(\"Area2D\", false)
 onready var ground_area: Area2D = get_parent().get_parent().find_node(\"GroundArea\", false)
 onready var tween: Tween = get_parent().get_parent().find_node(\"Tween\", false)
+onready var _animated_player : AnimationPlayer = _player.find_node(\"AnimationPlayer\", false)
 
 var _old_position_animation_x : float
 var _lateral_direction = 0
@@ -204,15 +205,14 @@ func enter(args : Array):
 	var line2D = _rope.find_node(\"Line2D\")
 	if is_from_up:
 		var animated_sprite = fsm.animated_sprite
-		var animated_player : AnimationPlayer = _player.find_node(\"AnimationPlayer\")
 		get_parent().set_physics_process(false)
-		animated_player.play(\"teleport\")
-		yield(animated_player, \"animation_finished\")
+		_animated_player.play(\"teleport\")
+		yield(_animated_player, \"animation_finished\")
 		var tp_position = line2D.global_position + Vector2.DOWN * 30
 		_player.global_position = tp_position
 		animated_sprite.play(\"ClimbingRopeDown\")
-		animated_player.play_backwards(\"teleport\")
-		yield(animated_player, \"animation_finished\")
+		_animated_player.play_backwards(\"teleport\")
+		yield(_animated_player, \"animation_finished\")
 		get_parent().set_physics_process(true)
 	else:
 		_player.global_position.x = line2D.global_position.x
@@ -285,15 +285,14 @@ func _resolve_collision():
 		 and area.is_in_group(\"TopRopes\") \\
 		and Input.is_action_pressed(\"ui_up\"):
 			var animated_sprite = fsm.animated_sprite
-			var animated_player : AnimationPlayer = _player.find_node(\"AnimationPlayer\")
 			get_parent().set_physics_process(false)
-			animated_player.play(\"teleport\")
-			yield(animated_player, \"animation_finished\")
+			_animated_player.play(\"teleport\")
+			yield(_animated_player, \"animation_finished\")
 			var tp_position = _rope.get_tp_position() - Vector2(0, _player.get_tall())
 			_player.position = tp_position
 			animated_sprite.play(\"Idle\")
-			animated_player.play_backwards(\"teleport\")
-			yield(animated_player, \"animation_finished\")
+			_animated_player.play_backwards(\"teleport\")
+			yield(_animated_player, \"animation_finished\")
 			get_parent().set_physics_process(true)
 			_player.find_node(\"CollisionShape2D\").disabled = false
 			fsm.animated_sprite.position.x = _old_position_animation_x
@@ -321,22 +320,17 @@ var fsm: StateMachine
 
 onready var _player : KinematicBody2D = get_parent().get_parent()
 onready var _audioAction : AudioStreamPlayer2D = _player.find_node(\"AudioAction\")
-
 #expects rope node
 func enter(args : Array):
 	args[0].disable()
+	_update_animation()
 	yield(get_tree().create_timer(0.6), \"timeout\")
 	_audioAction.play()
 	fsm.change_to(\"Normal\", [])
 	
-func _update_animation(right : bool):
-	var animated_sprite = _player.animated_sprite
-	if right:
-		animated_sprite.flip_h=false
-	elif not right:
-		animated_sprite.flip_h=true
-		
-	animated_sprite.play(\"ClimbingPlatform\")
+func _update_animation():
+	var animated_sprite = fsm.animated_sprite
+	animated_sprite.play(\"Idle\")
 
 func physics_process(delta):
 	pass
