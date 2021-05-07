@@ -122,7 +122,7 @@ func _physics_process(delta):
 	if not self.disable_check:
 		for body in readable_area.get_overlapping_bodies():
 			if not is_rope_set:
-				self.text = \"Ho, you forget to put a rope...\" + \\
+				self.text = \"Ho, you forgot to put a rope...\" + \\
 				\"\\n You can still reset the level in the pause menu\\n (escape).\" 
 			self.disable_check = true
 "
@@ -157,7 +157,7 @@ func _on_rope_thrown_signal(area):
 func _physics_process(delta):
 	if self.objective_reached and not is_rope_set:
 		for body in readable_area.get_overlapping_bodies():
-			self.text = \"Ho, you forget to put a rope...\" + \\
+			self.text = \"Ho, you forgot to put a rope...\" + \\
 				\"\\n You can still reset the level in the pause menu\\n (escape).\" 
 			self.show()
 "
@@ -396,10 +396,10 @@ __meta__ = {
 }
 
 [node name="Subtitle5" type="Label" parent="Node2D"]
-margin_left = 585.001
-margin_top = 841.727
-margin_right = 1025.0
-margin_bottom = 884.727
+margin_left = 564.842
+margin_top = 792.59
+margin_right = 1026.84
+margin_bottom = 973.59
 rect_rotation = -0.00846303
 rect_scale = Vector2( 0.5, 0.5 )
 rect_pivot_offset = Vector2( 117.238, 36.5184 )
@@ -407,7 +407,10 @@ custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-text = "WellPlayed! can you escape now ?"
+text = "Well done LuK-2ooo !
+You Found a fragment of the past !
+
+Get it back to the entry now"
 align = 1
 valign = 1
 script = SubResource( 10 )
