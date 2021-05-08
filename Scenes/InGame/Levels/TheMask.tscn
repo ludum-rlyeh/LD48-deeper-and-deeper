@@ -17,7 +17,7 @@ var end_objective = Vector2(800, 590)
 
 var start_inventory = {
 	GlobalData.OBJECT_TYPE.ROPE: 1,
-	GlobalData.OBJECT_TYPE.LADDER: 1
+	GlobalData.OBJECT_TYPE.LADDER: 0
 }
 
 func _ready():
