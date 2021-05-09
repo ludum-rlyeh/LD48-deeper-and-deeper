@@ -1,27 +1,19 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Assets/atlas_collision.svg" type="Texture" id=1]
 [ext_resource path="res://Scenes/InGame/Elements/Box.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/InGame/Elements/RopeSpot.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Assets/Fonts/indiana_jonas/Indiana-Jonas-48p.otf" type="DynamicFontData" id=4]
-[ext_resource path="res://Assets/Sprites/panneau.png" type="Texture" id=5]
+[ext_resource path="res://Scenes/InGame/Elements/Entry.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Assets/Musics/J.L.T_-_Universe.mp3" type="AudioStream" id=6]
+[ext_resource path="res://Scenes/InGame/Characters/Character.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/InGame/Elements/Objective.tscn" type="PackedScene" id=8]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends \"res://Scripts/AbstractLevel.gd\"
 
-var objective_position = Vector2(4 * 64, (10 * 64) - 5)
-
-var player_start_pos = Vector2(0, 120) 
-var end_objective = Vector2(800, 590)
-
-var start_inventory = {
-	GlobalData.OBJECT_TYPE.ROPE: 1,
-	GlobalData.OBJECT_TYPE.LADDER: 0
-}
-
 func _ready():
-	.init_level(player_start_pos, start_inventory, objective_position, end_objective, Vector2(16 * 64, 14 * 64), GlobalData.TREASURE_TYPE.SOCK)
+	pass
 
 func _on_Area2D_body_entered(body):
 	$Control/Label2.visible = true
@@ -176,7 +168,7 @@ extents = Vector2( 87.8093, 232.797 )
 extents = Vector2( 126.218, 54.385 )
 
 [sub_resource type="RectangleShape2D" id=11]
-extents = Vector2( 83.6527, 71.7638 )
+extents = Vector2( 60.0421, 53.1206 )
 
 [sub_resource type="RectangleShape2D" id=12]
 extents = Vector2( 226.827, 105.765 )
@@ -184,21 +176,15 @@ extents = Vector2( 226.827, 105.765 )
 [sub_resource type="RectangleShape2D" id=13]
 extents = Vector2( 78.3431, 32.0031 )
 
-[sub_resource type="GDScript" id=14]
-script/source = "extends Sprite
-
-
-func _ready():
-	Events.connect(\"objective_reached_signal\", self, \"_objective_reached\")
-	self.flip_h = true
-
-func _objective_reached():
-	self.flip_h = false
-"
-
-[node name="Level01" type="Node2D"]
+[node name="Level03" type="Node2D"]
 position = Vector2( 129, 128 )
 script = SubResource( 1 )
+start_inventory = {
+0: 1,
+1: 1
+}
+limits_right_corner = Vector2( 1024, 896 )
+end_treasure = 1
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource( 4 )
@@ -206,6 +192,20 @@ collision_layer = 33
 collision_mask = 3
 format = 1
 tile_data = PoolIntArray( -131072, 1, 0, -131071, 1, 0, -131070, 1, 0, -131069, 1, 0, -131068, 1, 0, -131067, 1, 0, -131066, 1, 0, -131065, 1, 0, -131064, 1, 0, -131063, 1, 0, -131062, 1, 0, -131061, 1, 0, -131060, 1, 0, -131059, 1, 0, -65536, 1, 0, -65523, 1, 0, 65535, 1, 0, 13, 1, 0, 131070, 1, 0, 65549, 1, 0, 196606, 1, 0, 131085, 1, 0, 262142, 1, 0, 196621, 1, 0, 327679, 1, 0, 262144, 1, 0, 262145, 1, 0, 262146, 1, 0, 262147, 1, 0, 262148, 1, 0, 262153, 1, 0, 262157, 1, 0, 327680, 1, 0, 327681, 1, 0, 327691, 1, 0, 327693, 1, 0, 393216, 1, 0, 393217, 1, 0, 393226, 1, 0, 393227, 1, 0, 393229, 1, 0, 458752, 1, 0, 458754, 1, 0, 458755, 1, 0, 458756, 1, 0, 458757, 1, 0, 458758, 1, 0, 458759, 1, 0, 458760, 1, 0, 458761, 1, 0, 458762, 1, 0, 458765, 1, 0, 524288, 1, 0, 524301, 1, 0, 589824, 1, 0, 589825, 1, 0, 589837, 1, 0, 655360, 1, 0, 655361, 1, 0, 655373, 1, 0, 720896, 1, 0, 720897, 1, 0, 720898, 1, 0, 720899, 1, 0, 720900, 1, 0, 720901, 1, 0, 720902, 1, 0, 720903, 1, 0, 720904, 1, 0, 720905, 1, 0, 720906, 1, 0, 720907, 1, 0, 720908, 1, 0, 720909, 1, 0 )
+
+[node name="Elements" type="Node2D" parent="."]
+
+[node name="Character" parent="Elements" instance=ExtResource( 7 )]
+position = Vector2( -35.9594, 190.285 )
+
+[node name="Entry" parent="Elements" instance=ExtResource( 5 )]
+position = Vector2( 818.83, 591.849 )
+rotation = -1.57403
+scale = Vector2( -1, 1 )
+
+[node name="Objective" parent="Elements" instance=ExtResource( 8 )]
+position = Vector2( 93, 561 )
+scale = Vector2( -1, 1 )
 
 [node name="RopeSpots" type="Node2D" parent="."]
 
@@ -272,6 +272,7 @@ __meta__ = {
 }
 
 [node name="Label2" type="Label" parent="Control"]
+visible = false
 margin_left = 53.2599
 margin_top = 103.119
 margin_right = 534.26
@@ -427,10 +428,10 @@ shape = SubResource( 10 )
 
 [node name="Label7" type="Label" parent="Control"]
 visible = false
-margin_left = 120.629
-margin_top = 545.877
-margin_right = 601.629
-margin_bottom = 715.877
+margin_left = 155.964
+margin_top = 549.573
+margin_right = 636.964
+margin_bottom = 719.573
 rect_rotation = -0.00846303
 rect_scale = Vector2( 0.4, 0.4 )
 rect_pivot_offset = Vector2( 117.238, 36.5184 )
@@ -448,7 +449,7 @@ __meta__ = {
 [node name="AreaLabel7" type="Area2D" parent="Control/Label7"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Control/Label7/AreaLabel7"]
-position = Vector2( 240.004, 254.523 )
+position = Vector2( -330.789, -52.952 )
 shape = SubResource( 11 )
 
 [node name="Label8" type="Label" parent="Control"]
@@ -509,12 +510,6 @@ shape = SubResource( 13 )
 stream = ExtResource( 6 )
 volume_db = -14.253
 autoplay = true
-
-[node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 816.722, 596.474 )
-rotation = -1.5708
-texture = ExtResource( 5 )
-script = SubResource( 14 )
 
 [connection signal="body_entered" from="Control/Label2/AreaLabel2" to="." method="_on_Area2D_body_entered"]
 [connection signal="body_entered" from="Control/Label3/AreaLabel3" to="." method="_on_AreaLabel3_body_entered"]
