@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Assets/Levels/SimpleTileset.tres" type="TileSet" id=1]
+[ext_resource path="res://Scenes/InGame/Characters/Character.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/InGame/Elements/Entry.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/InGame/Elements/Objective.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scripts/AbstractLevel.gd" type="Script" id=5]
+
+[node name="AbstractLevel" type="Node2D"]
+script = ExtResource( 5 )
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+
+[node name="Background" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 1 )
+collision_layer = 33
+collision_mask = 3
+format = 1
+
+[node name="Elements" type="Node2D" parent="."]
+
+[node name="Character" parent="Elements" instance=ExtResource( 2 )]
+position = Vector2( 174, 58 )
+
+[node name="Entry" parent="Elements" instance=ExtResource( 3 )]
+position = Vector2( 70, 115 )
+
+[node name="Objective" parent="Elements" instance=ExtResource( 4 )]
+position = Vector2( 267.572, 73.7309 )
+
+[node name="Foreground" type="Sprite" parent="."]

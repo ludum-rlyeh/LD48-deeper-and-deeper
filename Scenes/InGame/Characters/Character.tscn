@@ -37,6 +37,9 @@ onready var platform_detector : RayCast2D = find_node(\"PlatformDetector\")
 onready var platform_detector_corner_left : RayCast2D = find_node(\"PlatformDetectorCornerLeft\")
 onready var platform_detector_corner_right : RayCast2D = find_node(\"PlatformDetectorCornerRight\")
 
+func _ready():
+	Events.connect(\"selected_item_changed_signal\", self, \"_on_selected_item_changed\")
+
 func integrate_with_snap(delta : float, velocity : Vector2, snap : Vector2) -> Vector2:
 	velocity += gravity * delta * gravity_scale
 	return move_and_slide_with_snap(velocity, snap, Vector2.ZERO,true,4,0.9)
@@ -112,6 +115,7 @@ collision_mask = 3
 script = SubResource( 1 )
 
 [node name="GhostLadder" parent="." instance=ExtResource( 9 )]
+visible = false
 
 [node name="States" parent="." instance=ExtResource( 2 )]
 
@@ -171,8 +175,8 @@ shape = SubResource( 3 )
 modulate = Color( 0.909804, 0.909804, 0.909804, 1 )
 scale = Vector2( 0.119999, 0.119999 )
 frames = ExtResource( 3 )
-animation = "ClimbingLadderIdle"
-frame = 22
+animation = "Idle"
+frame = 59
 playing = true
 __meta__ = {
 "_edit_lock_": true

@@ -1,80 +1,57 @@
 extends Node2D
 
-var LadderTscn = preload("res://Scenes/InGame/Elements/Ladder.tscn")
-var PlayerTscn = preload("res://Scenes/InGame/Characters/Character.tscn")
-var RopeTscn = preload("res://Scenes/InGame/Elements/Rope.tscn")
 var InventoryTscn = preload("res://Scenes/InGame/HUD/Inventory.tscn")
-var ObjectiveTscn = preload("res://Scenes/InGame/Elements/Objective.tscn")
 
-var player = null
-var inventory
-var objective = null
-var exit = null
-var treasure = null
+var LadderTscn = preload("res://Scenes/InGame/Elements/Ladder.tscn")
+var RopeTscn = preload("res://Scenes/InGame/Elements/Rope.tscn")
+
+export (Dictionary) var start_inventory = {
+	GlobalData.OBJECT_TYPE.ROPE: 0,
+	GlobalData.OBJECT_TYPE.LADDER: 0
+}
+
+export (Vector2) var limits_right_corner = Vector2(1024, 600)
+
+export (GlobalData.TREASURE_TYPE) var end_treasure = GlobalData.TREASURE_TYPE.SLIP
 
 var objective_reached = false
 
-# The arguments should be the inputs of a levels:
-# - One objective
-# - The starting position of the player
-# - The inventory
-# - The position of the "artefact"
-func init_level(player_start_pos: Vector2, 
-				start_inventory, 
-				objectif_position: Vector2, 
-				end_position: Vector2,
-				limits_right_corner : Vector2,
-				end_treasure):
-	self.player = init_player(player_start_pos, limits_right_corner)
+onready var player = $Elements/Character
 
-	self.inventory = init_inventory(start_inventory)
-	self.treasure = end_treasure
-#	self.player.find_node("Camera2D", false).add_child(inventory)
-	var hud_layer = CanvasLayer.new()
-	hud_layer.add_child(inventory)
-	hud_layer.layer = 1
-	add_child(hud_layer)
-	# Init the two objectives (the point to reach, and the exit)
-	self.objective = self.init_objective(objectif_position, "objective_reached_signal")
-	self.exit = self.init_objective(end_position, "exit_reached_signal")
-	self.exit.find_node("AnimatedSprite").visible = false
-
-func init_player(player_start_pos: Vector2, limits_right_corner : Vector2):
-	var player = PlayerTscn.instance()
-	player.set_position(player_start_pos)
-	var camera : Camera2D = player.find_node("Camera2D")
-	camera.limit_right = limits_right_corner.x
-	camera.limit_bottom = limits_right_corner.y
-	self.add_child(player)
-	
-	Events.connect("selected_item_changed_signal", player, "_on_selected_item_changed")
-	
-	return player
-
-
-func init_inventory(start_inventory):
-	var inventory = InventoryTscn.instance()
-	inventory.set_inventory(start_inventory)
-	return inventory
-
-
-func init_objective(objectif_position: Vector2, objective_signal: String):
-	var objective = ObjectiveTscn.instance()
-	objective.set_signal_to_emit(objective_signal)
-	objective.set_position(objectif_position)
-	self.add_child(objective)
-	return objective
-
-
+# Called when the node enters the scene tree for the first time.
 # Called automatically before childs.
 func _ready():
 	# Emitted by player
 	Events.connect("place_ladder_signal", self, "_on_place_ladder_signal")
 	Events.connect("throw_rope_signal", self, "_on_throw_rope_signal")
-
+	
 	# Emitted by res://Scenes/InGame/Elements/Objective.tscn
-	Events.connect("objective_reached_signal", self, "_on_player_reached_objective")
-	Events.connect("exit_reached_signal", self, "_on_player_reached_exit")
+	Events.connect("objective_reached_signal", self, "_on_objective_reached_signal")
+	# Emitted by res://Scenes/InGame/Elements/Entry.tscn
+	Events.connect("exit_reached_signal", self, "_on_exit_reached_signal")
+	
+	# Init camera linked to the player
+	var camera = player.find_node("Camera2D")
+	camera.limit_right = limits_right_corner.x
+	camera.limit_bottom = limits_right_corner.y
+	
+	# Init inventory
+	var inventory = InventoryTscn.instance()
+	inventory.set_inventory(start_inventory)
+	var hud_layer = CanvasLayer.new()
+	hud_layer.add_child(inventory)
+	hud_layer.layer = 1
+	add_child(hud_layer)
+	
+
+func _on_objective_reached_signal():
+	if not objective_reached:
+		objective_reached = true
+		$Elements/Entry.toggle()
+
+func _on_exit_reached_signal():
+	if objective_reached:
+		Events.emit_signal("victory_signal", end_treasure)
 
 func _on_place_ladder_signal():
 	if _player_is_on_platform() and not _player_is_above("Boxes"):
@@ -137,13 +114,3 @@ func _player_is_on_rope_spot():
 		if area.is_in_group("RopeSpots"):
 			return area
 	return null
-
-
-func _on_player_reached_objective():
-	self.objective_reached = true
-	self.objective.toggle()
-
-func _on_player_reached_exit():
-	if self.objective_reached:
-		self.exit.toggle()
-		Events.emit_signal("victory_signal", treasure)
