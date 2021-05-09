@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Assets/Sounds/Robot/run.wav" type="AudioStream" id=1]
 [ext_resource path="res://Scenes/InGame/Characters/CharacterStates.tscn" type="PackedScene" id=2]
@@ -9,7 +9,7 @@
 [ext_resource path="res://Assets/Sounds/Robot/Drifting.wav" type="AudioStream" id=7]
 [ext_resource path="res://Assets/Sounds/Robot/skid.ogg" type="AudioStream" id=8]
 [ext_resource path="res://Scenes/InGame/Elements/GhostLadder.tscn" type="PackedScene" id=9]
-[ext_resource path="res://Assets/Sounds/Robot/jump.ogg" type="AudioStream" id=10]
+[ext_resource path="res://Assets/Sounds/Robot/jump.wav" type="AudioStream" id=10]
 [ext_resource path="res://Assets/Sounds/Robot/push.ogg" type="AudioStream" id=11]
 
 [sub_resource type="GDScript" id=1]
@@ -74,8 +74,10 @@ extents = Vector2( 12.8726, 25.5035 )
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 12.8024, 1.71827 )
 
-[sub_resource type="Animation" id=4]
-resource_name = "teleport"
+[sub_resource type="AudioStreamRandomPitch" id=4]
+audio_stream = ExtResource( 10 )
+
+[sub_resource type="Animation" id=5]
 length = 0.15
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimatedSprite:modulate")
@@ -170,7 +172,7 @@ modulate = Color( 0.909804, 0.909804, 0.909804, 1 )
 scale = Vector2( 0.119999, 0.119999 )
 frames = ExtResource( 3 )
 animation = "ClimbingLadderIdle"
-frame = 4
+frame = 22
 playing = true
 __meta__ = {
 "_edit_lock_": true
@@ -216,7 +218,7 @@ volume_db = -10.0
 bus = "Character"
 
 [node name="AudioJump" type="AudioStreamPlayer" parent="Sounds"]
-stream = ExtResource( 10 )
+stream = SubResource( 4 )
 volume_db = -8.0
 bus = "Character"
 
@@ -226,4 +228,4 @@ volume_db = -20.0
 bus = "Character"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/teleport = SubResource( 4 )
+anims/teleport = SubResource( 5 )
